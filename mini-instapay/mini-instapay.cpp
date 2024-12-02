@@ -18,18 +18,21 @@ void main_menu();
 void copydatatodatabase();
 void copydatabasetoapp();
 
-// create user structure
-struct user {
-    string  name, email, password, ContactInformation, linked_bank_accounts[3];
-    int id;
-};
 // create transcations structure
-struct transcations {
+struct trans {
     string  SenderAccount, RecieverAccount, date;
     int id;
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
 };
+// create user structure
+struct user {
+    string  name, email, password, ContactInformation, linked_bank_accounts[3];
+    int id;
+    trans usertrans;
+};
+
+
 // create admin structure
 struct admin {
     string id, name, email;
@@ -43,6 +46,10 @@ struct admin {
 int main()
 {
     using namespace nana;
+
+    //Initial Database Creation Code (One time run only)
+
+
 
     //Define a form.
     form fm;
