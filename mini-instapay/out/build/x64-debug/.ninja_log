@@ -1,5 +1,19 @@
-# ninja log v5
-2	443	7548621064204053	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	378063b299606d93
-3	586	7548622067457112	mini-instapay.exe	a744391e728a1f44
-3	473	7548624752567027	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	73f95108a5179aa6
-473	631	7548624753850529	mini-instapay.exe	a744391e728a1f44
+# ninja log v6
+29	776	7548754818648360	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+778	1018	7548754826186250	mini-instapay.exe	4a8ea7b98c571c18
+20	759	7548755258890258	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+778	1317	7548755266493118	mini-instapay.exe	4a8ea7b98c571c18
+31	772	7548755982470504	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+773	1057	7548755989906890	mini-instapay.exe	4a8ea7b98c571c18
+29	760	7548756431656145	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+761	1275	7548756438987095	mini-instapay.exe	4a8ea7b98c571c18
+32	850	7548759950227673	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+851	1116	7548759958417547	mini-instapay.exe	4a8ea7b98c571c18
+35	795	7548764552004412	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+796	1333	7548764559621435	mini-instapay.exe	4a8ea7b98c571c18
+61	850	7548765918205139	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+851	1115	7548765926113202	mini-instapay.exe	4a8ea7b98c571c18
+33	782	7548766080797212	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+784	1297	7548766088227635	mini-instapay.exe	4a8ea7b98c571c18
+35	798	7548766995780539	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	471e496603c686db
+799	1072	7548767003482153	mini-instapay.exe	4a8ea7b98c571c18

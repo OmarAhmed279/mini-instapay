@@ -57,16 +57,14 @@ int main()
     //Layout management
     fm.div("vert <><<><weight=50% text><>><><weight=24<><button><>><>");
     fm["text"] << lab;
-    fm["button"] << btn;
     fm.collocate();
 
     //Show the form
+    using namespace nana;
     fm.show();
-
     //Start to event loop process, it blocks until the form is closed.
     exec();
 }
-
 void create_user()
 {
     // type here
