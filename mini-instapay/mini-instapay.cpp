@@ -41,14 +41,16 @@ int main()
     label lab{ fm, "Hello, Please Sign in." };
     lab.format(true);
 
+    textbox txt{ fm, rectangle(0,0, 100,100), true }; //an empty textbox for username TODO: learn how to layout elements
+
     //Define a button and answer the click event.
     button btn{ fm, "Sign in" };
-    btn.events().click([&fm] {
+    btn.events().click([&fm]() {
         fm.close();
-        });
+        }); //currently this just closes the app
 
     //Layout management
-    fm.div("vert <><<><weight=80% text><>><><weight=24<><button><>><>");
+    fm.div("vert <><<><weight=50% text><>><><weight=24<><button><>><>");
     fm["text"] << lab;
     fm["button"] << btn;
     fm.collocate();

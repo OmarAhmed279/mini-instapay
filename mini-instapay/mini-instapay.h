@@ -7,6 +7,7 @@
 #include <nana/gui.hpp>
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/widgets/button.hpp>
+#include <nana/gui/widgets/textbox.hpp>
 #include <cstring>
 #include <cmath>
 #include <iomanip>
