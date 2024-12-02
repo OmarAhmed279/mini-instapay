@@ -1,8 +1,8 @@
-# Install script for directory: H:/Projects/mini-instapay
+# Install script for directory: C:/Users/Momen/Documents/GitHub/mini-instapay/mini-instapay
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "H:/Projects/Mini-instapay/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/Momen/Documents/GitHub/mini-instapay/mini-instapay/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "H:/Projects/mini-instapay/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Momen/Documents/GitHub/mini-instapay/mini-instapay/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

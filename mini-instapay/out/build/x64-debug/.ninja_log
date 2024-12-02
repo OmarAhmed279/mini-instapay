@@ -1,23 +1,5 @@
-# ninja log v6
-5	865	7548508939151533	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-866	1710	7548508947762472	mini-instapay.exe	44f07d64b9c98492
-6	929	7548514282033021	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-930	1383	7548514291267233	mini-instapay.exe	44f07d64b9c98492
-19	920	7548520071668936	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-920	1783	7548520080685246	mini-instapay.exe	44f07d64b9c98492
-19	994	7548520611525687	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-20	742	7548520844486065	mini-instapay.exe	44f07d64b9c98492
-5	940	7548521382936236	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-941	1248	7548521392290235	mini-instapay.exe	44f07d64b9c98492
-6	898	7548522461258914	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-898	1698	7548522470187785	mini-instapay.exe	44f07d64b9c98492
-21	972	7548522740266744	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-972	1401	7548522749782547	mini-instapay.exe	44f07d64b9c98492
-23	970	7548522955708223	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-970	1705	7548522965188895	mini-instapay.exe	44f07d64b9c98492
-20	862	7548523512727667	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-862	1177	7548523521157723	mini-instapay.exe	44f07d64b9c98492
-6	971	7548533862771098	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-972	1957	7548533872435387	mini-instapay.exe	44f07d64b9c98492
-9	834	7548535632041105	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	2c1c7ffefd19da0c
-835	1241	7548535640305097	mini-instapay.exe	44f07d64b9c98492
+# ninja log v5
+2	443	7548621064204053	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	378063b299606d93
+3	586	7548622067457112	mini-instapay.exe	a744391e728a1f44
+3	473	7548624752567027	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	73f95108a5179aa6
+473	631	7548624753850529	mini-instapay.exe	a744391e728a1f44

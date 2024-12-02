@@ -9,14 +9,19 @@ using namespace std;
 
 void create_user();
 void user_login();
+void main_menu();
+void copydatatodatabase();
+void copydatabasetoapp();
 
 // create user structure
 struct user {
-    string id, name, email, password, ContactInformation, linked_bank_accounts[3];
+    string  name, email, password, ContactInformation, linked_bank_accounts[3];
+    int id;
 };
 // create transcations structure
 struct transcations {
-    string id, SenderAccount, RecieverAccount, date;
+    string  SenderAccount, RecieverAccount, date;
+    int id;
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
 };
@@ -71,3 +76,16 @@ void user_login()
 {
     //type here
 }
+void main_menu()
+{
+    // typehere
+}
+void copydatatodatabase()
+{
+    // type here
+}
+void copydatabasetoapp()
+{
+    // type here
+}
+

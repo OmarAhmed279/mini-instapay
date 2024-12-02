@@ -13,5 +13,6 @@ cmake_path(GET basedir PARENT_PATH parentdir)
 target_include_directories(mini-instapay PUBLIC "${parentdir}\\nana-master\\include")
 target_link_libraries(mini-instapay "nana_v143_debug_x64")
 target_link_directories(mini-instapay PUBLIC "${parentdir}\\nana-master\\build\\bin")
+target_include_directories(mini-instapay PUBLIC "${basedir}\\sqlite")
 
 # TODO: Add tests and install targets if needed.
