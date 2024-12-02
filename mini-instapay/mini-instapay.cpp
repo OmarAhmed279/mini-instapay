@@ -7,6 +7,11 @@
 
 using namespace std;
 
+// Variables intialization
+
+int user_count;
+
+// Function intialization
 void create_user();
 void user_login();
 void main_menu();

@@ -1,5 +1,5 @@
 # ninja log v5
-2	443	7548621064204053	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	378063b299606d93
-3	586	7548622067457112	mini-instapay.exe	a744391e728a1f44
 3	473	7548624752567027	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	73f95108a5179aa6
 473	631	7548624753850529	mini-instapay.exe	a744391e728a1f44
+8	698	7548635065448259	CMakeFiles/mini-instapay.dir/mini-instapay.cpp.obj	73f95108a5179aa6
+698	1011	7548635068111759	mini-instapay.exe	a744391e728a1f44
