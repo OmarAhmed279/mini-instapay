@@ -1,0 +1,3 @@
+H:/Projects/mini-instapay/out/build/x64-debug/CMakeFiles/mini-instapay.dir
+H:/Projects/mini-instapay/out/build/x64-debug/CMakeFiles/edit_cache.dir
+H:/Projects/mini-instapay/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
