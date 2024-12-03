@@ -19,7 +19,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/sqlite)
 add_library(sqlite3 STATIC sqlite/sqlite3.c sqlite/sqlite3.h sqlite/sqlite3ext.h)
 add_executable(sqlite sqlite/sqlite3.c sqlite/shell.c sqlite/sqlite3.h sqlite/sqlite3ext.h)
 
-link_directories("${basedire}\\sqlite")
+link_directories("${basedir}\\sqlite")
 target_link_libraries(mini-instapay sqlite3)
 
 # TODO: Add tests and install targets if needed.
