@@ -6,6 +6,11 @@
 #include "mini-instapay.h" //this has all the header files
 using namespace std;
 
+//Global Variables
+
+int user_count;
+
+// Functions Declaration
 void land_page();
 void create_user();
 void user_login();
@@ -37,11 +42,11 @@ struct admin {
 
 int main()
 {
-
+    // Initial code for Database creation (First time run only)
     sqlite3* db;
     int rc;
     // Open the SQLite database
-    rc = sqlite3_open("consoleconnect.db", &db);
+    rc = sqlite3_open("mini-instapay.db", &db);
     if (rc) {
         cerr << "Can't open database: " << sqlite3_errmsg(db) << endl;
         return 1;
@@ -62,7 +67,7 @@ int main()
         sqlite3_close(db);
         return 1;
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     land_page();
 
     return 0;
