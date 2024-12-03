@@ -16,3 +16,5 @@
 /mini-instapay/out/
 /mini-instapay/.vs
 /.vs
+
+!/mini-instapay/out/build/x64-debug/mini-instapay.db
