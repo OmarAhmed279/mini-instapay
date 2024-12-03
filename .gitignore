@@ -1,5 +1,3 @@
-/mini-instapay/.vs
-/.vs
 # Build results
 /mini-instapay/[Dd]ebug/
 /mini-instapay/[Dd]ebugPublic/
@@ -15,5 +13,6 @@
 /mini-instapay/[Oo]bj/
 /mini-instapay/[Ll]og/
 /mini-instapay/[Ll]ogs/
-# Add this line
 /mini-instapay/out/
+/mini-instapay/.vs
+/.vs
