@@ -37,6 +37,32 @@ struct admin {
 
 int main()
 {
+
+    sqlite3* db;
+    int rc;
+    // Open the SQLite database
+    rc = sqlite3_open("consoleconnect.db", &db);
+    if (rc) {
+        cerr << "Can't open database: " << sqlite3_errmsg(db) << endl;
+        return 1;
+    }
+    // Create table if it doesn't exist
+    const char* create_ACC_sql = "CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT, Contactinformation TEXT,  day INTEGER, month INTEGER, year INTEGER, state INTEGER)";
+    rc = sqlite3_exec(db, create_ACC_sql, NULL, 0, NULL);
+    if (rc != SQLITE_OK) {
+        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+        sqlite3_close(db);
+        return 1;
+    }
+    // Create table if it doesn't exist
+    const char* create_POST_sql = "CREATE TABLE IF NOT EXISTS Usertrans (id INTEGER PRIMARY KEY, SenderAccount TEXT, RecieverAccount TEXT, date TEXT, Amount INTEGER, Status INTEGER)";
+    rc = sqlite3_exec(db, create_POST_sql, NULL, 0, NULL);
+    if (rc != SQLITE_OK) {
+        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
+        sqlite3_close(db);
+        return 1;
+    }
+
     land_page();
 
     return 0;
