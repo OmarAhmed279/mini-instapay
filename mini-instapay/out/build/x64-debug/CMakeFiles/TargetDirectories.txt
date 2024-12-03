@@ -1,3 +1,0 @@
-C:/Users/youss/OneDrive/Desktop/CS/mini-instapay/mini-instapay/out/build/x64-debug/CMakeFiles/mini-instapay.dir
-C:/Users/youss/OneDrive/Desktop/CS/mini-instapay/mini-instapay/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/Users/youss/OneDrive/Desktop/CS/mini-instapay/mini-instapay/out/build/x64-debug/CMakeFiles/rebuild_cache.dir

@@ -46,13 +46,12 @@ void land_page() {
     // include namespace nana 
     using namespace nana;
     // create form aka window, allign it to center with the size (800,600)
-    form fm{ API::make_center(800,600) };
+    form fm{API::make_center(800,600), appearance(true, true, true, false, true, false, false)}; //appearance changes the appearance of the window
     // set background color to the form
     fm.bgcolor(color(255, 165, 0));
     // set the name of the window
     fm.caption("InstaPay");
-    //close resize attribute
-    API::effects_edge_nimbus(fm, effects::edge_nimbus::none);
+    //API::effects_edge_nimbus(fm, effects::edge_nimbus::none); don't think this does anything
     //create a label for each email and password textboxes
     label lbl1{ fm,"Email:" }, lbl2{ fm,"Password:" };
     // positioning
@@ -87,7 +86,7 @@ void land_page() {
 }
 void create_user()
 {
-    cout << "Omak Ar3a!! HEHE" << endl;
+    
 }
 
 void user_login()
