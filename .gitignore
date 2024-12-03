@@ -1,0 +1,18 @@
+/mini-instapay/.vs
+# Build results
+/mini-instapay/[Dd]ebug/
+/mini-instapay/[Dd]ebugPublic/
+/mini-instapay/[Rr]elease/
+/mini-instapay/[Rr]eleases/
+/mini-instapay/x64/
+/mini-instapay/x86/
+/mini-instapay/[Ww][Ii][Nn]32/
+/mini-instapay/[Aa][Rr][Mm]/
+/mini-instapay/[Aa][Rr][Mm]64/
+/mini-instapay/bld/
+/mini-instapay/[Bb]in/
+/mini-instapay/[Oo]bj/
+/mini-instapay/[Ll]og/
+/mini-instapay/[Ll]ogs/
+# Add this line
+/mini-instapay/out/
