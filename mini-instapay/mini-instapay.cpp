@@ -8,7 +8,7 @@ using namespace std;
 
 //Global Variables
 
-int user_count = 0, transactions_count = 0;
+static int user_count = 0, transactions_count = 0;
 
 // Functions Declaration
 void land_page();
