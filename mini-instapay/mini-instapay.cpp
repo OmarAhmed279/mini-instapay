@@ -8,7 +8,7 @@ using namespace std;
 
 //Global Variables
 
-int user_count;
+int user_count = 0, transactions_count = 0;
 
 // Functions Declaration
 void land_page();
@@ -18,15 +18,24 @@ void main_menu();
 void copydatatodatabase();
 void copydatabasetoapp();
 
+struct bankaccount {
+    string name;
+    int amount;
+    int accountnum;
+};
+
+
 // create user structure
 struct user {
-    string  name, email, password, ContactInformation, linked_bank_accounts[3];
-    int id;
+    string  name, email, password, ContactInformation;
+    bankaccount accounts[3];
+    int id, wallet = 0;
 };
 // create transcations structure
-struct transcations {
-    string  SenderAccount, RecieverAccount, date;
-    int id;
+struct transactions {
+    user  SenderAccount, RecieverAccount;
+    string date;
+    int id = 0;
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
 };
@@ -135,5 +144,16 @@ void copydatatodatabase()
 void copydatabasetoapp()
 {
     // type here
+}
+
+void transaction(user sender, user reciever)
+{
+    transactions transaction;
+    transactions_count++;
+    transaction.id = transactions_count ;
+    transaction.SenderAccount = sender;
+    transaction.RecieverAccount = reciever;
+    transaction.SenderAccount.wallet -= transaction.ammount;
+    transaction.RecieverAccount.wallet += transaction.ammount;
 }
 
