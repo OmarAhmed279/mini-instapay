@@ -248,7 +248,7 @@ struct user {
 };
 // create transcations structure
 struct transactions {
-    user  SenderAccount, RecieverAccount;
+    user  SenderAccount, ReceiverAccount;
     string date;
     int id = 0;
     //if status = {success = 1, pending = 0, failed = -1}
@@ -292,12 +292,14 @@ int main()
         return 1;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     land_page();
 
     return 0;
 }
 
-void land_page() {
+void land_page() //made by wafaey, modified by omar 
+{
     // include namespace nana 
     using namespace nana;
     // create form aka window, allign it to center with the size (800,600)
@@ -395,22 +397,20 @@ void create_user()
     btn1.events().click([] { OTP_verification(); });
     fm2.show();
     exec();
-
-
 }
 
 void OTP_verification()
 {
-
+    // type here
 }
 
 void user_login()
 {
-    //type here
+    // type here
 }
 void main_menu()
 {
-    // typehere
+    // type here
 }
 void copydatatodatabase()
 {
@@ -421,15 +421,33 @@ void copydatabasetoapp()
     // type here
 }
 
-void transaction(user sender, user reciever)
+void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
+    int sender_wallet_before, receiver_wallet_before;
     transactions_count++;
     transaction.id = transactions_count;
     transaction.SenderAccount = sender;
-    transaction.RecieverAccount = reciever;
+    transaction.ReceiverAccount = reciever;
+    sender_wallet_before = transaction.SenderAccount.wallet;
+    receiver_wallet_before = transaction.ReceiverAccount.wallet;
     transaction.SenderAccount.wallet -= transaction.ammount;
-    transaction.RecieverAccount.wallet += transaction.ammount;
+    transaction.ReceiverAccount.wallet += transaction.ammount;
+    // check if the balance of both the sender and reciever have changed correctly or no
+    if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
+    {
+        transaction.status = 1;
+    }
+    // if one of them is still pending change
+    else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
+    {
+        transaction.status = 0;
+    }
+    // if the transaction failed
+    else
+    {
+        transaction.status = -1;
+    }
 }
 
 
