@@ -17,7 +17,7 @@ void user_login();
 void main_menu();
 void copydatatodatabase();
 void copydatabasetoapp();
-
+void OTP_verification();
 struct bankaccount {
     string name;
     int amount;
@@ -33,7 +33,7 @@ struct user {
 };
 // create transcations structure
 struct transactions {
-    user  SenderAccount, RecieverAccount;
+    user  SenderAccount, ReceiverAccount;
     string date;
     int id = 0;
     //if status = {success = 1, pending = 0, failed = -1}
@@ -82,11 +82,13 @@ int main()
     return 0;
 }
 
-void land_page() {
+void land_page() //created by wafaey 
+{
     // include namespace nana 
     using namespace nana;
     // create form aka window, allign it to center with the size (800,600)
     form fm1{API::make_center(800,600), appearance(true, true, true, false, true, false, false)}; //appearance changes the appearance of the window
+    screen* land_page = nullptr;
     // set background color to the form
     fm1.bgcolor(color(211, 211, 211));
     // set the name of the window
@@ -110,15 +112,20 @@ void land_page() {
     txt2.multi_lines(false);
     // hide password
     txt2.mask('*');
+    form* pointer = &fm1;
     // create signup button
     button signup{ fm1,"SignUp" };
     signup.move(rectangle(250, 330, 100, 30));
-    // incase of click event it switches to create user page
-    signup.events().click([] {create_user(); });
+    // incase of click event it switches to create user page, and closes landpage window
+    signup.events().click([&fm1] {
+        fm1.hide();
+        create_user(); });
     // login button
     button login{ fm1,"Login" };
     login.move(rectangle(450, 330, 100, 30));
-    login.events().click([] {user_login(); });
+    login.events().click([&fm1] {
+        fm1.hide();
+        user_login(); });
     // show form
     fm1.show();
     // switch control from main to nana then back to main when you close the form
@@ -155,16 +162,16 @@ void create_user()
     button btn1{ fm2, "Create account" };
     btn1.typeface(lable_font);
     btn1.move(rectangle(350, 350, 120, 40));
-    btn1.events().click([] { OTP_verification(); });
+    btn1.events().click([&fm2] { 
+        fm2.hide();
+        OTP_verification(); });
     fm2.show();
     exec();
-
-
 }
 
 void OTP_verification()
 {
-
+    // type here
 }
 
 void user_login()
@@ -186,12 +193,23 @@ void copydatabasetoapp()
 
 void transaction(user sender, user reciever)
 {
+    int sender_wallet_before = 0, receiver_wallet_before = 0;
     transactions transaction;
     transactions_count++;
     transaction.id = transactions_count ;
     transaction.SenderAccount = sender;
-    transaction.RecieverAccount = reciever;
+    transaction.ReceiverAccount = reciever;
+    sender_wallet_before = transaction.SenderAccount.wallet;
+    receiver_wallet_before = transaction.ReceiverAccount.wallet;
     transaction.SenderAccount.wallet -= transaction.ammount;
-    transaction.RecieverAccount.wallet += transaction.ammount;
+    transaction.ReceiverAccount.wallet += transaction.ammount;
+    if (((transaction.SenderAccount.wallet - sender_wallet_before) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
+    {
+        transaction.status = 1;
+    }
+    else
+    {
+        transaction.status = -1;
+    }
 }
 
