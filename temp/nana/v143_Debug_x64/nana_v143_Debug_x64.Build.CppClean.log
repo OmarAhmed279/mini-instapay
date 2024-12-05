@@ -1,170 +1,90 @@
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\bedrock_pi.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\date_chooser.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\tabbar.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\basic_types.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\drawing.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\checkbox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\slider.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\timepiece.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\audio_device.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\native_window_interface.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\label.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\native_paint_interface.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\drawer.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\programming_interface.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\panel.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\image_process_selector.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\pool.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\charset.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\filebox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\menubar.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\pixel_buffer.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\audio_stream.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\dragdrop.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\menu.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\graphics.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\deploy.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\layout_utility.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\msgbox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\spinbox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\filesystem.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\combox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\toolbar.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\player.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\window_manager.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\group.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\internationalization.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\basic_window.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\place.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\treebox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\buffer_preparation.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\window_layout.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\button.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\progress.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\stdc++.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\dataexch.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\basis.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\element.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\listbox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\platform.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\color_schemes.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\dragger.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\categorize.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\wvl.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\datetime.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\effects.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\form.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\textbox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\element_store.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\notifier.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\content_view.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\any.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\events_operation.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\screen.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\text_editor.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\animation.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\timer.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\widget.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\unicode_bidi.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\platform_abstraction.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\state_cursor.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\picture.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\text_renderer.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\bedrock_windows.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\float_listbox.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\image_process_provider.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\image.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\platform_spec_windows.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\tooltip.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\scroll.obj
-c:\users\momen\documents\github\mini-instapay\temp\nana\v143_debug_x64\shared_wrapper.obj
-c:\users\momen\documents\github\mini-instapay\nana-master\build\bin\nana_v143_debug_x64.pdb
-c:\users\momen\documents\github\mini-instapay\nana-master\build\bin\nana_v143_debug_x64.lib
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\animation.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\any.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\audio_device.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\audio_stream.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\basic_types.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\basic_window.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\basis.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\bedrock_pi.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\bedrock_windows.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\buffer_preparation.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\button.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\categorize.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\charset.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\checkbox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\color_schemes.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\combox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\content_view.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\dataexch.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\datetime.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\date_chooser.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\deploy.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\dragdrop.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\dragger.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\drawer.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\drawing.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\effects.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\element.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\element_store.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\events_operation.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\filebox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\filesystem.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\float_listbox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\form.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\graphics.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\group.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\image.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\image_process_provider.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\image_process_selector.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\internationalization.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\label.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\layout_utility.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\listbox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\menu.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\menubar.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\msgbox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\native_paint_interface.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\native_window_interface.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\notifier.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\panel.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\picture.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\pixel_buffer.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\place.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\platform.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\platform_abstraction.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\platform_spec_windows.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\player.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\pool.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\programming_interface.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\progress.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\screen.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\scroll.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\shared_wrapper.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\slider.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\spinbox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\state_cursor.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\stdc++.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\tabbar.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\textbox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\text_editor.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\text_renderer.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\timepiece.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\timer.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\toolbar.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\tooltip.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\treebox.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\unicode_bidi.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\widget.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\window_layout.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\window_manager.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\wvl.obj
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\..\..\..\temp\nana\v143_debug_x64\nana.vcxproj.filelistabsolute.txt
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.10676.write.1.tlog
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.command.1.tlog
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.items.tlog
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.read.1.tlog
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\lib-link.read.1.tlog
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\lib-link.write.1.tlog
-c:\users\youss\onedrive\desktop\cs\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\lib.command.1.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\color_schemes.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\drawing.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\date_chooser.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\text_editor.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\platform_abstraction.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\state_cursor.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\picture.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\stdc++.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\dataexch.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\datetime.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\effects.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\form.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\image_process_provider.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\image.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\animation.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\timer.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\widget.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\charset.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\filebox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\menubar.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\image_process_selector.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\timepiece.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\bedrock_windows.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\float_listbox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\wvl.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\drawer.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\programming_interface.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\panel.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\pixel_buffer.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\filesystem.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\button.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\progress.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\platform.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\basic_window.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\place.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\treebox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\any.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\events_operation.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\screen.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\scroll.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\shared_wrapper.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\deploy.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\layout_utility.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\notifier.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\slider.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\unicode_bidi.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\platform_spec_windows.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\tooltip.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\content_view.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\pool.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\audio_device.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\window_layout.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\categorize.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\tabbar.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\audio_stream.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\native_window_interface.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\group.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\internationalization.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\element_store.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\msgbox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\textbox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\basic_types.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\dragger.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\checkbox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\spinbox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\player.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\window_manager.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\label.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\native_paint_interface.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\basis.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\element.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\menu.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\graphics.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\bedrock_pi.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\combox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\toolbar.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\buffer_preparation.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\dragdrop.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\listbox.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\text_renderer.obj
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\nana-master\build\bin\nana_v143_debug_x64.pdb
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\nana-master\build\bin\nana_v143_debug_x64.lib
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\..\..\..\temp\nana\v143_debug_x64\nana.vcxproj.filelistabsolute.txt
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.10976.write.1.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.command.1.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.items.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\cl.read.1.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\lib-link.read.1.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\lib-link.write.1.tlog
+c:\users\seif shehta\desktop\mini_instapay\mini-instapay\temp\nana\v143_debug_x64\nana.tlog\lib.command.1.tlog

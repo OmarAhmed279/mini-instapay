@@ -86,19 +86,19 @@ void land_page() {
     // include namespace nana 
     using namespace nana;
     // create form aka window, allign it to center with the size (800,600)
-    form fm{API::make_center(800,600), appearance(true, true, true, false, true, false, false)}; //appearance changes the appearance of the window
+    form fm1{API::make_center(800,600), appearance(true, true, true, false, true, false, false)}; //appearance changes the appearance of the window
     // set background color to the form
-    fm.bgcolor(color(255, 165, 0));
+    fm1.bgcolor(color(211, 211, 211));
     // set the name of the window
-    fm.caption("InstaPay");
+    fm1.caption("InstaPay");
     //API::effects_edge_nimbus(fm, effects::edge_nimbus::none); don't think this does anything
     //create a label for each email and password textboxes
-    label lbl1{ fm,"Email:" }, lbl2{ fm,"Password:" };
+    label lbl1{ fm1,"Email:" }, lbl2{ fm1,"Password:" };
     // positioning
     lbl1.move(rectangle(250, 150, 110, 17));
     lbl2.move(rectangle(250, 250, 110, 17));
     //create textboxes to input email and password
-    textbox txt1{ fm,rectangle(250, 170, 300, 30) }, txt2{ fm,rectangle(250, 270, 300, 30) };
+    textbox txt1{ fm1,rectangle(250, 170, 300, 30) }, txt2{ fm1,rectangle(250, 270, 300, 30) };
     // enable user input
     txt1.editable(true);
     txt2.editable(true);
@@ -111,22 +111,60 @@ void land_page() {
     // hide password
     txt2.mask('*');
     // create signup button
-    button signup{ fm,"SignUp" };
+    button signup{ fm1,"SignUp" };
     signup.move(rectangle(250, 330, 100, 30));
     // incase of click event it switches to create user page
     signup.events().click([] {create_user(); });
     // login button
-    button login{ fm,"Login" };
+    button login{ fm1,"Login" };
     login.move(rectangle(450, 330, 100, 30));
     login.events().click([] {user_login(); });
     // show form
-    fm.show();
+    fm1.show();
     // switch control from main to nana then back to main when you close the form
     exec();
 }
 void create_user()
 {
+    using namespace nana;
+    form fm2{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
+    fm2.caption("Sign UP");
+    label lbl3{ fm2,"Name :" }, lbl4{ fm2,"Email :" }, lbl5{ fm2 , "phone number :" }, lbl6{ fm2, "password :" },
+        lbl7{ fm2, "User Information" };
+    lbl3.move(rectangle(50, 70, 110, 17));
+    lbl4.move(rectangle(50, 140, 110, 17));
+    lbl5.move(rectangle(50, 210, 115, 20));
+    lbl6.move(rectangle(50, 280, 110, 20));
+    lbl7.move(rectangle(300, 20, 200, 40));
+    paint::font my_font{ "Times New Roman", 20 };
+    paint::font lable_font{ "Times New Roman", 14 };
+    lbl3.typeface(lable_font);
+    lbl4.typeface(lable_font);
+    lbl5.typeface(lable_font);
+    lbl6.typeface(lable_font);
+    lbl7.typeface(my_font);
+    textbox txt3{ fm2,rectangle(50, 90, 300, 25) }, txt4{ fm2,rectangle(50, 160, 300, 25) },
+    txt5{ fm2, rectangle(50, 235, 300, 25) }, txt6{ fm2, rectangle(50, 305, 300, 25) };
+    // enable user input
     
+    txt3.editable(true);
+    txt4.editable(true);
+    txt5.editable(true);
+    txt6.editable(true);
+    txt6.mask('*');
+    button btn1{ fm2, "Create account" };
+    btn1.typeface(lable_font);
+    btn1.move(rectangle(350, 350, 120, 40));
+    btn1.events().click([] { OTP_verification(); });
+    fm2.show();
+    exec();
+
+
+}
+
+void OTP_verification()
+{
+
 }
 
 void user_login()
