@@ -136,20 +136,20 @@ void create_user()
     using namespace nana;
     form fm2{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     fm2.caption("Sign UP");
-    label lbl3{ fm2,"Name :" }, lbl4{ fm2,"Email :" }, lbl5{ fm2 , "phone number :" }, lbl6{ fm2, "password :" },
-        lbl7{ fm2, "User Information" };
+    label lbl3{ fm2,"Name :" }, lbl4{ fm2,"Email :" }, pnumber_signup_lbl{ fm2 , "phone number :" }, pass_signup_lbl{ fm2, "password :" },
+        userinfo_signup_lbl{ fm2, "User Information" };
     lbl3.move(rectangle(50, 70, 110, 17));
     lbl4.move(rectangle(50, 140, 110, 17));
-    lbl5.move(rectangle(50, 210, 115, 20));
-    lbl6.move(rectangle(50, 280, 110, 20));
-    lbl7.move(rectangle(300, 20, 200, 40));
+    pnumber_signup_lbl.move(rectangle(50, 210, 115, 20));
+    pass_signup_lbl.move(rectangle(50, 280, 110, 20));
+    userinfo_signup_lbl.move(rectangle(300, 20, 200, 40));
     paint::font my_font{ "Times New Roman", 20 };
     paint::font lable_font{ "Times New Roman", 14 };
     lbl3.typeface(lable_font);
     lbl4.typeface(lable_font);
-    lbl5.typeface(lable_font);
-    lbl6.typeface(lable_font);
-    lbl7.typeface(my_font);
+    pnumber_signup_lbl.typeface(lable_font);
+    pass_signup_lbl.typeface(lable_font);
+    userinfo_signup_lbl.typeface(my_font);
     textbox txt3{ fm2,rectangle(50, 90, 300, 25) }, txt4{ fm2,rectangle(50, 160, 300, 25) },
     txt5{ fm2, rectangle(50, 235, 300, 25) }, txt6{ fm2, rectangle(50, 305, 300, 25) };
     // enable user input
@@ -303,99 +303,100 @@ void land_page() //made by wafaey, modified by omar
     // include namespace nana 
     using namespace nana;
     // create form aka window, allign it to center with the size (800,600)
-    form fm1{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) }; //appearance changes the appearance of the window
+    form landing_page{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) }; //appearance changes the appearance of the window
     screen* land_page = nullptr;
     // set background color to the form
-    fm1.bgcolor(color(211, 211, 211));
+    landing_page.bgcolor(color(211, 211, 211));
     // set the name of the window
-    fm1.caption("InstaPay");
+    landing_page.caption("InstaPay");
     //API::effects_edge_nimbus(fm, effects::edge_nimbus::none); don't think this does anything
     //create a label for each email and password textboxes
-    label lbl1{ fm1,"Email:" }, lbl2{ fm1,"Password:" };
+    label email_signin_lbl{ landing_page,"Email:" }, password_signin_lbl{ landing_page,"Password:" };
     // positioning
-    lbl1.move(rectangle(250, 150, 110, 17));
-    lbl2.move(rectangle(250, 250, 110, 17));
+    email_signin_lbl.move(rectangle(250, 150, 110, 17));
+    password_signin_lbl.move(rectangle(250, 250, 110, 17));
     //create textboxes to input email and password
-    textbox txt1{ fm1,rectangle(250, 170, 300, 30) }, txt2{ fm1,rectangle(250, 270, 300, 30) };
+    textbox input_email_signin{ landing_page,rectangle(250, 170, 300, 30) }, input_pass_signin{ landing_page,rectangle(250, 270, 300, 30) };
     // enable user input
-    txt1.editable(true);
-    txt2.editable(true);
+    input_email_signin.editable(true);
+    input_pass_signin.editable(true);
     // set font (optional)
-    txt1.typeface(paint::font("Arial", 12));
-    txt2.typeface(paint::font("Arial", 12));
+    input_email_signin.typeface(paint::font("Arial", 12));
+    input_pass_signin.typeface(paint::font("Arial", 12));
     // disable mutlilines
-    txt1.multi_lines(false);
-    txt2.multi_lines(false);
+    input_email_signin.multi_lines(false);
+    input_pass_signin.multi_lines(false);
     // hide password
-    txt2.mask('*');
-    form* pointer = &fm1;
+    input_pass_signin.mask('*');
+    //form* pointer = &landing_page; this isn't used am pretty sure
     // create signup button
-    button signup{ fm1,"SignUp" };
-    signup.move(rectangle(250, 330, 100, 30));
+    button signup_btn{ landing_page,"SignUp" };
+    signup_btn.move(rectangle(250, 330, 100, 30));
     // incase of click event it switches to create user page
-    signup.events().click([&fm1] {
-        fm1.hide();
+    signup_btn.events().click([&landing_page] {
+        landing_page.hide();
         create_user(); });
     // login button
-    button login{ fm1,"Login" };
-    login.move(rectangle(450, 330, 100, 30));
-    login.events().click([&fm1] {
-     fm1.hide();
+    button login_btn{ landing_page,"Login" };
+    login_btn.move(rectangle(450, 330, 100, 30));
+    login_btn.events().click([&landing_page] {
+     landing_page.hide();
      user_login(); });
     // show form
-    fm1.show();
+    landing_page.show();
     // switch control from main to nana then back to main when you close the form
     exec();
 }
 void create_user()
 {
     using namespace nana;
-    form fm2{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
-    fm2.caption("Sign UP");
-    label lbl3{ fm2,"Name :" }, lbl4{ fm2,"Email :" }, lbl5{ fm2 , "phone number :" }, lbl6{ fm2, "password :" },
-        lbl7{ fm2, "User Information" }, lbl8{ fm2, "----------------------------------------------------------------------------" },
-        lbl9{ fm2, "----------------------------------------------------------------------------" },
-        lbl10{ fm2, "note: provide the same name as in your national ID" }, lbl11{ fm2, "Please enter a valid email address to proceed." },
-        lbl12{ fm2 , "Your password must be at least 8 characters long, include both upper and lowercase letters,contain at least one numeric digit (0–9), and include at least one special character (e.g., !, @, #, $)." };
-    lbl3.move(rectangle(50, 70, 110, 17));
-    lbl4.move(rectangle(50, 140, 110, 17));
-    lbl5.move(rectangle(50, 210, 115, 20));
-    lbl6.move(rectangle(50, 280, 110, 20));
-    lbl7.move(rectangle(300, 20, 200, 40));
-    lbl8.move(rectangle(200, 0, 400, 20));
-    lbl9.move(rectangle(200, 50, 400, 40));
-    lbl10.move(rectangle(50, 115, 400, 20));
-    lbl11.move(rectangle(50, 185, 400, 17));
-    lbl12.move(rectangle(50, 330, 400, 60));
-    paint::font my_font{ "Times New Roman", 20 };
-    paint::font lable_font{ "Times New Roman", 14 };
-    paint::font slable_font{ "Times New Roman", 10 };
-    lbl3.typeface(lable_font);
-    lbl4.typeface(lable_font);
-    lbl5.typeface(lable_font);
-    lbl6.typeface(lable_font);
-    paint::font italic_font{ "Times New Roman", 10, {true, false, false, false} };  // Italic font
-    lbl10.typeface(italic_font);
-    lbl10.fgcolor(color(230, 0, 0));
-    lbl11.typeface(italic_font);
-    lbl11.fgcolor(color(230, 0, 0));
-    lbl11.typeface(italic_font);
-    lbl12.fgcolor(color(230, 0, 0));// Set text color to red (RGB)
-    lbl7.typeface(my_font);
-    textbox txt3{ fm2,rectangle(50, 90, 300, 25) }, txt4{ fm2,rectangle(50, 160, 300, 25) },
-        txt5{ fm2, rectangle(50, 235, 300, 25) }, txt6{ fm2, rectangle(50, 305, 300, 25) };
+    form signup_page{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
+    signup_page.caption("Sign Up");
+    label name_signup_lbl{ signup_page,"Name :" }, email_signup_lbl{ signup_page,"Email :" }, pnumber_signup_lbl{ signup_page , "Phone number :" }, pass_signup_lbl{ signup_page, "Password :" },
+        userinfo_signup_lbl{ signup_page, "User Information" }, space_signup_lbl{ signup_page, "----------------------------------------------------------------------------" },
+        space2_signup_lbl{ signup_page, "----------------------------------------------------------------------------" },
+        note1_signup_lbl{ signup_page, "Name must be the same as in your national ID" }, note2_signup_lbl{ signup_page, "Please enter a valid email address." },
+        note3_signup_lbl{ signup_page , "Your password must be at least 8 characters long, include both upper and lowercase letters, contain at least one numeric digit (0–9), and include at least one special character (e.g., !, @, #, $)." };
+    name_signup_lbl.move(rectangle(50, 70, 110, 17));
+    email_signup_lbl.move(rectangle(50, 140, 110, 17));
+    pnumber_signup_lbl.move(rectangle(50, 210, 115, 20));
+    pass_signup_lbl.move(rectangle(50, 280, 110, 20));
+    userinfo_signup_lbl.move(rectangle(300, 20, 200, 40));
+    space_signup_lbl.move(rectangle(200, 0, 400, 20));
+    space2_signup_lbl.move(rectangle(200, 50, 400, 40));
+    note1_signup_lbl.move(rectangle(50, 115, 400, 20));
+    note2_signup_lbl.move(rectangle(50, 185, 400, 17));
+    note3_signup_lbl.move(rectangle(50, 330, 400, 60));
+    paint::font title_font{ "Times New Roman", 20 };
+    paint::font header_font{ "Times New Roman", 14 };
+    //paint::font slable_font{ "Times New Roman", 10 }; this isn't used
+    nana::color red = color(230, 0, 0); //defines a color red
+    name_signup_lbl.typeface(header_font);
+    email_signup_lbl.typeface(header_font);
+    pnumber_signup_lbl.typeface(header_font);
+    pass_signup_lbl.typeface(header_font);
+    paint::font italic_font{ "Times New Roman", 10, {true, false, false, false} };  // Italic font (bruh that shit not italic -omar)
+    note1_signup_lbl.typeface(italic_font);
+    note1_signup_lbl.fgcolor(red);
+    note2_signup_lbl.typeface(italic_font);
+    note2_signup_lbl.fgcolor(red);
+    note2_signup_lbl.typeface(italic_font);
+    note3_signup_lbl.fgcolor(red);// Set text color to red (RGB)
+    userinfo_signup_lbl.typeface(title_font);
+    textbox input_name_signup{ signup_page,rectangle(50, 90, 300, 25) }, input_email_signup{ signup_page,rectangle(50, 160, 300, 25) },
+        input_pnumber_signup{ signup_page, rectangle(50, 235, 300, 25) }, input_pass_signup{ signup_page, rectangle(50, 305, 300, 25) };
     // enable user input
 
-    txt3.editable(true);
-    txt4.editable(true);
-    txt5.editable(true);
-    txt6.editable(true);
-    txt6.mask('*');
-    button btn1{ fm2, "Create account" };
-    btn1.typeface(lable_font);
-    btn1.move(rectangle(350, 400, 120, 40));
-    btn1.events().click([] { OTP_verification(); });
-    fm2.show();
+    input_name_signup.editable(true);
+    input_email_signup.editable(true);
+    input_pnumber_signup.editable(true);
+    input_pass_signup.editable(true);
+    input_pass_signup.mask('*');
+    button create_acc{ signup_page, "Create account" };
+    create_acc.typeface(header_font);
+    create_acc.move(rectangle(350, 400, 120, 40));
+    create_acc.events().click([] { OTP_verification(); });
+    signup_page.show();
     exec();
 }
 
