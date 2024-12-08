@@ -429,7 +429,7 @@ void OTP_verification()
 
 void user_login()
 {
-    // type here
+    dashboard();
 }
 void main_menu()
 {
@@ -471,6 +471,23 @@ void transaction(user sender, user reciever) // made by wafaey
     {
         transaction.status = -1;
     }
+}
+
+void dashboard() //god help us all
+{
+    using namespace nana;
+    form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
+    dashboard.caption("Dashboard");
+    button managebanks_btn{dashboard, "Manage Bank Accounts"};
+    managebanks_btn.move(rectangle(160, 140, 200, 40));
+    button profile_btn{ dashboard, "Profile" };
+    profile_btn.move(rectangle(440, 140, 200, 40));
+    button tr_btn{ dashboard, "Send Money" };
+    tr_btn.move(rectangle(160, 260, 200, 40));
+    dashboard.show();
+    button trh_btn{ dashboard, "Transaction History" };
+    trh_btn.move(rectangle(440, 260, 200, 40));
+    exec();
 }
 
 
