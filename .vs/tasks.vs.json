@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-nana",
+      "appliesTo": "nana-master/build/vc2015/nana.sln",
+      "type": "launch"
+    }
+  ]
+}
