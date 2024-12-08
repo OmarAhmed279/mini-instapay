@@ -218,6 +218,7 @@ void transaction(user sender, user reciever)
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1 //this is so it doesn't crash
 
 #include "mini-instapay.h" //this has all the header files
+#include <regex>
 using namespace std;
 
 //Global Variables
@@ -350,6 +351,7 @@ void land_page() //made by wafaey, modified by omar
 }
 void create_user()
 {
+    regex Name_pattern("^[A-Za-z ]{3,20}$");
     using namespace nana;
     form signup_page{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     signup_page.caption("Sign Up");
@@ -392,11 +394,30 @@ void create_user()
     input_email_signup.editable(true);
     input_pnumber_signup.editable(true);
     input_pass_signup.editable(true);
+    input_name_signup.multi_lines(false);
+    input_email_signup.multi_lines(false);
+    input_pnumber_signup.multi_lines(false);
+    input_pass_signup.multi_lines(false);
+    input_name_signup.tooltip("Enter a valid User Name (letters only, 3-20 characters)");
     input_pass_signup.mask('*');
+    label name_match{ signup_page };
+    name_match.move(rectangle(360, 92, 300, 25));
+    name_match.fgcolor(colors::red);
     button create_acc{ signup_page, "Create account" };
     create_acc.typeface(header_font);
     create_acc.move(rectangle(350, 400, 120, 40));
-    create_acc.events().click([] { OTP_verification(); });
+    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match]
+        { string name = input_name_signup.caption();
+    if (regex_match(name, Name_pattern))
+    {
+        name_match.caption("Valid name");
+        name_match.fgcolor(colors::green);
+    }
+    else
+    {
+        name_match.caption("Invalid name! ❌ (Must be alphabetic, 3-20 characters)");
+        name_match.fgcolor(colors::red);
+    }});
     signup_page.show();
     exec();
 }
