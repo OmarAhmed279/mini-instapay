@@ -353,7 +353,7 @@ void create_user()
 {
     regex Name_pattern("^[A-Za-z ]{3,20}$");
     regex Email_pattern(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$)");
-    regex pnumber_pattern("[0-9]{11}");
+    std::regex pnumber_pattern("^(011|012|010|015)[0-9]{8}$");
     using namespace nana;
     form signup_page{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     signup_page.caption("Sign Up");
@@ -376,17 +376,18 @@ void create_user()
     paint::font header_font{ "Times New Roman", 14 };
     //paint::font slable_font{ "Times New Roman", 10 }; this isn't used
     nana::color red = color(230, 0, 0); //defines a color red
+    nana::color dark_blue = nana::color(0, 0, 139); // Defines a dark blue color
     name_signup_lbl.typeface(header_font);
     email_signup_lbl.typeface(header_font);
     pnumber_signup_lbl.typeface(header_font);
     pass_signup_lbl.typeface(header_font);
     paint::font italic_font{ "Times New Roman", 10, {true, false, false, false} };  // Italic font (bruh that shit not italic -omar)
     note1_signup_lbl.typeface(italic_font);
-    note1_signup_lbl.fgcolor(red);
+    note1_signup_lbl.fgcolor(dark_blue);
     note2_signup_lbl.typeface(italic_font);
-    note2_signup_lbl.fgcolor(red);
+    note2_signup_lbl.fgcolor(dark_blue);
     note2_signup_lbl.typeface(italic_font);
-    note3_signup_lbl.fgcolor(red);// Set text color to red (RGB)
+    note3_signup_lbl.fgcolor(dark_blue);// Set text color to red (RGB)
     userinfo_signup_lbl.typeface(title_font);
     textbox input_name_signup{ signup_page,rectangle(50, 90, 300, 25) }, input_email_signup{ signup_page,rectangle(50, 160, 300, 25) },
         input_pnumber_signup{ signup_page, rectangle(50, 235, 300, 25) }, input_pass_signup{ signup_page, rectangle(50, 305, 300, 25) };
@@ -411,47 +412,81 @@ void create_user()
     email_match.move(rectangle(360, 162, 300, 25));
     email_match.fgcolor(colors::red);
     label pnumber_match{ signup_page };
-    pnumber_match.move(rectangle(360, 237, 300, 25));
+    pnumber_match.move(rectangle(360, 237, 300, 30));
     pnumber_match.fgcolor(colors::red);
     button create_acc{ signup_page, "Create account" };
     create_acc.typeface(header_font);
     create_acc.move(rectangle(350, 400, 120, 40));
-    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern]
+                                                                         // By 
+    input_name_signup.events().focus([&](const nana::arg_focus& arg) {
+        if (!arg.getting) { // Losing focus
+            string name = input_name_signup.text();
+            if (regex_match(name, Name_pattern))
+            {
+                name_match.caption("Valid name");
+                name_match.fgcolor(colors::green);
+            }
+            else
+            {
+                name_match.caption("Invalid name! (Must be alphabetic, 3-20 characters)");
+                name_match.fgcolor(colors::red);
+            }
+        }
+        });
+    input_email_signup.events().focus([&](const nana::arg_focus& arg) {
+        if (!arg.getting) { // Losing focus
+            string email = input_email_signup.text();
+            if (regex_match(email, Email_pattern))
+            {
+                email_match.caption("Valid Email address");
+                email_match.fgcolor(colors::green);
+            }
+            else
+            {
+                email_match.caption("Invalid Email address ");
+                email_match.fgcolor(colors::red);
+            }
+        }
+        });
+    input_pnumber_signup.events().focus([&](const nana::arg_focus& arg) {
+        if (!arg.getting) { // Losing focus
+            string phone = input_pnumber_signup.text();
+            if (regex_match(phone, pnumber_pattern))
+            {
+                pnumber_match.caption("Valid phone number");
+                pnumber_match.fgcolor(colors::green);
+            }
+            else
+            {
+                // If the length is less than 11 digits
+                if (phone.length() < 11) {
+                    pnumber_match.caption("Invalid phone number. The number must be 11 digits.");
+                    pnumber_match.fgcolor(colors::red);
+                }
+                // If the number length is correct but the prefix is wrong
+                else if (!regex_match(phone, regex("^(011|012|010|015).*"))) {
+                    pnumber_match.caption("Invalid phone number. The number must start with 011, 012, 010, or 015.");
+                    pnumber_match.fgcolor(colors::red);
+                }
+                // If it's invalid for other reasons
+                else {
+                    pnumber_match.caption("Invalid phone number. Please check the format.");
+                    pnumber_match.fgcolor(colors::red);
+                }
+            }
+        }
+        });
+    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern,  &signup_page]
         { 
-            string name = input_name_signup.caption();
-            string email = input_email_signup.caption();
-            string pnumber = input_pnumber_signup.caption();
-
-    if (regex_match(name, Name_pattern))
-    {
-        name_match.caption("Valid name");
-        name_match.fgcolor(colors::green);
-    }
-    else
-    {
-        name_match.caption("Invalid name! (Must be alphabetic, 3-20 characters)");
-        name_match.fgcolor(colors::red);
-    }
-    if (regex_match(email, Email_pattern))
-    {
-        email_match.caption("Valid Email address");
-        email_match.fgcolor(colors::green);
-    }
-    else
-    {
-        email_match.caption("Invalid Email address ");
-        email_match.fgcolor(colors::red);
-    }
-    if (regex_match(pnumber, pnumber_pattern))
-    {
-        pnumber_match.caption("Valid phone number");
-        pnumber_match.fgcolor(colors::green);
-    }
-    else
-    {
-        pnumber_match.caption("Invalid phone number. (please enter 11 numbers only) ");
-        pnumber_match.fgcolor(colors::red);
-    }
+            string name = input_name_signup.text();
+            string email = input_email_signup.text();
+            string phone = input_pnumber_signup.text();
+          
+            if (regex_match(name, Name_pattern) && regex_match(email, Email_pattern) && regex_match(phone, pnumber_pattern))
+            {
+                signup_page.hide();
+                OTP_verification();
+            }   
         });
     signup_page.show();
     exec();
