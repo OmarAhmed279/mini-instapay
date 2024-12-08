@@ -15,6 +15,12 @@
 /mini-instapay/[Ll]ogs/
 /mini-instapay/out/
 /mini-instapay/.vs
-/.vs
+*/.vs
+*/*/.vs
+*/*/*/.vs
+
+
+/temp
+
 
 !mini-instapay/out/build/x64-debug/mini-instapay.db

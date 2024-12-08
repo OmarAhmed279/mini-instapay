@@ -232,6 +232,7 @@ void main_menu();
 void OTP_verification();
 void copydatatodatabase();
 void copydatabasetoapp();
+void dashboard();
 
 struct bankaccount {
     string name;
