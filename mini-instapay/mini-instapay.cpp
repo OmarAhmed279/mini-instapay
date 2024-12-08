@@ -352,6 +352,8 @@ void land_page() //made by wafaey, modified by omar
 void create_user()
 {
     regex Name_pattern("^[A-Za-z ]{3,20}$");
+    regex Email_pattern(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$)");
+    regex pnumber_pattern("[0-9]{11}");
     using namespace nana;
     form signup_page{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     signup_page.caption("Sign Up");
@@ -399,15 +401,27 @@ void create_user()
     input_pnumber_signup.multi_lines(false);
     input_pass_signup.multi_lines(false);
     input_name_signup.tooltip("Enter a valid User Name (letters only, 3-20 characters)");
+    input_email_signup.tooltip("Enter a vaild Email address. Ex: Name@Example.com");
+    input_pnumber_signup.tooltip("Enter a valid phone number (must contain 11 numbers)");
     input_pass_signup.mask('*');
     label name_match{ signup_page };
     name_match.move(rectangle(360, 92, 300, 25));
     name_match.fgcolor(colors::red);
+    label email_match{ signup_page };
+    email_match.move(rectangle(360, 162, 300, 25));
+    email_match.fgcolor(colors::red);
+    label pnumber_match{ signup_page };
+    pnumber_match.move(rectangle(360, 237, 300, 25));
+    pnumber_match.fgcolor(colors::red);
     button create_acc{ signup_page, "Create account" };
     create_acc.typeface(header_font);
     create_acc.move(rectangle(350, 400, 120, 40));
-    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match]
-        { string name = input_name_signup.caption();
+    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern]
+        { 
+            string name = input_name_signup.caption();
+            string email = input_email_signup.caption();
+            string pnumber = input_pnumber_signup.caption();
+
     if (regex_match(name, Name_pattern))
     {
         name_match.caption("Valid name");
@@ -415,9 +429,30 @@ void create_user()
     }
     else
     {
-        name_match.caption("Invalid name! ❌ (Must be alphabetic, 3-20 characters)");
+        name_match.caption("Invalid name! (Must be alphabetic, 3-20 characters)");
         name_match.fgcolor(colors::red);
-    }});
+    }
+    if (regex_match(email, Email_pattern))
+    {
+        email_match.caption("Valid Email address");
+        email_match.fgcolor(colors::green);
+    }
+    else
+    {
+        email_match.caption("Invalid Email address ");
+        email_match.fgcolor(colors::red);
+    }
+    if (regex_match(pnumber, pnumber_pattern))
+    {
+        pnumber_match.caption("Valid phone number");
+        pnumber_match.fgcolor(colors::green);
+    }
+    else
+    {
+        pnumber_match.caption("Invalid phone number. (please enter 11 numbers only) ");
+        pnumber_match.fgcolor(colors::red);
+    }
+        });
     signup_page.show();
     exec();
 }
