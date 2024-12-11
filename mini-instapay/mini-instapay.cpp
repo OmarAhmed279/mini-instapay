@@ -305,30 +305,38 @@ void copydatabasetoapp()
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
-    int sender_wallet_before, receiver_wallet_before;
-    transactions_count++;
-    transaction.id = transactions_count;
-    transaction.SenderAccount = sender;
-    transaction.ReceiverAccount = reciever;
-    sender_wallet_before = transaction.SenderAccount.wallet;
-    receiver_wallet_before = transaction.ReceiverAccount.wallet;
-    transaction.SenderAccount.wallet -= transaction.ammount;
-    transaction.ReceiverAccount.wallet += transaction.ammount;
-    // check if the balance of both the sender and reciever have changed correctly or no
-    if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
-    {
-        transaction.status = 1;
-    }
-    // if one of them is still pending change
-    else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
-    {
-        transaction.status = 0;
-    }
-    // if the transaction failed
-    else
+    if (transaction.ammount > transaction.SenderAccount.wallet)
     {
         transaction.status = -1;
     }
+    else 
+    {
+        int sender_wallet_before, receiver_wallet_before;
+        transactions_count++;
+        transaction.id = transactions_count;
+        transaction.SenderAccount = sender;
+        transaction.ReceiverAccount = reciever;
+        sender_wallet_before = transaction.SenderAccount.wallet;
+        receiver_wallet_before = transaction.ReceiverAccount.wallet;
+        transaction.SenderAccount.wallet -= transaction.ammount;
+        transaction.ReceiverAccount.wallet += transaction.ammount;
+        // check if the balance of both the sender and reciever have changed correctly or no
+        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
+        {
+            transaction.status = 1;
+        }
+        // if one of them is still pending change
+        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
+        {
+            transaction.status = 0;
+        }
+        // if the transaction failed
+        else
+        {
+            transaction.status = -1;
+        }
+    }
+    
 }
 
 void dashboard() //god help us all
