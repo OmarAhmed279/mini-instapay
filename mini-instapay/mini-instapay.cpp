@@ -345,14 +345,14 @@ void dashboard() //god help us all
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
     button managebanks_btn{dashboard, "Manage Bank Accounts"};
-    managebanks_btn.move(rectangle(160, 140, 200, 40));
+    managebanks_btn.move(rectangle(160, 120, 200, 40));
     button profile_btn{ dashboard, "Profile" };
-    profile_btn.move(rectangle(440, 140, 200, 40));
+    profile_btn.move(rectangle(440, 120, 200, 40));
     button tr_btn{ dashboard, "Send Money" };
-    tr_btn.move(rectangle(160, 260, 200, 40));
+    tr_btn.move(rectangle(160, 240, 200, 40));
     dashboard.show();
     button trh_btn{ dashboard, "Transaction History" };
-    trh_btn.move(rectangle(440, 260, 200, 40));
+    trh_btn.move(rectangle(440, 240, 200, 40));
     exec();
 }
 
