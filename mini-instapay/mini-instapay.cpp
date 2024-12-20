@@ -15,7 +15,8 @@ void create_user();
 void user_login();
 void main_menu();
 void OTP_verification();
-void copydatatodatabase();
+void createdatabase(sqlite3* db);
+void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
 void copydatabasetoapp();
 void dashboard();
 
@@ -28,9 +29,9 @@ struct bankaccount {
 
 // create user structure
 struct user {
-    string  name, email, password, ContactInformation;
-    bankaccount accounts[3];
-    int id, wallet = 0;
+    string  name, email, password;
+    bankaccount accounts;
+    int id, Phonenumber, wallet = 0;
 };
 // create transcations structure
 struct transactions {
@@ -55,34 +56,13 @@ vector<user> USERS{
 
 
 int main()
-{
-    // Initial code for Database creation (First time run only)
+{    
     sqlite3* db;
-    int rc;
-    // Open the SQLite database
-    rc = sqlite3_open("mini-instapay.db", &db);
-    if (rc) {
-        cerr << "Can't open database: " << sqlite3_errmsg(db) << endl;
+    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+        cerr << "Error opening database: " << sqlite3_errmsg(db) << endl;
         return 1;
     }
-    // Create table if it doesn't exist
-    const char* create_ACC_sql = "CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT, Contactinformation TEXT,  day INTEGER, month INTEGER, year INTEGER, state INTEGER)";
-    rc = sqlite3_exec(db, create_ACC_sql, NULL, 0, NULL);
-    if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        sqlite3_close(db);
-        return 1;
-    }
-    // Create table if it doesn't exist
-    const char* create_POST_sql = "CREATE TABLE IF NOT EXISTS Usertrans (id INTEGER PRIMARY KEY, SenderAccount TEXT, RecieverAccount TEXT, date TEXT, Amount INTEGER, Status INTEGER)";
-    rc = sqlite3_exec(db, create_POST_sql, NULL, 0, NULL);
-    if (rc != SQLITE_OK) {
-        cerr << "SQL error: " << sqlite3_errmsg(db) << endl;
-        sqlite3_close(db);
-        return 1;
-    }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+    createdatabase(db);
     land_page();
 
     return 0;
@@ -293,10 +273,77 @@ void main_menu()
 {
     // type here
 }
-void copydatatodatabase()
+void createdatabase(sqlite3* db)
 {
-    // type here
+    const char* sqlUsers = "CREATE TABLE IF NOT EXISTS Users (" \
+        "ID INTEGER PRIMARY KEY, " \
+        "PhoneNo INTEGER , "  \
+        "Wallet INTEGER , " \
+        "Name TEXT NOT NULL, " \
+        "Email TEXT NOT NULL, " \
+        "Password TEXT NOT NULL);";
+
+    const char* sqlAccounts = "CREATE TABLE IF NOT EXISTS BankAccounts (" \
+        "UserID INTEGER, " \
+        "Name TEXT NOT NULL, " \
+        "Amount Integer NOT NULL, " \
+        "AccountNo INTEGER NOT NULL, " \
+        "FOREIGN KEY(UserID) REFERENCES Users(ID));";
+
+    char* errMsg = nullptr;
+    if (sqlite3_exec(db, sqlUsers, nullptr, nullptr, &errMsg) != SQLITE_OK) {
+        cerr << "Error creating Users table: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    if (sqlite3_exec(db, sqlAccounts, nullptr, nullptr, &errMsg) != SQLITE_OK) {
+        cerr << "Error creating Addresses table: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
 }
+void insertUsersToDB(sqlite3* db, const vector<user>& USERS) {
+    const char* sql = "INSERT INTO USER (ID, Name, Email, Password, PhoneNo, Day, Month, Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    const char* sqlAccounts = "INSERT INTO Accounts (UserName, Amount, AccountNo) VALUES (?, ?, ?);";
+    sqlite3_stmt* stmtUser;
+    sqlite3_stmt* stmtAccounts;
+
+    for (const auto& user : USERS) {
+        if (sqlite3_prepare_v2(db, sql, -1, &stmtUser, nullptr) != SQLITE_OK) {
+            cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << endl;
+            continue;
+        }
+
+        sqlite3_bind_int(stmtUser, 1, user.id);
+        sqlite3_bind_text(stmtUser, 2, user.name.c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_text(stmtUser, 3, user.email.c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_text(stmtUser, 4, user.password.c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_int(stmtUser, 5, user.Phonenumber);
+        sqlite3_bind_int(stmtUser, 6, user.wallet);
+
+        if (sqlite3_step(stmtUser) != SQLITE_DONE) {
+            cerr << "Error inserting data: " << sqlite3_errmsg(db) << endl;
+        }
+
+        sqlite3_finalize(stmtUser);
+        if (sqlite3_prepare_v2(db, sqlAccounts, -1, &stmtAccounts, nullptr) != SQLITE_OK) {
+            cerr << "Failed to prepare Address statement: " << sqlite3_errmsg(db) << endl;
+            continue;
+        }
+
+        sqlite3_bind_int(stmtAccounts, 1, user.id);
+        sqlite3_bind_text(stmtAccounts, 2, user.accounts.name.c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_int(stmtAccounts, 3, user.accounts.amount);
+        sqlite3_bind_int(stmtAccounts, 4, user.accounts.accountnum);
+
+
+        if (sqlite3_step(stmtAccounts) != SQLITE_DONE) {
+            cerr << "Error inserting address data: " << sqlite3_errmsg(db) << endl;
+        }
+
+        sqlite3_finalize(stmtAccounts);
+    }
+    }
 void copydatabasetoapp()
 {
     // type here
