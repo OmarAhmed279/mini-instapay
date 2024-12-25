@@ -49,7 +49,8 @@ struct admin {
 };
 // Data Arrays for Storage
 vector<user> USERS = {
-    {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10}
+    {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10},
+    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000}
 };
 
 
@@ -337,7 +338,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
         }
         else 
         {
-            email_label.caption("Email: Wrong password, please try again.");
+            email_label.caption("Email: Wrong email, please try again.");
         }
     }
 }
