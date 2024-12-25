@@ -50,7 +50,8 @@ struct admin {
 // Data Arrays for Storage
 vector<user> USERS = {
     {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10},
-    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000}
+    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000},
+    {"Admin", "Admin", "Admin@123", {}, 0, 0, 0}
 };
 
 
