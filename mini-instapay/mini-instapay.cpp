@@ -252,7 +252,7 @@ void create_user() // made by youssef shehta and seif shehta
     exec();
 }
 
-void OTP_verification(form& signup_page, string name, string email, string phone, string pass)
+void OTP_verification(form& signup_page, string name, string email, string phone, string pass) //made by abdelrahman, modified by omar
 {
         // Generate OTP
         int OTP[6];
