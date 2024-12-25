@@ -264,15 +264,15 @@ void OTP_verification()
 {
         // Generate OTP
         int OTP[6];
-        std::srand(std::time(nullptr)); // Seed for random OTP generation
+        srand(time(nullptr)); // Seed for random OTP generation
         for (int i = 0; i < 6; ++i) {
-            OTP[i] = std::rand() % 10;
+            OTP[i] = rand() % 10;
         }
 
         // Convert OTP to string for display
-        std::string otp_string;
+        string otp_string;
         for (int digit : OTP) {
-            otp_string += std::to_string(digit);
+            otp_string +=to_string(digit);
         }
 
         // Create OTP verification form
@@ -299,7 +299,7 @@ void OTP_verification()
 
         // Verify button click event
         verify_btn.events().click([&]() {
-            std::string user_otp = otp_input.text();
+            string user_otp = otp_input.text();
 
             // Check if user input matches the generated OTP
             if (user_otp.size() == 6 && user_otp == otp_string) {
