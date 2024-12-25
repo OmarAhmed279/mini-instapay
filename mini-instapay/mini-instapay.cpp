@@ -9,6 +9,16 @@ using namespace nana;
 
 static int user_count = 0, transactions_count = 0;
 
+// Functions Declaration
+void land_page();
+void create_user();
+void user_login(string, string, form&, label&, label&);
+void main_menu();
+void OTP_verification(form&, string, string, string, string);
+void dashboard();
+void transaction(user, user);
+
+// create banckaccount struct
 struct bankaccount {
     string name;
     int amount;
@@ -44,30 +54,8 @@ vector<user> USERS = {
 
 
 
-// Functions Declaration
-void land_page();
-void create_user();
-void user_login(string, string, form&, label&, label&);
-void main_menu();
-void OTP_verification(form&, string, string, string, string);
-//void createdatabase(sqlite3* db);
-//void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
-//void copydatabasetoapp();
-void dashboard();
-void transaction(user, user);
-
-
-// create banckaccount struct
-
-
 int main()
 {    
-    //sqlite3* db;
-    //if (sqlite3_open("users.db", &db) != SQLITE_OK) {
-     //   cerr << "Error opening database: " << sqlite3_errmsg(db) << endl;
-     //   return 1;
-    //}
-    //createdatabase(db);
     land_page();
 
     return 0;
@@ -351,91 +339,6 @@ void main_menu()
 {
     // type here
 }
-/*void createdatabase(sqlite3* db)
-=======
-void createdatabase(sqlite3* db) // made by Mo'men
->>>>>>> Stashed changes
-{
-  //  const char* sqlUsers = "CREATE TABLE IF NOT EXISTS Users (" \
-        "ID INTEGER PRIMARY KEY, " \
-        "PhoneNo INTEGER , "  \
-        "Wallet INTEGER , " \
-        "Name TEXT NOT NULL, " \
-        "Email TEXT NOT NULL, " \
-        "Password TEXT NOT NULL);";
-
-   // const char* sqlAccounts = "CREATE TABLE IF NOT EXISTS BankAccounts (" \
-        "UserID INTEGER, " \
-        "Name TEXT NOT NULL, " \
-        "Amount Integer NOT NULL, " \
-        "AccountNo INTEGER NOT NULL, " \
-        "FOREIGN KEY(UserID) REFERENCES Users(ID));";
-
-    // char* errMsg = nullptr;
-    // if (sqlite3_exec(db, sqlUsers, nullptr, nullptr, &errMsg) != SQLITE_OK) {
-       // cerr << "Error creating Users table: " << errMsg << endl;
-        //sqlite3_free(errMsg);
-    //} 
-
-    //if (sqlite3_exec(db, sqlAccounts, nullptr, nullptr, &errMsg) != SQLITE_OK) {
-      //  cerr << "Error creating Addresses table: " << errMsg << endl;
-        // sqlite3_free(errMsg);
-    //}
-
-<<<<<<< Updated upstream
-//} */
-/* void insertUsersToDB(sqlite3* db, const vector<user>& USERS) {
-=======
-}
-void insertUsersToDB(sqlite3* db, const vector<user>& USERS) // made by Mo'men
-{
->>>>>>> Stashed changes
-    const char* sql = "INSERT INTO USER (ID, Name, Email, Password, PhoneNo, Day, Month, Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    const char* sqlAccounts = "INSERT INTO Accounts (UserName, Amount, AccountNo) VALUES (?, ?, ?);";
-    sqlite3_stmt* stmtUser;
-    sqlite3_stmt* stmtAccounts;
-
-    for (const auto& user : USERS) {
-        if (sqlite3_prepare_v2(db, sql, -1, &stmtUser, nullptr) != SQLITE_OK) {
-            cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << endl;
-            continue;
-        }
-
-        sqlite3_bind_int(stmtUser, 1, user.id);
-        sqlite3_bind_text(stmtUser, 2, user.name.c_str(), -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmtUser, 3, user.email.c_str(), -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmtUser, 4, user.password.c_str(), -1, SQLITE_STATIC);
-        sqlite3_bind_int(stmtUser, 5, user.Phonenumber);
-        sqlite3_bind_int(stmtUser, 6, user.wallet);
-
-        if (sqlite3_step(stmtUser) != SQLITE_DONE) {
-            cerr << "Error inserting data: " << sqlite3_errmsg(db) << endl;
-        }
-
-        sqlite3_finalize(stmtUser);
-        if (sqlite3_prepare_v2(db, sqlAccounts, -1, &stmtAccounts, nullptr) != SQLITE_OK) {
-            cerr << "Failed to prepare Address statement: " << sqlite3_errmsg(db) << endl;
-            continue;
-        }
-
-        sqlite3_bind_int(stmtAccounts, 1, user.id);
-        sqlite3_bind_text(stmtAccounts, 2, user.accounts.name.c_str(), -1, SQLITE_STATIC);
-        sqlite3_bind_int(stmtAccounts, 3, user.accounts.amount);
-        sqlite3_bind_int(stmtAccounts, 4, user.accounts.accountnum);
-
-
-        if (sqlite3_step(stmtAccounts) != SQLITE_DONE) {
-            cerr << "Error inserting address data: " << sqlite3_errmsg(db) << endl;
-        }
-
-        sqlite3_finalize(stmtAccounts);
-    }
-    }
-void copydatabasetoapp() // made by Mo'men
-{
-    // type here
-}
-*/
 
 void transaction(user sender, user reciever) // made by wafaey
 {
