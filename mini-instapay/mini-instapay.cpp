@@ -261,7 +261,62 @@ void create_user()
 
 void OTP_verification()
 {
-    // type here
+        // Generate OTP
+        int OTP[6];
+        std::srand(std::time(nullptr)); // Seed for random OTP generation
+        for (int i = 0; i < 6; ++i) {
+            OTP[i] = std::rand() % 10;
+        }
+
+        // Convert OTP to string for display
+        std::string otp_string;
+        for (int digit : OTP) {
+            otp_string += std::to_string(digit);
+        }
+
+        // Create OTP verification form
+        form otp_form{ API::make_center(400, 200), appearance(true, true, true, false, true, false, false) };
+        otp_form.caption("OTP Verification");
+
+        // Label to display the OTP (simulating sending it to the user)
+        label otp_label{ otp_form, "Your OTP is: " + otp_string };
+        otp_label.move(rectangle(20, 20, 360, 30));
+
+        // Textbox for user to input OTP
+        textbox otp_input{ otp_form, rectangle(20, 60, 360, 30) };
+        otp_input.multi_lines(false);
+        otp_input.tip_string("Enter your OTP here");
+
+        // Label for feedback
+        label feedback_label{ otp_form, "" };
+        feedback_label.move(rectangle(20, 100, 360, 30));
+        feedback_label.fgcolor(colors::red);
+
+        // Verify button
+        button verify_btn{ otp_form, "Verify" };
+        verify_btn.move(rectangle(150, 140, 100, 30));
+
+        // Verify button click event
+        verify_btn.events().click([&]() {
+            std::string user_otp = otp_input.text();
+
+            // Check if user input matches the generated OTP
+            if (user_otp.size() == 6 && user_otp == otp_string) {
+                feedback_label.caption("Verification successful!");
+                feedback_label.fgcolor(colors::green);
+
+                // Close the OTP form and proceed with signup completion
+                otp_form.close();
+            }
+            else {
+                feedback_label.caption("Incorrect OTP. Please try again.");
+                feedback_label.fgcolor(colors::red);
+            }
+            });
+
+        // Show the OTP form
+        otp_form.show();
+        exec();
 }
 
 void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
