@@ -9,21 +9,6 @@ using namespace nana;
 
 static int user_count = 0, transactions_count = 0;
 
-<<<<<<< Updated upstream
-// Functions Declaration
-void land_page();
-void create_user();
-void user_login(string, string, form&, label&, label&);
-void main_menu();
-void OTP_verification();
-//void createdatabase(sqlite3* db);
-//void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
-//void copydatabasetoapp();
-void dashboard();
-
-=======
-// create banckaccount struct
->>>>>>> Stashed changes
 struct bankaccount {
     string name;
     int amount;
@@ -57,17 +42,22 @@ vector<user> USERS = {
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0}
 };
 
+
+
 // Functions Declaration
 void land_page();
 void create_user();
-void user_login();
+void user_login(string, string, form&, label&, label&);
 void main_menu();
-void OTP_verification();
-void createdatabase(sqlite3* db);
-void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
-void copydatabasetoapp();
+void OTP_verification(form&, string, string, string, string);
+//void createdatabase(sqlite3* db);
+//void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
+//void copydatabasetoapp();
 void dashboard();
 void transaction(user, user);
+
+
+// create banckaccount struct
 
 
 int main()
@@ -257,23 +247,24 @@ void create_user() // made by youssef shehta and seif shehta
             }
         }
         });
-    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern,  &signup_page]
+    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern,  &signup_page, &input_pass_signup]
         { 
             string name = input_name_signup.text();
             string email = input_email_signup.text();
             string phone = input_pnumber_signup.text();
+            string pass = input_pass_signup.text();
           
             if (regex_match(name, Name_pattern) && regex_match(email, Email_pattern) && regex_match(phone, pnumber_pattern))
             {
                 signup_page.hide();
-                OTP_verification();
+                OTP_verification(signup_page, name, email, phone, pass);
             }   
         });
     signup_page.show();
     exec();
 }
 
-void OTP_verification() // amde by abdelrahman
+void OTP_verification(form& signup_page, string name, string email, string phone, string pass)
 {
         // Generate OTP
         int OTP[6];
@@ -318,7 +309,8 @@ void OTP_verification() // amde by abdelrahman
             if (user_otp.size() == 6 && user_otp == otp_string) {
                 feedback_label.caption("Verification successful!");
                 feedback_label.fgcolor(colors::green);
-
+                user temp = { name };
+                USERS.push_back(temp);
                 // Close the OTP form and proceed with signup completion
                 otp_form.close();
             }
@@ -359,7 +351,6 @@ void main_menu()
 {
     // type here
 }
-<<<<<<< Updated upstream
 /*void createdatabase(sqlite3* db)
 =======
 void createdatabase(sqlite3* db) // made by Mo'men
@@ -545,13 +536,8 @@ void transaction(user sender, user reciever) // made by wafaey
     exec();
 }
 
-<<<<<<< Updated upstream
-void dashboard() //made by omar
-=======
 void dashboard() //made by omar and abdelrahman
->>>>>>> Stashed changes
 {
-    using namespace nana;
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
     button managebanks_btn{dashboard, "Manage Bank Accounts"};
