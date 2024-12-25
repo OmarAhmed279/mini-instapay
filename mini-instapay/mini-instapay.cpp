@@ -9,6 +9,7 @@ using namespace nana;
 
 static int user_count = 0, transactions_count = 0;
 
+<<<<<<< Updated upstream
 // Functions Declaration
 void land_page();
 void create_user();
@@ -20,12 +21,14 @@ void OTP_verification();
 //void copydatabasetoapp();
 void dashboard();
 
+=======
+// create banckaccount struct
+>>>>>>> Stashed changes
 struct bankaccount {
     string name;
     int amount;
     int accountnum;
 };
-
 
 // create user structure
 struct user {
@@ -54,7 +57,17 @@ vector<user> USERS = {
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0}
 };
 
-
+// Functions Declaration
+void land_page();
+void create_user();
+void user_login();
+void main_menu();
+void OTP_verification();
+void createdatabase(sqlite3* db);
+void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
+void copydatabasetoapp();
+void dashboard();
+void transaction(user, user);
 
 
 int main()
@@ -79,7 +92,6 @@ void land_page() //made by wafaey, modified by omar
     landing_page.bgcolor(color(211, 211, 211));
     // set the name of the window
     landing_page.caption("InstaPay");
-    //API::effects_edge_nimbus(fm, effects::edge_nimbus::none); don't think this does anything
     //create a label for each email and password textboxes
     label email_signin_lbl{ landing_page,"Email:" }, password_signin_lbl{ landing_page,"Password:" };
     // positioning
@@ -118,7 +130,7 @@ void land_page() //made by wafaey, modified by omar
     // switch control from main to nana then back to main when you close the form
     exec();
 }
-void create_user()
+void create_user() // made by youssef shehta and seif shehta
 {
     regex Name_pattern("^[A-Za-z ]{3,20}$");
     regex Email_pattern(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$)");
@@ -261,7 +273,7 @@ void create_user()
     exec();
 }
 
-void OTP_verification()
+void OTP_verification() // amde by abdelrahman
 {
         // Generate OTP
         int OTP[6];
@@ -347,7 +359,11 @@ void main_menu()
 {
     // type here
 }
+<<<<<<< Updated upstream
 /*void createdatabase(sqlite3* db)
+=======
+void createdatabase(sqlite3* db) // made by Mo'men
+>>>>>>> Stashed changes
 {
   //  const char* sqlUsers = "CREATE TABLE IF NOT EXISTS Users (" \
         "ID INTEGER PRIMARY KEY, " \
@@ -375,8 +391,14 @@ void main_menu()
         // sqlite3_free(errMsg);
     //}
 
+<<<<<<< Updated upstream
 //} */
 /* void insertUsersToDB(sqlite3* db, const vector<user>& USERS) {
+=======
+}
+void insertUsersToDB(sqlite3* db, const vector<user>& USERS) // made by Mo'men
+{
+>>>>>>> Stashed changes
     const char* sql = "INSERT INTO USER (ID, Name, Email, Password, PhoneNo, Day, Month, Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     const char* sqlAccounts = "INSERT INTO Accounts (UserName, Amount, AccountNo) VALUES (?, ?, ?);";
     sqlite3_stmt* stmtUser;
@@ -418,7 +440,7 @@ void main_menu()
         sqlite3_finalize(stmtAccounts);
     }
     }
-void copydatabasetoapp()
+void copydatabasetoapp() // made by Mo'men
 {
     // type here
 }
@@ -427,19 +449,61 @@ void copydatabasetoapp()
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
+    long double ammount = 0.0;
+    transaction.ammount = ammount;
+    int sender_wallet_before, receiver_wallet_before;
+    transactions_count++;
+    transaction.id = transactions_count;
+    transaction.SenderAccount = sender;
+    transaction.ReceiverAccount = reciever;
+    sender_wallet_before = transaction.SenderAccount.wallet;
+    receiver_wallet_before = transaction.ReceiverAccount.wallet;
+    
+    form transaction_window{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
+    transaction_window.bgcolor(color(211, 211, 211));
+    transaction_window.caption("transactions");
+    label Ammount{ transaction_window,"Enter Ammount: " };
+    Ammount.move(rectangle(250, 150, 110, 17));
+    textbox money_ammount{ transaction_window,rectangle(250, 170, 300, 30 ) };
+    money_ammount.editable(true);
+    money_ammount.typeface(paint::font("Arial", 12));
+    money_ammount.multi_lines(false);
+    button enter_ammount{ transaction_window, "Confirm"};
+    enter_ammount.move(rectangle(250, 210, 100, 30));
+    enter_ammount.events().click([&ammount, &money_ammount]
+        {
+            bool valid = false;
+            while (!valid)
+            {
+                try
+                {
+                    ammount = stod(money_ammount.caption());
+                }
+                catch (const exception& e)
+                {
+                    cerr << e.what();
+                    form popup(nana::API::make_center(200, 100), appearance(true, true, true, false, true, false, false));
+                    popup.caption("ERROR!!!");
+                    label error{ popup, "Invalid input, input must be a number." };
+                    error.move(rectangle(250, 150, 110, 17));
+                    button close{ popup, "Close" };
+                    close.move(rectangle(250, 210, 100, 30));
+                    close.events().click([&popup]
+                        {
+                            popup.close();
+                        });
+                    // Show the popup as modal (blocks other interaction until closed)
+                    popup.modality();
+                }
+            }
+        });
+    // if ammount is invalid, transaction fails
     if (transaction.ammount > transaction.SenderAccount.wallet)
     {
         transaction.status = -1;
     }
     else 
     {
-        int sender_wallet_before, receiver_wallet_before;
-        transactions_count++;
-        transaction.id = transactions_count;
-        transaction.SenderAccount = sender;
-        transaction.ReceiverAccount = reciever;
-        sender_wallet_before = transaction.SenderAccount.wallet;
-        receiver_wallet_before = transaction.ReceiverAccount.wallet;
         transaction.SenderAccount.wallet -= transaction.ammount;
         transaction.ReceiverAccount.wallet += transaction.ammount;
         // check if the balance of both the sender and reciever have changed correctly or no
@@ -458,10 +522,34 @@ void transaction(user sender, user reciever) // made by wafaey
             transaction.status = -1;
         }
     }
-    
+    Ammount.hide();
+    money_ammount.hide();
+    label state{ transaction_window,rectangle(400,300,110, 17) };
+    switch (transaction.status)
+    {
+    case 1:
+        state.caption("Money transfer is complete.");
+    case 0:
+        state.caption("Transfer pending.");
+    case -1:
+        state.caption("Money transfer failed.");
+    }
+    button close{ transaction_window,"Return to dashboard" };
+    close.move(rectangle(250, 210, 100, 30));
+    close.events().click([&transaction_window]
+        {
+            transaction_window.close();
+            dashboard();
+        });
+    transaction_window.show();
+    exec();
 }
 
+<<<<<<< Updated upstream
 void dashboard() //made by omar
+=======
+void dashboard() //made by omar and abdelrahman
+>>>>>>> Stashed changes
 {
     using namespace nana;
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
@@ -472,9 +560,14 @@ void dashboard() //made by omar
     profile_btn.move(rectangle(440, 120, 200, 40));
     button tr_btn{ dashboard, "Send Money" };
     tr_btn.move(rectangle(160, 240, 200, 40));
-    dashboard.show();
+    tr_btn.events().click([&dashboard]
+        {
+            dashboard.close();
+            //transaction( add sender and receiver);
+        });
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
+    dashboard.show();
     exec();
 }
 
