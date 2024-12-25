@@ -5,18 +5,6 @@
 #include <regex>
 using namespace std;
 using namespace nana;
-//Global Variables
-
-static int user_count = 0, transactions_count = 0;
-
-// Functions Declaration
-void land_page();
-void create_user();
-void user_login(string, string, form&, label&, label&);
-void main_menu();
-void OTP_verification(form&, string, string, string, string);
-void dashboard();
-void transaction(user, user);
 
 // create banckaccount struct
 struct bankaccount {
@@ -51,6 +39,20 @@ vector<user> USERS = {
     {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000},
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0}
 };
+
+//Global Variables
+
+static int user_count = 0, transactions_count = 0;
+
+// Functions Declaration
+void land_page();
+void create_user();
+void user_login(string, string, form&, label&, label&);
+void main_menu();
+void OTP_verification(form&, string, string, string, string);
+void dashboard();
+void transaction(user, user);
+
 
 
 
