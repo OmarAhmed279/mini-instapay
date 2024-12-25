@@ -4,7 +4,7 @@
 #include "mini-instapay.h" //this has all the header files
 #include <regex>
 using namespace std;
-
+using namespace nana;
 //Global Variables
 
 static int user_count = 0, transactions_count = 0;
@@ -12,12 +12,12 @@ static int user_count = 0, transactions_count = 0;
 // Functions Declaration
 void land_page();
 void create_user();
-void user_login();
+void user_login(string, string, form&, label&, label&);
 void main_menu();
 void OTP_verification();
-void createdatabase(sqlite3* db);
-void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
-void copydatabasetoapp();
+//void createdatabase(sqlite3* db);
+//void insertUsersToDB(sqlite3* db, const vector<user>& USERS);
+//void copydatabasetoapp();
 void dashboard();
 
 struct bankaccount {
@@ -48,8 +48,8 @@ struct admin {
     int permissions;
 };
 // Data Arrays for Storage
-vector<user> USERS{
-
+vector<user> USERS = {
+    {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10}
 };
 
 
@@ -57,12 +57,12 @@ vector<user> USERS{
 
 int main()
 {    
-    sqlite3* db;
-    if (sqlite3_open("users.db", &db) != SQLITE_OK) {
-        cerr << "Error opening database: " << sqlite3_errmsg(db) << endl;
-        return 1;
-    }
-    createdatabase(db);
+    //sqlite3* db;
+    //if (sqlite3_open("users.db", &db) != SQLITE_OK) {
+     //   cerr << "Error opening database: " << sqlite3_errmsg(db) << endl;
+     //   return 1;
+    //}
+    //createdatabase(db);
     land_page();
 
     return 0;
@@ -70,8 +70,6 @@ int main()
 
 void land_page() //made by wafaey, modified by omar 
 {
-    // include namespace nana 
-    using namespace nana;
     // create form aka window, allign it to center with the size (800,600)
     form landing_page{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) }; //appearance changes the appearance of the window
     screen* land_page = nullptr;
@@ -83,8 +81,8 @@ void land_page() //made by wafaey, modified by omar
     //create a label for each email and password textboxes
     label email_signin_lbl{ landing_page,"Email:" }, password_signin_lbl{ landing_page,"Password:" };
     // positioning
-    email_signin_lbl.move(rectangle(250, 150, 110, 17));
-    password_signin_lbl.move(rectangle(250, 250, 110, 17));
+    email_signin_lbl.move(rectangle(250, 150, 400, 17));
+    password_signin_lbl.move(rectangle(250, 250, 400, 17));
     //create textboxes to input email and password
     textbox input_email_signin{ landing_page,rectangle(250, 170, 300, 30) }, input_pass_signin{ landing_page,rectangle(250, 270, 300, 30) };
     // enable user input
@@ -109,9 +107,10 @@ void land_page() //made by wafaey, modified by omar
     // login button
     button login_btn{ landing_page,"Login" };
     login_btn.move(rectangle(450, 330, 100, 30));
-    login_btn.events().click([&landing_page] {
-     landing_page.hide();
-     user_login(); });
+    login_btn.events().click([&landing_page, &input_email_signin, &input_pass_signin, &email_signin_lbl, &password_signin_lbl] {
+     string email = input_email_signin.text(); //variables for email and pass
+     string pass = input_pass_signin.text();
+     user_login(email, pass, landing_page, email_signin_lbl, password_signin_lbl); });
     // show form
     landing_page.show();
     // switch control from main to nana then back to main when you close the form
@@ -265,17 +264,35 @@ void OTP_verification()
     // type here
 }
 
-void user_login()
+void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
 {
-    dashboard();
+    for (int i = 0; i < USERS.size(); i++)
+    {
+        if (USERS[i].email == e)
+        {
+            if (USERS[i].password == p)
+            {
+                landpage.close();
+                dashboard();
+            }
+            else
+            {
+                pass_label.caption("Password: Wrong password, please try again.");
+            }
+        }
+        else 
+        {
+            email_label.caption("Email: Wrong password, please try again.");
+        }
+    }
 }
 void main_menu()
 {
     // type here
 }
-void createdatabase(sqlite3* db)
+/*void createdatabase(sqlite3* db)
 {
-    const char* sqlUsers = "CREATE TABLE IF NOT EXISTS Users (" \
+  //  const char* sqlUsers = "CREATE TABLE IF NOT EXISTS Users (" \
         "ID INTEGER PRIMARY KEY, " \
         "PhoneNo INTEGER , "  \
         "Wallet INTEGER , " \
@@ -283,26 +300,26 @@ void createdatabase(sqlite3* db)
         "Email TEXT NOT NULL, " \
         "Password TEXT NOT NULL);";
 
-    const char* sqlAccounts = "CREATE TABLE IF NOT EXISTS BankAccounts (" \
+   // const char* sqlAccounts = "CREATE TABLE IF NOT EXISTS BankAccounts (" \
         "UserID INTEGER, " \
         "Name TEXT NOT NULL, " \
         "Amount Integer NOT NULL, " \
         "AccountNo INTEGER NOT NULL, " \
         "FOREIGN KEY(UserID) REFERENCES Users(ID));";
 
-    char* errMsg = nullptr;
-    if (sqlite3_exec(db, sqlUsers, nullptr, nullptr, &errMsg) != SQLITE_OK) {
-        cerr << "Error creating Users table: " << errMsg << endl;
-        sqlite3_free(errMsg);
-    }
+    // char* errMsg = nullptr;
+    // if (sqlite3_exec(db, sqlUsers, nullptr, nullptr, &errMsg) != SQLITE_OK) {
+       // cerr << "Error creating Users table: " << errMsg << endl;
+        //sqlite3_free(errMsg);
+    //} 
 
-    if (sqlite3_exec(db, sqlAccounts, nullptr, nullptr, &errMsg) != SQLITE_OK) {
-        cerr << "Error creating Addresses table: " << errMsg << endl;
-        sqlite3_free(errMsg);
-    }
+    //if (sqlite3_exec(db, sqlAccounts, nullptr, nullptr, &errMsg) != SQLITE_OK) {
+      //  cerr << "Error creating Addresses table: " << errMsg << endl;
+        // sqlite3_free(errMsg);
+    //}
 
-}
-void insertUsersToDB(sqlite3* db, const vector<user>& USERS) {
+//} */
+/* void insertUsersToDB(sqlite3* db, const vector<user>& USERS) {
     const char* sql = "INSERT INTO USER (ID, Name, Email, Password, PhoneNo, Day, Month, Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     const char* sqlAccounts = "INSERT INTO Accounts (UserName, Amount, AccountNo) VALUES (?, ?, ?);";
     sqlite3_stmt* stmtUser;
@@ -348,6 +365,7 @@ void copydatabasetoapp()
 {
     // type here
 }
+*/
 
 void transaction(user sender, user reciever) // made by wafaey
 {
@@ -386,7 +404,7 @@ void transaction(user sender, user reciever) // made by wafaey
     
 }
 
-void dashboard() //god help us all
+void dashboard() //made by omar
 {
     using namespace nana;
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
