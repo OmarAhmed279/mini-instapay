@@ -10,6 +10,7 @@ using namespace nana;
 static int user_count = 0, transactions_count = 0;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // Functions Declaration
 void land_page();
 void create_user();
@@ -21,6 +22,9 @@ void OTP_verification();
 //void copydatabasetoapp();
 void dashboard();
 
+=======
+// create banckaccount struct
+>>>>>>> Stashed changes
 =======
 // create banckaccount struct
 >>>>>>> Stashed changes
@@ -360,7 +364,11 @@ void main_menu()
     // type here
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /*void createdatabase(sqlite3* db)
+=======
+void createdatabase(sqlite3* db) // made by Mo'men
+>>>>>>> Stashed changes
 =======
 void createdatabase(sqlite3* db) // made by Mo'men
 >>>>>>> Stashed changes
@@ -398,6 +406,9 @@ void createdatabase(sqlite3* db) // made by Mo'men
 }
 void insertUsersToDB(sqlite3* db, const vector<user>& USERS) // made by Mo'men
 {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     const char* sql = "INSERT INTO USER (ID, Name, Email, Password, PhoneNo, Day, Month, Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     const char* sqlAccounts = "INSERT INTO Accounts (UserName, Amount, AccountNo) VALUES (?, ?, ?);";
@@ -546,7 +557,11 @@ void transaction(user sender, user reciever) // made by wafaey
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 void dashboard() //made by omar
+=======
+void dashboard() //made by omar and abdelrahman
+>>>>>>> Stashed changes
 =======
 void dashboard() //made by omar and abdelrahman
 >>>>>>> Stashed changes
