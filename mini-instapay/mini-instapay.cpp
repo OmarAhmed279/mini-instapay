@@ -373,7 +373,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
 }
 
 void edit_profile(vector<user> users) {
-    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };//made by youssif ,modified by:omar
+    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };//made by youssif ,modified by:omar&abderhman
     edit.caption("Edit Profile");
 
     // Labels for display
