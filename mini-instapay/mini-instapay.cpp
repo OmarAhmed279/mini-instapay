@@ -1,5 +1,5 @@
 ﻿
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING //this is so it doesn't crash
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1 //this is so it doesn't crash
 
 #include "mini-instapay.h" //this has all the header files
 #include <regex>
@@ -26,7 +26,6 @@ struct user {
     bankaccount accounts[3];
     int id, Phonenumber, wallet = 0, numofaccounts = 0;
 };
-
 // create transcations structure
 struct transactions {
     user  SenderAccount, ReceiverAccount;
@@ -35,20 +34,18 @@ struct transactions {
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
 };
-
 // create admin structure
 struct admin {
     user admin;
     // if permissions = { all = 1, view = 2, edit = 3 , lesa mesh 3aref el sara7a ely yemsek el heta deh yezabatha}
     int permissions;
 };
-
 // Data Arrays for Storage
 vector<user> USERS = {
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0, 0},
     {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10, 1},
     {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000, 1}
-    
+
 };
 
 vector<transactions> TRANSACTIONS = {
@@ -72,11 +69,10 @@ void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
 void transaction(user, user);
 void edit_profile(vector<user>);
-
 int main()
-{    
+{
     land_page();
-    
+
     return 0;
 }
 
@@ -119,16 +115,15 @@ void land_page() //made by wafaey, modified by omar
     button login_btn{ landing_page,"Login" };
     login_btn.move(rectangle(450, 330, 100, 30));
     login_btn.events().click([&landing_page, &input_email_signin, &input_pass_signin, &email_signin_lbl, &password_signin_lbl] {
-     string email = input_email_signin.text(); //variables for email and pass
-     string pass = input_pass_signin.text();
-     user_login(email, pass, landing_page, email_signin_lbl, password_signin_lbl); });
+        string email = input_email_signin.text(); //variables for email and pass
+        string pass = input_pass_signin.text();
+        user_login(email, pass, landing_page, email_signin_lbl, password_signin_lbl); });
     // show form
     landing_page.show();
     // switch control from main to nana then back to main when you close the form
     exec();
 }
-
-void create_user() // made by youssef shehta and seif shehta
+void create_user() // made by youssef shehta and seif shehta, modified by Abderrahman
 {
     regex Name_pattern("^[A-Za-z ]{3,20}$");
     regex Email_pattern(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$)");
@@ -196,7 +191,13 @@ void create_user() // made by youssef shehta and seif shehta
     button create_acc{ signup_page, "Create account" };
     create_acc.typeface(header_font);
     create_acc.move(rectangle(350, 400, 120, 40));
-                                                                         // By 
+
+    button goback_btn{ signup_page,"go back" };
+    goback_btn.move(rectangle(30, 380, 50, 40));
+    goback_btn.events().click([&] {
+        signup_page.close();
+        land_page(); });
+    // By 
     input_name_signup.events().focus([&](const nana::arg_focus& arg) {
         if (!arg.getting) { // Losing focus
             string name = input_name_signup.text();
@@ -255,18 +256,18 @@ void create_user() // made by youssef shehta and seif shehta
             }
         }
         });
-    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern,  &signup_page, &input_pass_signup]
-        { 
+    create_acc.events().click([&input_name_signup, &Name_pattern, &name_match, &input_email_signup, &Email_pattern, &email_match, &input_pnumber_signup, &pnumber_match, &pnumber_pattern, &signup_page, &input_pass_signup]
+        {
             string name = input_name_signup.text();
             string email = input_email_signup.text();
             string phone = input_pnumber_signup.text();
             string pass = input_pass_signup.text();
-          
+
             if (regex_match(name, Name_pattern) && regex_match(email, Email_pattern) && regex_match(phone, pnumber_pattern))
             {
                 signup_page.hide();
-                OTP_verification(signup_page ,name, email, phone, pass);
-            }   
+                OTP_verification(signup_page, name, email, phone, pass);
+            }
         });
     signup_page.show();
     exec();
@@ -322,10 +323,10 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             new_user.name = name;
             new_user.email = email;
             new_user.password = pass;
-            new_user.accounts[0] = {"DefaultBank", 0, 0};
+            new_user.accounts[0] = { "DefaultBank", 0, 0 };
             new_user.id = USERS.size(); // Assign a new unique ID "made it equal to size because admin has id = 0" - omar
             new_user.Phonenumber = stoi(phone);
-            new_user.wallet = 0; 
+            new_user.wallet = 0;
 
             // Add the new user to the USERS vector
             USERS.push_back(new_user);
@@ -346,6 +347,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
     exec();
 }
 
+
 void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
 {
     for (int i = 0; i < USERS.size(); i++)
@@ -363,7 +365,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
                 pass_label.caption("Password: Wrong password, please try again.");
             }
         }
-        else 
+        else
         {
             email_label.caption("Email: Wrong email, please try again.");
         }
@@ -371,7 +373,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
 }
 
 void edit_profile(vector<user> users) {
-    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };
+    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };//made by youssif ,modified by:omar
     edit.caption("Edit Profile");
 
     // Labels for display
@@ -387,7 +389,7 @@ void edit_profile(vector<user> users) {
     bank_lbl.move(rectangle(50, 330, 120, 20));
 
     // Display fields for uneditable data
-    label wallet_data{ edit, "EGP " + to_string(users[current_user_id].wallet)}, id_data{edit, to_string(current_user_id)};
+    label wallet_data{ edit, "EGP " + to_string(users[current_user_id].wallet) }, id_data{ edit, to_string(current_user_id) };
     wallet_data.move(rectangle(200, 230, 200, 20));
     id_data.move(rectangle(200, 280, 200, 20));
 
@@ -475,6 +477,8 @@ void edit_profile(vector<user> users) {
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
+    long double ammount = 0.0;
+    transaction.ammount = ammount;
     int sender_wallet_before, receiver_wallet_before;
     transactions_count++;
     transaction.id = transactions_count;
@@ -482,50 +486,37 @@ void transaction(user sender, user reciever) // made by wafaey
     transaction.ReceiverAccount = reciever;
     sender_wallet_before = transaction.SenderAccount.wallet;
     receiver_wallet_before = transaction.ReceiverAccount.wallet;
+
     form transaction_window{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     transaction_window.bgcolor(color(211, 211, 211));
     transaction_window.caption("transactions");
     label Ammount{ transaction_window,"Enter Ammount: " };
     Ammount.move(rectangle(250, 150, 110, 17));
-    Ammount.show();
-    textbox money_ammount{ transaction_window,rectangle(250, 170, 150, 20 ) };
+    textbox money_ammount{ transaction_window,rectangle(250, 170, 300, 30) };
     money_ammount.editable(true);
     money_ammount.typeface(paint::font("Arial", 12));
     money_ammount.multi_lines(false);
-    money_ammount.show();
-    label state{ transaction_window,rectangle(350, 150, 300, 17) };
-    state.hide();
-    label error2{ transaction_window,"Insuffecient funds." };
-    error2.move(rectangle(350, 180, 300, 17));
-    error2.hide();
-    button rtn_dashboard{ transaction_window,"Return to dashboard" };
-    rtn_dashboard.move(rectangle(410, 400, 100, 30));
-    rtn_dashboard.events().click([&transaction_window]
+    button enter_ammount{ transaction_window, "Confirm" };
+
+
+
+    enter_ammount.move(rectangle(250, 210, 100, 30));
+    enter_ammount.events().click([&ammount, &money_ammount]
         {
-            transaction_window.close();
-            dashboard(USERS);
-        });
-    button enter_ammount{ transaction_window, "Confirm"};
-    enter_ammount.move(rectangle(300, 400, 100, 30));
-    enter_ammount.events().click([&money_ammount, &transaction, &sender_wallet_before, &receiver_wallet_before, &Ammount,&transaction_window, &enter_ammount, &state, &error2,&rtn_dashboard]
-        {
-            bool valid_input = false;
+            bool valid = false;
+            while (!valid)
+            {
                 try
                 {
-                    transaction.ammount = stod(money_ammount.caption());
-                    enter_ammount.hide();
-                    valid_input = true;
+                    ammount = stod(money_ammount.caption());
                 }
                 catch (const exception& e)
                 {
-                    valid_input = false;
                     cerr << e.what();
-                    form popup(nana::API::make_center(600, 400), appearance(true, true, true, false, true, false, false));
+                    form popup(nana::API::make_center(200, 100), appearance(true, true, true, false, true, false, false));
                     popup.caption("ERROR!!!");
                     label error{ popup, "Invalid input, input must be a number." };
-                    error.move(rectangle(200, 150, 300, 17));
-                    error.typeface(paint::font("Arial", 12));
-                    error.show();
+                    error.move(rectangle(250, 150, 110, 17));
                     button close{ popup, "Close" };
                     close.move(rectangle(250, 210, 100, 30));
                     close.events().click([&popup]
@@ -535,13 +526,14 @@ void transaction(user sender, user reciever) // made by wafaey
                     // Show the popup as modal (blocks other interaction until closed)
                     popup.modality();
                 }
-            });
+            }
+        });
     // if ammount is invalid, transaction fails
     if (transaction.ammount > transaction.SenderAccount.wallet)
     {
         transaction.status = -1;
     }
-    else 
+    else
     {
         transaction.SenderAccount.wallet -= transaction.ammount;
         transaction.ReceiverAccount.wallet += transaction.ammount;
@@ -563,6 +555,7 @@ void transaction(user sender, user reciever) // made by wafaey
     }
     Ammount.hide();
     money_ammount.hide();
+    label state{ transaction_window,rectangle(400,300,110, 17) };
     switch (transaction.status)
     {
     case 1:
@@ -583,7 +576,7 @@ void transaction(user sender, user reciever) // made by wafaey
     exec();
 }
 
-void dashboard(vector<user> users) //made by omar and abdelrahman
+void dashboard(vector<user> users)//made by whole team
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
@@ -592,20 +585,18 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
     logout_btn.events().click([&] {
         dashboard.close();
         land_page(); });
-       
+
     button managebanks_btn{ dashboard, "Manage Bank Accounts" };
     managebanks_btn.move(rectangle(160, 120, 200, 40));
     button profile_btn{ dashboard, "Profile" };
     profile_btn.move(rectangle(440, 120, 200, 40));
-    profile_btn.events().click([&dashboard]
-        {
-            dashboard.close();
-        });
     button tr_btn{ dashboard, "Send Money" };
     tr_btn.move(rectangle(160, 240, 200, 40));
     bool tempbool = false;
     tr_btn.events().click([&dashboard, &tempbool]
         {
+
+
             if (!tempbool)
             {
                 // Create Transaction form
@@ -623,11 +614,11 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
 
                 label date_label{ poptrans, "Date of transaction: (Choose current date for instant transaction)" };
                 date_chooser date_choose{ poptrans, rectangle(20, 60, 360, 280) };
-                
-               /* auto start = std::chrono::system_clock::now();
-                std::time_t t = std::chrono::system_clock::to_time_t(start);
-                cout << start; */
-                // Verify button
+
+                /* auto start = std::chrono::system_clock::now();
+                 std::time_t t = std::chrono::system_clock::to_time_t(start);
+                 cout << start; */
+                 // Verify button
                 button send_btn{ poptrans, "Confirm" };
                 send_btn.move(rectangle(150, 360, 100, 30));
                 poptrans.show();
@@ -636,7 +627,8 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
                     {
                         tempbool = false;
                     });
-                send_btn.events().click([&user_input, &trans_label,&dashboard,&poptrans]
+
+                send_btn.events().click([&user_input, &trans_label]
                     {
                         string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
@@ -648,8 +640,6 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
                                     trans_label.caption("Reciever: ERROR, can't send money to yourself.");
                                 }
                                 else {
-                                    dashboard.close();
-                                    poptrans.close();
                                     transaction(USERS[current_user_id], USERS[i]);
                                 }
                             }
@@ -670,4 +660,3 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
     dashboard.show();
     exec();
 }
-
