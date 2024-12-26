@@ -313,7 +313,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             USERS.push_back(new_user);
 
             otp_form.close();
-            land_page();
+            dashboard();
         }
         else {
             feedback_label.caption("Incorrect OTP. Please try again.");
