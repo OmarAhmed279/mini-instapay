@@ -29,7 +29,7 @@ struct transactions {
 };
 // create admin structure
 struct admin {
-    string id, name, email;
+    user admin;
     // if permissions = { all = 1, view = 2, edit = 3 , lesa mesh 3aref el sara7a ely yemsek el heta deh yezabatha}
     int permissions;
 };
@@ -39,6 +39,13 @@ vector<user> USERS = {
     {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10},
     {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000}
     
+};
+
+vector<transactions> TRANSACTIONS = {
+
+    {USERS[2], USERS[1], "2/5/1945", 0, 100000000, 0},
+    {USERS[1], USERS[2], "9/9/1989", 1, 5, 1}
+
 };
 
 //Global Variables
@@ -260,7 +267,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
 {
     // Generate OTP
     int OTP[6];
-    srand(time(nullptr)); // Seed for random OTP generation
+    srand(std::time(0)); // Seed for random OTP generation
     for (int i = 0; i < 6; ++i) {
         OTP[i] = rand() % 10;
     }
@@ -474,12 +481,12 @@ void dashboard() //made by omar and abdelrahman
     bool tempbool = false;
     tr_btn.events().click([&dashboard, &tempbool]
         {
-            
+           
 
             if (!tempbool)
             {
                 // Create Transaction form
-                form poptrans{ API::make_center(400, 200), appearance(true, true, true, false, true, false, false) };
+                form poptrans{ API::make_center(400, 400), appearance(true, true, true, false, true, false, false) };
                 poptrans.caption("Transaction");
 
                 // Label to display the OTP (simulating sending it to the user)
@@ -487,14 +494,19 @@ void dashboard() //made by omar and abdelrahman
                 trans_label.move(rectangle(20, 20, 400, 30));
 
                 // Textbox for user to input OTP
-                textbox user_input{ poptrans, rectangle(20, 40, 360, 30) };
+                textbox user_input{ poptrans, rectangle(20, 40, 360, 20) };
                 user_input.multi_lines(false);
-                user_input.tip_string("Enter user whom you wish to send money to fn");
-                
+                user_input.tip_string("Enter user whom you wish to send money to");
 
+                label date_label{ poptrans, "Date of transaction: (Choose current date for instant transaction)" };
+                date_chooser date_choose{ poptrans, rectangle(20, 60, 360, 280) };
+                
+               /* auto start = std::chrono::system_clock::now();
+                std::time_t t = std::chrono::system_clock::to_time_t(start);
+                cout << start; */
                 // Verify button
-                button send_btn{ poptrans, "Send" };
-                send_btn.move(rectangle(150, 140, 100, 30));
+                button send_btn{ poptrans, "Confirm" };
+                send_btn.move(rectangle(150, 360, 100, 30));
                 poptrans.show();
                 tempbool = true;
                 poptrans.events().destroy([&tempbool]
