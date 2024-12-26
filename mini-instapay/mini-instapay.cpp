@@ -67,10 +67,7 @@ void user_login(string, string, form&, label&, label&);
 void OTP_verification(form&, string, string, string, string);
 void dashboard();
 void transaction(user, user);
-
-
-
-
+void edit_profile(form&, string, string, string, string, double, int, vector<string>);
 int main()
 {    
     land_page();
@@ -368,6 +365,107 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
     }
 }
 
+void edit_profile(form& signup_page, string name, string email, string phone, string pass, double wallet, int id, vector<string> bank_accounts) {
+    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };
+    edit.caption("Edit Profile");
+
+    // Labels for display
+    label name_lbl{ edit, "Name:" }, email_lbl{ edit, "Email:" }, phone_lbl{ edit, "Phone Number:" },
+        pass_lbl{ edit, "Password:" }, wallet_lbl{ edit, "Wallet Balance:" }, id_lbl{ edit, "User ID:" }, bank_lbl{ edit, "Bank Accounts:" };
+
+    name_lbl.move(rectangle(50, 30, 120, 20));
+    email_lbl.move(rectangle(50, 80, 120, 20));
+    phone_lbl.move(rectangle(50, 130, 120, 20));
+    pass_lbl.move(rectangle(50, 180, 120, 20));
+    wallet_lbl.move(rectangle(50, 230, 120, 20));
+    id_lbl.move(rectangle(50, 280, 120, 20));
+    bank_lbl.move(rectangle(50, 330, 120, 20));
+
+    // Display fields for uneditable data
+    label wallet_data{ edit, "EGP " + to_string(wallet) }, id_data{ edit, to_string(id) };
+    wallet_data.move(rectangle(200, 230, 200, 20));
+    id_data.move(rectangle(200, 280, 200, 20));
+
+    string accounts_display = "Accounts: ";
+    for (const auto& account : bank_accounts) {
+        accounts_display += account + "; ";
+    }
+    label accounts_data{ edit, accounts_display };
+    accounts_data.move(rectangle(200, 330, 400, 20));
+
+    // Editable fields with "Edit" buttons
+    textbox name_box{ edit }, email_box{ edit }, phone_box{ edit }, pass_box{ edit };
+    name_box.move(rectangle(200, 30, 200, 25));
+    email_box.move(rectangle(200, 80, 200, 25));
+    phone_box.move(rectangle(200, 130, 200, 25));
+    pass_box.move(rectangle(200, 180, 200, 25));
+
+    // Initial values for editable fields
+    name_box.text() = name;
+    email_box.text() = email;
+    phone_box.text() = phone;
+    pass_box.text() = pass;
+    pass_box.mask('*'); // Mask for password
+
+    // Set textboxes to read-only initially
+    name_box.enabled(false);
+    email_box.enabled(false);
+    phone_box.enabled(false);
+    pass_box.enabled(false);
+
+    // "Edit" buttons for each editable field
+    button edit_name{ edit, "Edit" }, edit_email{ edit, "Edit" }, edit_phone{ edit, "Edit" }, edit_pass{ edit, "Edit" };
+    edit_name.move(rectangle(420, 30, 60, 25));
+    edit_email.move(rectangle(420, 80, 60, 25));
+    edit_phone.move(rectangle(420, 130, 60, 25));
+    edit_pass.move(rectangle(420, 180, 60, 25));
+
+    // Enable editing when "Edit" button is clicked
+    edit_name.events().click([&]() { name_box.enabled(true); });
+    edit_email.events().click([&]() { email_box.enabled(true); });
+    edit_phone.events().click([&]() { phone_box.enabled(true); });
+    edit_pass.events().click([&]() { pass_box.enabled(true); });
+
+    // Save changes button
+    button save_btn{ edit, "Save Changes" };
+    save_btn.move(rectangle(50, 400, 150, 40));
+    save_btn.events().click([&]() {
+        string new_name = name_box.text();
+        string new_email = email_box.text();
+        string new_phone = phone_box.text();
+        string new_pass = pass_box.text();
+
+        if (regex_match(new_name, regex("^[A-Za-z ]{3,20}$")) &&
+            regex_match(new_email, regex(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$)")) &&
+            regex_match(new_phone, regex("^(011|012|010|015)[0-9]{8}$"))) {
+
+            // Update USERS vector
+            for (auto& user : USERS) {
+                if (user.name == name && user.email == email) {
+                    user.name = new_name;
+                    user.email = new_email;
+                    user.Phonenumber = stoi(new_phone);
+                    user.password = new_pass;
+                    break;
+                }
+            }
+
+            msgbox success(edit, "Update Successful");
+            success << "Your profile has been updated.";
+            success.show();
+            edit.close();
+        }
+        else {
+            msgbox error(edit, "Invalid Input");
+            error << "Please ensure all fields are filled in correctly.";
+            error.show();
+        }
+        });
+
+    edit.show();
+    exec();
+}
+
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
@@ -470,11 +568,12 @@ void transaction(user sender, user reciever) // made by wafaey
     exec();
 }
 
-void dashboard() //made by omar and abdelrahman
+void dashboard( form& signup_page, const string& name, const string& email, const string& phone,
+    const string& pass, const int& wallet, const int& id, const vector<string>& bankaccounts)
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
-    button managebanks_btn{dashboard, "Manage Bank Accounts"};
+    button managebanks_btn{ dashboard, "Manage Bank Accounts" };
     managebanks_btn.move(rectangle(160, 120, 200, 40));
     button profile_btn{ dashboard, "Profile" };
     profile_btn.move(rectangle(440, 120, 200, 40));
@@ -537,10 +636,18 @@ void dashboard() //made by omar and abdelrahman
                 exec();
             }
         });
+
+    profile_btn.events().click([&dashboard, &signup_page, &name, &email, &phone, &pass, &wallet, &id, &bankaccounts]
+        {
+            dashboard.close();
+            edit_profile(signup_page, name, email, phone, pass, wallet, id, bankaccounts);
+        });
+
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
     dashboard.show();
     exec();
 }
+
 
 
