@@ -383,7 +383,7 @@ void edit_profile(vector<user> users) {
     goback_btn.move(rectangle(30,500, 50, 40));
     goback_btn.events().click([&] {
         edit.close();
-        land_page(); });
+        dashboard(USERS) ; });
 
     name_lbl.move(rectangle(50, 30, 120, 20));
     email_lbl.move(rectangle(50, 80, 120, 20));
@@ -625,8 +625,8 @@ void dashboard(vector<user> users)//made by whole team
                  cout << start; */
                  // Verify button
                 button send_btn{ poptrans, "Confirm" };
-                send_btn.move(rectangle(150, 360, 100, 30));
-                poptrans.show();
+                send_btn.move(rectangle(150, 360, 100, 30)); 
+               poptrans.show();
                 tempbool = true;
                 poptrans.events().destroy([&tempbool]
                     {
@@ -646,6 +646,7 @@ void dashboard(vector<user> users)//made by whole team
                                 }
                                 else {
                                     transaction(USERS[current_user_id], USERS[i]);
+                                    
                                 }
                             }
                         }
