@@ -23,8 +23,8 @@ struct bankaccount {
 // create user structure
 struct user {
     string  name, email, password;
-    bankaccount accounts;
-    int id, Phonenumber, wallet = 0;
+    bankaccount accounts[3];
+    int id, Phonenumber, wallet = 0, numofaccounts = 0;
 };
 // create transcations structure
 struct transactions {
@@ -42,9 +42,9 @@ struct admin {
 };
 // Data Arrays for Storage
 vector<user> USERS = {
-    {"Admin", "Admin", "Admin@123", {}, 0, 0, 0},
-    {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10},
-    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000}
+    {"Admin", "Admin", "Admin@123", {}, 0, 0, 0, 0},
+    {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10, 1},
+    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000, 1}
     
 };
 
@@ -317,7 +317,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             new_user.name = name;
             new_user.email = email;
             new_user.password = pass;
-            new_user.accounts = { "DefaultBank", 0, 0 }; 
+            new_user.accounts[0] = {"DefaultBank", 0, 0};
             new_user.id = USERS.size(); // Assign a new unique ID "made it equal to size because admin has id = 0" - omar
             new_user.Phonenumber = stoi(phone);
             new_user.wallet = 0; 
@@ -387,12 +387,13 @@ void edit_profile(vector<user> users) {
     wallet_data.move(rectangle(200, 230, 200, 20));
     id_data.move(rectangle(200, 280, 200, 20));
 
-    string accounts_display = "Accounts: ";
-    /*for (const auto& account : bank_accounts) {
-        accounts_display += account + "; ";
-    }*/
+    string accounts_display = "Accounts:\n";
+    for (int i = 0; i < users[current_user_id].numofaccounts; i++) {
+        accounts_display += users[current_user_id].accounts[i].name + " Amount: " + to_string(users[current_user_id].accounts[i].amount) + " Account Num: " + to_string(users[current_user_id].accounts[i].accountnum) + "\n";
+    }
+
     label accounts_data{ edit, accounts_display };
-    accounts_data.move(rectangle(200, 330, 400, 20));
+    accounts_data.move(rectangle(200, 330, 400, 200));
 
     // Editable fields with "Edit" buttons
     textbox name_box{ edit }, email_box{ edit }, phone_box{ edit }, pass_box{ edit };
