@@ -6,6 +6,13 @@
 using namespace std;
 using namespace nana;
 
+//create date struct
+struct dat {
+    int day;
+    int month;
+    int year;
+};
+
 // create banckaccount struct
 struct bankaccount {
     string name;
@@ -22,7 +29,7 @@ struct user {
 // create transcations structure
 struct transactions {
     user  SenderAccount, ReceiverAccount;
-    string date;
+    dat date_transaction;
     int id = 0;
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
@@ -43,8 +50,8 @@ vector<user> USERS = {
 
 vector<transactions> TRANSACTIONS = {
 
-    {USERS[2], USERS[1], "2/5/1945", 0, 100000000, 0},
-    {USERS[1], USERS[2], "9/9/1989", 1, 5, 1}
+    {USERS[2], USERS[1], {12,12,1999}, 0, 100000000, 0},
+    {USERS[1], USERS[2], {12,12,1998}, 1, 5, 1}
 
 };
 
@@ -57,7 +64,6 @@ int current_user_id = 0;
 void land_page();
 void create_user();
 void user_login(string, string, form&, label&, label&);
-void main_menu();
 void OTP_verification(form&, string, string, string, string);
 void dashboard();
 void transaction(user, user);
@@ -361,10 +367,6 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
         }
     }
 }
-void main_menu()
-{
-    // type here
-}
 
 void transaction(user sender, user reciever) // made by wafaey
 {
@@ -504,6 +506,7 @@ void dashboard() //made by omar and abdelrahman
                /* auto start = std::chrono::system_clock::now();
                 std::time_t t = std::chrono::system_clock::to_time_t(start);
                 cout << start; */
+
                 // Verify button
                 button send_btn{ poptrans, "Confirm" };
                 send_btn.move(rectangle(150, 360, 100, 30));
