@@ -26,6 +26,7 @@ struct user {
     bankaccount accounts[3];
     int id, Phonenumber, wallet = 0, numofaccounts = 0;
 };
+
 // create transcations structure
 struct transactions {
     user  SenderAccount, ReceiverAccount;
@@ -34,12 +35,14 @@ struct transactions {
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
 };
+
 // create admin structure
 struct admin {
     user admin;
     // if permissions = { all = 1, view = 2, edit = 3 , lesa mesh 3aref el sara7a ely yemsek el heta deh yezabatha}
     int permissions;
 };
+
 // Data Arrays for Storage
 vector<user> USERS = {
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0, 0},
@@ -69,6 +72,8 @@ void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
 void transaction(user, user);
 void edit_profile(vector<user>);
+void managebankacc(vector<user>);
+
 int main()
 {
     land_page();
@@ -123,6 +128,7 @@ void land_page() //made by wafaey, modified by omar
     // switch control from main to nana then back to main when you close the form
     exec();
 }
+
 void create_user() // made by youssef shehta and seif shehta, modified by Abderrahman
 {
     regex Name_pattern("^[A-Za-z ]{3,20}$");
@@ -346,7 +352,6 @@ void OTP_verification(form& signup_page, string name, string email, string phone
     otp_form.show();
     exec();
 }
-
 
 void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
 {
@@ -599,6 +604,7 @@ void dashboard(vector<user> users)//made by whole team
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
+
     button logout_btn{ dashboard,"log out" };
     logout_btn.move(rectangle(30, 350, 50, 40));
     logout_btn.events().click([&] {
@@ -607,6 +613,10 @@ void dashboard(vector<user> users)//made by whole team
 
     button managebanks_btn{ dashboard, "Manage Bank Accounts" };
     managebanks_btn.move(rectangle(160, 120, 200, 40));
+    managebanks_btn.events().click([&] {
+        dashboard.close();
+        managebankacc(USERS);
+        });
     button profile_btn{ dashboard, "Profile" };
     profile_btn.move(rectangle(440, 120, 200, 40));
     button tr_btn{ dashboard, "Send Money" };
@@ -686,4 +696,11 @@ void dashboard(vector<user> users)//made by whole team
     trh_btn.move(rectangle(440, 240, 200, 40));
     dashboard.show();
     exec();
+}
+
+void managebankacc(vector<user> users)
+{
+    form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
+    manbank.caption("Manage Bank Accounts");
+
 }
