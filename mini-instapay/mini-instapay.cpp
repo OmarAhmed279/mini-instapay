@@ -490,7 +490,7 @@ void dashboard() //made by omar and abdelrahman
                 textbox user_input{ poptrans, rectangle(20, 40, 360, 30) };
                 user_input.multi_lines(false);
                 user_input.tip_string("Enter user whom you wish to send money to fn");
-                string rec = user_input.text();
+                
 
                 // Verify button
                 button send_btn{ poptrans, "Send" };
@@ -502,8 +502,9 @@ void dashboard() //made by omar and abdelrahman
                         tempbool = false;
                     });
 
-                send_btn.events().click([&rec]
+                send_btn.events().click([&user_input]
                     {
+                        string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
                         {
                             if (USERS[i].name == rec)
