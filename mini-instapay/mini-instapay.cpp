@@ -52,7 +52,6 @@ vector<transactions> TRANSACTIONS = {
 
     {USERS[2], USERS[1], {12,12,1999}, 0, 100000000, 0},
     {USERS[1], USERS[2], {12,12,1998}, 1, 5, 1}
-
 };
 
 //Global Variables
@@ -605,7 +604,6 @@ void dashboard( form& signup_page, const string& name, const string& email, cons
                /* auto start = std::chrono::system_clock::now();
                 std::time_t t = std::chrono::system_clock::to_time_t(start);
                 cout << start; */
-
                 // Verify button
                 button send_btn{ poptrans, "Confirm" };
                 send_btn.move(rectangle(150, 360, 100, 30));
