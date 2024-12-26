@@ -574,6 +574,12 @@ void dashboard(vector<user> users)
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
+    button logout_btn{ dashboard,"log out" };
+    logout_btn.move(rectangle(30, 350, 50, 40));
+    logout_btn.events().click([&] {
+        dashboard.close();
+        land_page(); });
+       
     button managebanks_btn{ dashboard, "Manage Bank Accounts" };
     managebanks_btn.move(rectangle(160, 120, 200, 40));
     button profile_btn{ dashboard, "Profile" };
