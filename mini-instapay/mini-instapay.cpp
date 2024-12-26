@@ -247,7 +247,7 @@ void create_user() // made by youssef shehta and seif shehta
             if (regex_match(name, Name_pattern) && regex_match(email, Email_pattern) && regex_match(phone, pnumber_pattern))
             {
                 signup_page.hide();
-                OTP_verification(signup_page, name, email, phone, pass);
+                OTP_verification(signup_page ,name, email, phone, pass);
             }   
         });
     signup_page.show();
@@ -313,6 +313,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             USERS.push_back(new_user);
 
             otp_form.close();
+            land_page();
         }
         else {
             feedback_label.caption("Incorrect OTP. Please try again.");
