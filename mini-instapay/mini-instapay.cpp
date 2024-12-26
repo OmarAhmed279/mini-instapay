@@ -197,7 +197,7 @@ void create_user() // made by youssef shehta and seif shehta, modified by Abderr
     goback_btn.events().click([&] {
         signup_page.close();
         land_page(); });
-    // By 
+    
     input_name_signup.events().focus([&](const nana::arg_focus& arg) {
         if (!arg.getting) { // Losing focus
             string name = input_name_signup.text();
@@ -379,6 +379,11 @@ void edit_profile(vector<user> users) {
     // Labels for display
     label name_lbl{ edit, "Name:" }, email_lbl{ edit, "Email:" }, phone_lbl{ edit, "Phone Number:" },
         pass_lbl{ edit, "Password:" }, wallet_lbl{ edit, "Wallet Balance:" }, id_lbl{ edit, "User ID:" }, bank_lbl{ edit, "Bank Accounts:" };
+    button goback_btn{ edit,"go back" };
+    goback_btn.move(rectangle(30,500, 50, 40));
+    goback_btn.events().click([&] {
+        edit.close();
+        land_page(); });
 
     name_lbl.move(rectangle(50, 30, 120, 20));
     email_lbl.move(rectangle(50, 80, 120, 20));
