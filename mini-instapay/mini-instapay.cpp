@@ -625,6 +625,11 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
     label show_history{ trns_his, trns_history_display };
     show_history.move(rectangle(100, 10, 700, 500));
     trns_his.show();
+    button goback_btn{ trns_his,"go back" };
+    goback_btn.move(rectangle(30, 500, 50, 40));
+    goback_btn.events().click([&] {
+        trns_his.close();
+        dashboard(USERS); });
     exec();
 }
 
