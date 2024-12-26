@@ -35,14 +35,16 @@ struct admin {
 };
 // Data Arrays for Storage
 vector<user> USERS = {
+    {"Admin", "Admin", "Admin@123", {}, 0, 0, 0},
     {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10},
-    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000},
-    {"Admin", "Admin", "Admin@123", {}, 0, 0, 0}
+    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000}
+    
 };
 
 //Global Variables
 
 static int user_count = 0, transactions_count = 0;
+int current_user_id = 0;
 
 // Functions Declaration
 void land_page();
@@ -305,12 +307,14 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             new_user.email = email;
             new_user.password = pass;
             new_user.accounts = { "DefaultBank", 0, 0 }; 
-            new_user.id = USERS.size() + 1; // Assign a new unique ID
+            new_user.id = USERS.size(); // Assign a new unique ID "made it equal to size because admin has id = 0" - omar
             new_user.Phonenumber = stoi(phone);
             new_user.wallet = 0; 
 
             // Add the new user to the USERS vector
             USERS.push_back(new_user);
+
+            current_user_id = new_user.id;
 
             otp_form.close();
             land_page();
@@ -335,6 +339,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
         {
             if (USERS[i].password == p)
             {
+                current_user_id = USERS[i].id;
                 landpage.close();
                 dashboard();
             }
@@ -466,10 +471,49 @@ void dashboard() //made by omar and abdelrahman
     profile_btn.move(rectangle(440, 120, 200, 40));
     button tr_btn{ dashboard, "Send Money" };
     tr_btn.move(rectangle(160, 240, 200, 40));
-    tr_btn.events().click([&dashboard]
+    bool tempbool = false;
+    tr_btn.events().click([&dashboard, &tempbool]
         {
-            dashboard.close();
-            //transaction( add sender and receiver);
+            
+
+            if (!tempbool)
+            {
+                // Create Transaction form
+                form poptrans{ API::make_center(400, 200), appearance(true, true, true, false, true, false, false) };
+                poptrans.caption("Transaction");
+
+                // Label to display the OTP (simulating sending it to the user)
+                label trans_label{ poptrans, "Reciever: " };
+                trans_label.move(rectangle(20, 20, 360, 30));
+
+                // Textbox for user to input OTP
+                textbox user_input{ poptrans, rectangle(20, 40, 360, 30) };
+                user_input.multi_lines(false);
+                user_input.tip_string("Enter user whom you wish to send money to fn");
+                string rec = user_input.text();
+
+                // Verify button
+                button send_btn{ poptrans, "Send" };
+                send_btn.move(rectangle(150, 140, 100, 30));
+                poptrans.show();
+                tempbool = true;
+                poptrans.events().destroy([&tempbool]
+                    {
+                        tempbool = false;
+                    });
+
+                send_btn.events().click([&rec]
+                    {
+                        for (int i = 0; i < USERS.size(); i++)
+                        {
+                            if (USERS[i].name == rec)
+                            {
+                                transaction(USERS[current_user_id], USERS[i]);
+                            }
+                        }
+                    });
+                exec();
+            }
         });
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
