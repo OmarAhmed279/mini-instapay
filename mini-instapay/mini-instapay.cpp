@@ -26,6 +26,7 @@ struct user {
     bankaccount accounts[3];
     int id, Phonenumber, wallet = 0, numofaccounts = 0;
 };
+
 // create transcations structure
 struct transactions {
     user  SenderAccount, ReceiverAccount;
@@ -34,12 +35,14 @@ struct transactions {
     //if status = {success = 1, pending = 0, failed = -1}
     int ammount = 0, status;
 };
+
 // create admin structure
 struct admin {
     int id;
     // if permissions = { all = 1, view = 2, edit = 3 , lesa mesh 3aref el sara7a ely yemsek el heta deh yezabatha}
     int permissions;
 };
+
 // Data Arrays for Storage
 vector<user> USERS = {
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0, 0},
@@ -70,6 +73,8 @@ void dashboard(vector<user>);
 void transaction(user, user);
 void edit_profile(vector<user>);
 void admin_work(); 
+void managebankacc(vector<user>);
+
 int main()
 {
     land_page();
@@ -130,6 +135,7 @@ void land_page() //made by wafaey, modified by omar
     // switch control from main to nana then back to main when you close the form
     exec();
 }
+
 void create_user() // made by youssef shehta and seif shehta, modified by Abderrahman
 {
     regex Name_pattern("^[A-Za-z ]{3,20}$");
@@ -204,7 +210,7 @@ void create_user() // made by youssef shehta and seif shehta, modified by Abderr
     goback_btn.events().click([&] {
         signup_page.close();
         land_page(); });
-    // By 
+    
     input_name_signup.events().focus([&](const nana::arg_focus& arg) {
         if (!arg.getting) { // Losing focus
             string name = input_name_signup.text();
@@ -354,7 +360,6 @@ void OTP_verification(form& signup_page, string name, string email, string phone
     exec();
 }
 
-
 void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
 {
     for (int i = 0; i < USERS.size(); i++)
@@ -380,12 +385,17 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
 }
 
 void edit_profile(vector<user> users) {
-    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };//made by youssif ,modified by:omar
+    form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };//made by youssif ,modified by:omar&abderhman
     edit.caption("Edit Profile");
 
     // Labels for display
     label name_lbl{ edit, "Name:" }, email_lbl{ edit, "Email:" }, phone_lbl{ edit, "Phone Number:" },
         pass_lbl{ edit, "Password:" }, wallet_lbl{ edit, "Wallet Balance:" }, id_lbl{ edit, "User ID:" }, bank_lbl{ edit, "Bank Accounts:" };
+    button goback_btn{ edit,"go back" };
+    goback_btn.move(rectangle(30,500, 50, 40));
+    goback_btn.events().click([&] {
+        edit.close();
+        dashboard(USERS) ; });
 
     name_lbl.move(rectangle(50, 30, 120, 20));
     email_lbl.move(rectangle(50, 80, 120, 20));
@@ -484,8 +494,6 @@ void edit_profile(vector<user> users) {
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
-    long double ammount = 0.0;
-    transaction.ammount = ammount;
     int sender_wallet_before, receiver_wallet_before;
     transactions_count++;
     transaction.id = transactions_count;
@@ -493,37 +501,44 @@ void transaction(user sender, user reciever) // made by wafaey
     transaction.ReceiverAccount = reciever;
     sender_wallet_before = transaction.SenderAccount.wallet;
     receiver_wallet_before = transaction.ReceiverAccount.wallet;
-
+    //transaction page GUI
     form transaction_window{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     transaction_window.bgcolor(color(211, 211, 211));
     transaction_window.caption("transactions");
     label Ammount{ transaction_window,"Enter Ammount: " };
     Ammount.move(rectangle(250, 150, 110, 17));
-    textbox money_ammount{ transaction_window,rectangle(250, 170, 300, 30) };
+    Ammount.show();
+    textbox money_ammount{ transaction_window,rectangle(250, 200, 300, 30) };
     money_ammount.editable(true);
     money_ammount.typeface(paint::font("Arial", 12));
     money_ammount.multi_lines(false);
+    money_ammount.show();
+    label state{ transaction_window,"initial text"};
+    state.move(rectangle(250, 150, 200, 17));
+    state.hide();
+    label error2{ transaction_window,"Insuffecient funds"};
+    error2.move(rectangle(250, 170, 200, 17));
+    error2.hide();
     button enter_ammount{ transaction_window, "Confirm" };
-
-
-
-    enter_ammount.move(rectangle(250, 210, 100, 30));
-    enter_ammount.events().click([&ammount, &money_ammount]
+    enter_ammount.move(rectangle(250, 300, 100, 30));
+    enter_ammount.show();
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2]
         {
+            //validate user input
             bool valid = false;
-            while (!valid)
-            {
                 try
                 {
-                    ammount = stod(money_ammount.caption());
+                    transaction.ammount = stod(money_ammount.caption());
+                    valid = true;
                 }
                 catch (const exception& e)
                 {
+                    valid = false;
                     cerr << e.what();
                     form popup(nana::API::make_center(200, 100), appearance(true, true, true, false, true, false, false));
                     popup.caption("ERROR!!!");
-                    label error{ popup, "Invalid input, input must be a number." };
-                    error.move(rectangle(250, 150, 110, 17));
+                    label error1{ popup, "Invalid input, input must be a number." };
+                    error1.move(rectangle(250, 150, 110, 17));
                     button close{ popup, "Close" };
                     close.move(rectangle(250, 210, 100, 30));
                     close.events().click([&popup]
@@ -533,47 +548,56 @@ void transaction(user sender, user reciever) // made by wafaey
                     // Show the popup as modal (blocks other interaction until closed)
                     popup.modality();
                 }
-            }
+                if (valid)
+                {
+                    // if ammount is invalid, transaction fails
+                    if (transaction.ammount > transaction.SenderAccount.wallet)
+                    {
+                        transaction.status = -1;
+                        error2.show();
+                    }
+                    else
+                    {
+                        transaction.SenderAccount.wallet -= transaction.ammount;
+                        transaction.ReceiverAccount.wallet += transaction.ammount;
+                        // check if the balance of both the sender and reciever have changed correctly or no
+                        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
+                        {
+                            transaction.status = 1;
+                        }
+                        // if one of them is still pending change
+                        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
+                        {
+                            transaction.status = 0;
+                        }
+                        // if the transaction failed
+                        else
+                        {
+                            transaction.status = -1;
+                        }
+                    }
+                    Ammount.hide();
+                    money_ammount.hide();
+                    if (transaction.status == 1)
+                    {
+                        state.caption("Money transfer is complete");
+                        state.show();
+                    }
+                    else if (transaction.status == 0)
+                    {
+                        state.caption("Money transfer is pending");
+                        state.show();
+                    }
+                    else
+                    {
+                        state.caption("Money transfer failed");
+                        state.show();
+                    }
+                }
         });
-    // if ammount is invalid, transaction fails
-    if (transaction.ammount > transaction.SenderAccount.wallet)
-    {
-        transaction.status = -1;
-    }
-    else
-    {
-        transaction.SenderAccount.wallet -= transaction.ammount;
-        transaction.ReceiverAccount.wallet += transaction.ammount;
-        // check if the balance of both the sender and reciever have changed correctly or no
-        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
-        {
-            transaction.status = 1;
-        }
-        // if one of them is still pending change
-        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
-        {
-            transaction.status = 0;
-        }
-        // if the transaction failed
-        else
-        {
-            transaction.status = -1;
-        }
-    }
-    Ammount.hide();
-    money_ammount.hide();
-    label state{ transaction_window,rectangle(400,300,110, 17) };
-    switch (transaction.status)
-    {
-    case 1:
-        state.caption("Money transfer is complete.");
-    case 0:
-        state.caption("Transfer pending.");
-    case -1:
-        state.caption("Money transfer failed.");
-    }
+    // button to return to dashboard
     button close{ transaction_window,"Return to dashboard" };
-    close.move(rectangle(250, 210, 100, 30));
+    close.move(rectangle(400, 300, 100, 30));
     close.events().click([&transaction_window]
         {
             transaction_window.close();
@@ -587,6 +611,7 @@ void dashboard(vector<user> users)//made by whole team
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
+
     button logout_btn{ dashboard,"log out" };
     logout_btn.move(rectangle(30, 350, 50, 40));
     logout_btn.events().click([&] {
@@ -595,6 +620,10 @@ void dashboard(vector<user> users)//made by whole team
 
     button managebanks_btn{ dashboard, "Manage Bank Accounts" };
     managebanks_btn.move(rectangle(160, 120, 200, 40));
+    managebanks_btn.events().click([&] {
+        dashboard.close();
+        managebankacc(USERS);
+        });
     button profile_btn{ dashboard, "Profile" };
     profile_btn.move(rectangle(440, 120, 200, 40));
     button tr_btn{ dashboard, "Send Money" };
@@ -627,16 +656,17 @@ void dashboard(vector<user> users)//made by whole team
                  cout << start; */
                  // Verify button
                 button send_btn{ poptrans, "Confirm" };
-                send_btn.move(rectangle(150, 360, 100, 30));
-                poptrans.show();
+                send_btn.move(rectangle(150, 360, 100, 30)); 
+               poptrans.show();
                 tempbool = true;
                 poptrans.events().destroy([&tempbool]
                     {
                         tempbool = false;
                     });
 
-                send_btn.events().click([&user_input, &trans_label]
+                send_btn.events().click([&user_input, &trans_label,&dashboard,&poptrans]
                     {
+                        bool temp = false;
                         string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
                         {
@@ -647,9 +677,16 @@ void dashboard(vector<user> users)//made by whole team
                                     trans_label.caption("Reciever: ERROR, can't send money to yourself.");
                                 }
                                 else {
+                                    temp = true;
+                                    dashboard.close();
+                                    poptrans.close();
                                     transaction(USERS[current_user_id], USERS[i]);
+                                    
                                 }
                             }
+                        }
+                        if (!temp) {
+                            trans_label.caption("Reciever: ERROR, user doesn't exist.");
                         }
                     });
                 exec();
@@ -692,4 +729,12 @@ void admin_work() {
          });
     adminForm.show();
     exec();
+}
+}
+
+void managebankacc(vector<user> users)
+{
+    form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
+    manbank.caption("Manage Bank Accounts");
+
 }
