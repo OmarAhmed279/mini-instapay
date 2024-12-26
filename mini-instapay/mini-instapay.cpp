@@ -51,19 +51,21 @@ vector<user> USERS = {
 
 };
 
-vector<transactions> TRANSACTIONS = {
+vector<transactions> TRANSACTIONS = 
+{
 
-    {USERS[2], USERS[1], {12,12,1999}, 0, 100000000, 0},
-    {USERS[1], USERS[2], {12,12,1998}, 1, 5, 1},
-    {USERS[1], USERS[1], {12,12,1997}, 2, 0, -1}
+    {USERS[2], USERS[1], {13,12,2024}, 0, 100000000, 0},
+    {USERS[1], USERS[2], {12,12,2024}, 1, 5, 1},
+    {USERS[1], USERS[1], {11,12,2024}, 2, 0, -1}
 
 };
 
 //Global Variables
 
-static int user_count = 0, transactions_count = 0;
+static int user_count = 0, transactions_count = 2;
 int current_user_id = 0;
-
+time_t t = std::time(0);   // get time now
+tm* now = std::localtime(&t);
 // Functions Declaration
 void land_page();
 void create_user();
@@ -72,8 +74,8 @@ void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
 void transaction(user, user);
 void edit_profile(vector<user>);
+void trans_history(vector<user>, vector<transactions>);
 void managebankacc(vector<user>);
-
 int main()
 {
     land_page();
@@ -487,11 +489,14 @@ void edit_profile(vector<user> users) {
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
-    int sender_wallet_before, receiver_wallet_before;
+    int sender_wallet_before, receiver_wallet_before, ammount;
     transactions_count++;
     transaction.id = transactions_count;
     transaction.SenderAccount = sender;
     transaction.ReceiverAccount = reciever;
+    transaction.date_transaction.year = now->tm_year + 1900;
+    transaction.date_transaction.month = now->tm_mon + 1;
+    transaction.date_transaction.day = now->tm_mday;
     sender_wallet_before = transaction.SenderAccount.wallet;
     receiver_wallet_before = transaction.ReceiverAccount.wallet;
     //transaction page GUI
@@ -515,23 +520,24 @@ void transaction(user sender, user reciever) // made by wafaey
     button enter_ammount{ transaction_window, "Confirm" };
     enter_ammount.move(rectangle(250, 300, 100, 30));
     enter_ammount.show();
-    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2]
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2, &ammount]
         {
             //validate user input
             bool valid = false;
                 try
                 {
-                    transaction.ammount = stod(money_ammount.caption());
+                    ammount = stod(money_ammount.text());
+                    transaction.ammount = ammount;
                     valid = true;
                 }
                 catch (const exception& e)
                 {
                     valid = false;
                     cerr << e.what();
-                    form popup(nana::API::make_center(200, 100), appearance(true, true, true, false, true, false, false));
+                    form popup(nana::API::make_center(400, 200), appearance(true, true, true, false, true, false, false));
                     popup.caption("ERROR!!!");
                     label error1{ popup, "Invalid input, input must be a number." };
-                    error1.move(rectangle(250, 150, 110, 17));
+                    error1.move(rectangle(180, 100, 110, 17));
                     button close{ popup, "Close" };
                     close.move(rectangle(250, 210, 100, 30));
                     close.events().click([&popup]
@@ -544,7 +550,7 @@ void transaction(user sender, user reciever) // made by wafaey
                 if (valid)
                 {
                     // if ammount is invalid, transaction fails
-                    if (transaction.ammount > transaction.SenderAccount.wallet)
+                    if (ammount > transaction.SenderAccount.wallet)
                     {
                         transaction.status = -1;
                         error2.show();
@@ -588,6 +594,8 @@ void transaction(user sender, user reciever) // made by wafaey
                     }
                 }
         });
+    //add to TRANSACTIONS vector
+    TRANSACTIONS.insert(TRANSACTIONS.begin(),{transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status});
     // button to return to dashboard
     button close{ transaction_window,"Return to dashboard" };
     close.move(rectangle(400, 300, 100, 30));
@@ -598,6 +606,30 @@ void transaction(user sender, user reciever) // made by wafaey
         });
     transaction_window.show();
     exec();
+}
+
+void trans_history(vector<user> users, vector<transactions> transaction) // wafaey, omar, abdelrahman
+{
+    form trns_his( API::make_center(800, 600), appearance(true, true, true, false, true, false, false) );
+    trns_his.caption("Transaction history");
+    trns_his.bgcolor(color(211, 211, 211));
+    string trns_history_display = "Transaction History:\n";
+    for (int i = 0; i < transactions_count; i++) 
+    {
+        string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
+        trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + "\n";
+    }
+    label show_history{ trns_his, trns_history_display };
+    show_history.move(rectangle(100, 10, 700, 500));
+    trns_his.show();
+    exec();
+}
+
+void managebankacc(vector<user> users)
+{
+    form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
+    manbank.caption("Manage Bank Accounts");
+
 }
 
 void dashboard(vector<user> users)//made by whole team
@@ -649,15 +681,15 @@ void dashboard(vector<user> users)//made by whole team
                  cout << start; */
                  // Verify button
                 button send_btn{ poptrans, "Confirm" };
-                send_btn.move(rectangle(150, 360, 100, 30)); 
-               poptrans.show();
+                send_btn.move(rectangle(150, 360, 100, 30));
+                poptrans.show();
                 tempbool = true;
                 poptrans.events().destroy([&tempbool]
                     {
                         tempbool = false;
                     });
 
-                send_btn.events().click([&user_input, &trans_label,&dashboard,&poptrans]
+                send_btn.events().click([&user_input, &trans_label, &dashboard, &poptrans]
                     {
                         bool temp = false;
                         string rec = user_input.text();
@@ -674,7 +706,7 @@ void dashboard(vector<user> users)//made by whole team
                                     dashboard.close();
                                     poptrans.close();
                                     transaction(USERS[current_user_id], USERS[i]);
-                                    
+
                                 }
                             }
                         }
@@ -694,6 +726,11 @@ void dashboard(vector<user> users)//made by whole team
 
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
+    trh_btn.events().click([&dashboard]
+        {
+            dashboard.close();
+            trans_history(USERS,TRANSACTIONS);
+        });
     dashboard.show();
     exec();
 }
