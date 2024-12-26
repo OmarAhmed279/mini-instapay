@@ -501,6 +501,7 @@ void transaction(user sender, user reciever) // made by wafaey
     transaction.id = transactions_count;
     transaction.SenderAccount = sender;
     transaction.ReceiverAccount = reciever;
+    // get the current date 
     transaction.date_transaction.year = now->tm_year + 1900;
     transaction.date_transaction.month = now->tm_mon + 1;
     transaction.date_transaction.day = now->tm_mday;
@@ -600,9 +601,9 @@ void transaction(user sender, user reciever) // made by wafaey
                         state.show();
                     }
                 }
+                //add to TRANSACTIONS vector
+                TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,ammount,transaction.status });
         });
-    //add to TRANSACTIONS vector
-    TRANSACTIONS.insert(TRANSACTIONS.begin(),{transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status});
     // button to return to dashboard
     button close{ transaction_window,"Return to dashboard" };
     close.move(rectangle(400, 300, 100, 30));
