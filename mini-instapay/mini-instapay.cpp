@@ -775,11 +775,4 @@ void admin_work() {
     adminForm.show();
     exec();
 }
-}
 
-void managebankacc(vector<user> users)
-{
-    form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
-    manbank.caption("Manage Bank Accounts");
-
-}
