@@ -66,9 +66,9 @@ void land_page();
 void create_user();
 void user_login(string, string, form&, label&, label&);
 void OTP_verification(form&, string, string, string, string);
-void dashboard();
+void dashboard(vector<user>);
 void transaction(user, user);
-void edit_profile(form&, string, string, string, string, double, int, vector<string>);
+void edit_profile(vector<user>);
 int main()
 {    
     land_page();
@@ -328,7 +328,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             current_user_id = new_user.id;
 
             otp_form.close();
-            dashboard();
+            dashboard(USERS);
         }
         else {
             feedback_label.caption("Incorrect OTP. Please try again.");
@@ -352,7 +352,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
             {
                 current_user_id = USERS[i].id;
                 landpage.close();
-                dashboard();
+                dashboard(USERS);
             }
             else
             {
@@ -366,7 +366,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
     }
 }
 
-void edit_profile(form& signup_page, string name, string email, string phone, string pass, double wallet, int id, vector<string> bank_accounts) {
+void edit_profile(vector<user> users) {
     form edit{ API::make_center(800, 600), appearance(true, true, true, false, true, false, false) };
     edit.caption("Edit Profile");
 
@@ -383,14 +383,14 @@ void edit_profile(form& signup_page, string name, string email, string phone, st
     bank_lbl.move(rectangle(50, 330, 120, 20));
 
     // Display fields for uneditable data
-    label wallet_data{ edit, "EGP " + to_string(wallet) }, id_data{ edit, to_string(id) };
+    label wallet_data{ edit, "EGP " + to_string(users[current_user_id].wallet)}, id_data{edit, to_string(current_user_id)};
     wallet_data.move(rectangle(200, 230, 200, 20));
     id_data.move(rectangle(200, 280, 200, 20));
 
     string accounts_display = "Accounts: ";
-    for (const auto& account : bank_accounts) {
+    /*for (const auto& account : bank_accounts) {
         accounts_display += account + "; ";
-    }
+    }*/
     label accounts_data{ edit, accounts_display };
     accounts_data.move(rectangle(200, 330, 400, 20));
 
@@ -402,11 +402,10 @@ void edit_profile(form& signup_page, string name, string email, string phone, st
     pass_box.move(rectangle(200, 180, 200, 25));
 
     // Initial values for editable fields
-    name_box.text() = name;
-    email_box.text() = email;
-    phone_box.text() = phone;
-    pass_box.text() = pass;
-    pass_box.mask('*'); // Mask for password
+    name_box.caption(users[current_user_id].name);
+    email_box.caption(users[current_user_id].email);
+    phone_box.caption("0" + to_string(users[current_user_id].Phonenumber));
+    pass_box.caption(users[current_user_id].password);
 
     // Set textboxes to read-only initially
     name_box.enabled(false);
@@ -442,7 +441,7 @@ void edit_profile(form& signup_page, string name, string email, string phone, st
 
             // Update USERS vector
             for (auto& user : USERS) {
-                if (user.name == name && user.email == email) {
+                if (user.id == current_user_id) {
                     user.name = new_name;
                     user.email = new_email;
                     user.Phonenumber = stoi(new_phone);
@@ -455,6 +454,7 @@ void edit_profile(form& signup_page, string name, string email, string phone, st
             success << "Your profile has been updated.";
             success.show();
             edit.close();
+            dashboard(USERS);
         }
         else {
             msgbox error(edit, "Invalid Input");
@@ -563,13 +563,13 @@ void transaction(user sender, user reciever) // made by wafaey
     close.events().click([&transaction_window]
         {
             transaction_window.close();
-            dashboard();
+            dashboard(USERS);
         });
     transaction_window.show();
     exec();
 }
 
-void dashboard(/*form& signup_page, const string& name, const string& email, const string& phone, const string& pass, const int& wallet, const int& id, const vector<string>& bankaccounts */)
+void dashboard(vector<user> users)
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
@@ -636,11 +636,11 @@ void dashboard(/*form& signup_page, const string& name, const string& email, con
             }
         });
 
-    /*profile_btn.events().click([&dashboard, &signup_page, &name, &email, &phone, &pass, &wallet, &id, &bankaccounts]
+    profile_btn.events().click([&dashboard]
         {
             dashboard.close();
-            edit_profile(signup_page, name, email, phone, pass, wallet, id, bankaccounts);
-        }); */
+            edit_profile(USERS);
+        });
 
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
