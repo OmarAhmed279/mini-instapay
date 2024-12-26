@@ -24,7 +24,9 @@ struct bankaccount {
 struct user {
     string  name, email, password;
     bankaccount accounts[3];
-    int id, Phonenumber, wallet = 0, numofaccounts = 0;
+    int id;
+    string Phonenumber;
+    int wallet = 0, numofaccounts = 0;
 };
 
 // create transcations structure
@@ -45,9 +47,9 @@ struct admin {
 
 // Data Arrays for Storage
 vector<user> USERS = {
-    {"Admin", "Admin@gmail.123", "password", {}, 0, 0, 0, 0},
-    {"Aiman ", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1, 123456789, 10, 1},
-    {" Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000, 1}
+    {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0},
+    {"Aiman ", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1},
+    {" Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1}
 
 };
 
@@ -430,7 +432,7 @@ void edit_profile(vector<user> users) {
     // Initial values for editable fields
     name_box.caption(users[current_user_id].name);
     email_box.caption(users[current_user_id].email);
-    phone_box.caption("0" + to_string(users[current_user_id].Phonenumber));
+    phone_box.caption(users[current_user_id].Phonenumber);
     pass_box.caption(users[current_user_id].password);
 
     // Set textboxes to read-only initially
