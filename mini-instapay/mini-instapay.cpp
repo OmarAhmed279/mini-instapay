@@ -51,7 +51,9 @@ vector<user> USERS = {
 vector<transactions> TRANSACTIONS = {
 
     {USERS[2], USERS[1], {12,12,1999}, 0, 100000000, 0},
-    {USERS[1], USERS[2], {12,12,1998}, 1, 5, 1}
+    {USERS[1], USERS[2], {12,12,1998}, 1, 5, 1},
+    {USERS[1], USERS[1], {12,12,1997}, 2, 0, -1}
+
 };
 
 //Global Variables
