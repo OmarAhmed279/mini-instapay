@@ -37,7 +37,7 @@ struct admin {
 vector<user> USERS = {
     {"Admin", "Admin", "Admin@123", {}, 0, 0, 0},
     {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10},
-    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"Bank Misr", 100000, 123 }, 2, 201148454, 100000000}
+    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000}
     
 };
 
@@ -484,7 +484,7 @@ void dashboard() //made by omar and abdelrahman
 
                 // Label to display the OTP (simulating sending it to the user)
                 label trans_label{ poptrans, "Reciever: " };
-                trans_label.move(rectangle(20, 20, 360, 30));
+                trans_label.move(rectangle(20, 20, 400, 30));
 
                 // Textbox for user to input OTP
                 textbox user_input{ poptrans, rectangle(20, 40, 360, 30) };
@@ -502,14 +502,20 @@ void dashboard() //made by omar and abdelrahman
                         tempbool = false;
                     });
 
-                send_btn.events().click([&user_input]
+                send_btn.events().click([&user_input, &trans_label]
                     {
                         string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
                         {
                             if (USERS[i].name == rec)
                             {
-                                transaction(USERS[current_user_id], USERS[i]);
+                                if (USERS[current_user_id].id == i)
+                                {
+                                    trans_label.caption("Reciever: ERROR, can't send money to yourself.");
+                                }
+                                else {
+                                    transaction(USERS[current_user_id], USERS[i]);
+                                }
                             }
                         }
                     });
