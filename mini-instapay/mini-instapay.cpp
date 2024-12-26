@@ -71,10 +71,7 @@ void user_login(string, string, form&, label&, label&);
 void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
 void transaction(user, user);
-<<<<<<< Updated upstream
 void edit_profile(vector<user>);
-=======
->>>>>>> Stashed changes
 
 int main()
 {    
@@ -506,7 +503,7 @@ void transaction(user sender, user reciever) // made by wafaey
     rtn_dashboard.events().click([&transaction_window]
         {
             transaction_window.close();
-            dashboard();
+            dashboard(USERS);
         });
     button enter_ammount{ transaction_window, "Confirm"};
     enter_ammount.move(rectangle(300, 400, 100, 30));
@@ -538,9 +535,7 @@ void transaction(user sender, user reciever) // made by wafaey
                     // Show the popup as modal (blocks other interaction until closed)
                     popup.modality();
                 }
-<<<<<<< Updated upstream
-            }
-        });
+            });
     // if ammount is invalid, transaction fails
     if (transaction.ammount > transaction.SenderAccount.wallet)
     {
@@ -568,7 +563,6 @@ void transaction(user sender, user reciever) // made by wafaey
     }
     Ammount.hide();
     money_ammount.hide();
-    label state{ transaction_window,rectangle(400,300,110, 17) };
     switch (transaction.status)
     {
     case 1:
@@ -584,51 +578,6 @@ void transaction(user sender, user reciever) // made by wafaey
         {
             transaction_window.close();
             dashboard(USERS);
-=======
-                if (valid_input)
-                {
-                    // if ammount is invalid, transaction fails
-                    if (transaction.ammount > sender_wallet_before)
-                    {
-                        transaction.status = -1;
-                        error2.show();
-                    }
-                    else
-                    {
-                        transaction.SenderAccount.wallet -= transaction.ammount;
-                        transaction.ReceiverAccount.wallet += transaction.ammount;
-                        // check if the balance of both the sender and reciever have changed correctly or no
-                        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
-                        {
-                            transaction.status = 1;
-                        }
-                        // if one of them is still pending change
-                        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
-                        {
-                            transaction.status = 0;
-                        }
-                        // if the transaction failed
-                        else
-                        {
-                            transaction.status = -1;
-                        }
-                    }
-                    Ammount.close();
-                    money_ammount.close();
-                    switch (transaction.status)
-                    {
-                    case 1:
-                        state.caption("Transfer is a success.");
-                    case 0:
-                        state.caption("Transfer Pending.");
-                    case -1:
-                        state.caption("Transfer failed.");
-                    }
-                    state.show();
-                    rtn_dashboard.move(rectangle(380, 400, 100, 30));
-                }
-            
->>>>>>> Stashed changes
         });
     transaction_window.show();
     exec();
@@ -657,8 +606,6 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
     bool tempbool = false;
     tr_btn.events().click([&dashboard, &tempbool]
         {
-           
-
             if (!tempbool)
             {
                 // Create Transaction form
@@ -689,31 +636,22 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
                     {
                         tempbool = false;
                     });
-
-<<<<<<< Updated upstream
-                send_btn.events().click([&user_input, &trans_label]
-=======
-                send_btn.events().click([&user_input, &dashboard, &poptrans]
->>>>>>> Stashed changes
+                send_btn.events().click([&user_input, &trans_label,&dashboard,&poptrans]
                     {
                         string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
                         {
                             if (USERS[i].name == rec)
                             {
-<<<<<<< Updated upstream
                                 if (USERS[current_user_id].id == i)
                                 {
                                     trans_label.caption("Reciever: ERROR, can't send money to yourself.");
                                 }
                                 else {
+                                    dashboard.close();
+                                    poptrans.close();
                                     transaction(USERS[current_user_id], USERS[i]);
                                 }
-=======
-                                dashboard.close();
-                                poptrans.close();
-                                transaction(USERS[current_user_id], USERS[i]);
->>>>>>> Stashed changes
                             }
                         }
                     });
@@ -733,8 +671,3 @@ void dashboard(vector<user> users) //made by omar and abdelrahman
     exec();
 }
 
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
