@@ -633,8 +633,9 @@ void dashboard(vector<user> users)//made by whole team
                         tempbool = false;
                     });
 
-                send_btn.events().click([&user_input, &trans_label]
+                send_btn.events().click([&user_input, &trans_label,&dashboard,&poptrans]
                     {
+                        bool temp = false;
                         string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
                         {
@@ -645,10 +646,16 @@ void dashboard(vector<user> users)//made by whole team
                                     trans_label.caption("Reciever: ERROR, can't send money to yourself.");
                                 }
                                 else {
+                                    temp = true;
+                                    dashboard.close();
+                                    poptrans.close();
                                     transaction(USERS[current_user_id], USERS[i]);
                                     
                                 }
                             }
+                        }
+                        if (!temp) {
+                            trans_label.caption("Reciever: ERROR, user doesn't exist.");
                         }
                     });
                 exec();
