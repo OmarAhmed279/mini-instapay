@@ -62,7 +62,7 @@ vector<transactions> TRANSACTIONS =
 
 //Global Variables
 
-static int user_count = 0, transactions_count = 2;
+int user_count = 0, transactions_count = 2;
 int current_user_id = 0;
 time_t t = std::time(0);   // get time now
 tm* now = std::localtime(&t);
@@ -413,8 +413,8 @@ void edit_profile(vector<user> users) {
     id_data.move(rectangle(200, 280, 200, 20));
 
     string accounts_display = "Accounts:\n";
-    for (int i = 0; i < users[current_user_id].numofaccounts; i++) {
-        accounts_display += users[current_user_id].accounts[i].name + " Amount: " + to_string(users[current_user_id].accounts[i].amount) + " Account Num: " + to_string(users[current_user_id].accounts[i].accountnum) + "\n";
+    for (int i = 0; i < 3; i++) {
+        accounts_display += "Bank Name: " + users[current_user_id].accounts[i].name + " Amount: " + to_string(users[current_user_id].accounts[i].amount) + " Account Num: " + to_string(users[current_user_id].accounts[i].accountnum) + "\n";
     }
 
     label accounts_data{ edit, accounts_display };
@@ -602,6 +602,7 @@ void transaction(user sender, user reciever) // made by wafaey
                     }
                 }
                 //add to TRANSACTIONS vector
+                transactions_count++;
                 TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,ammount,transaction.status });
         });
     // button to return to dashboard
@@ -641,14 +642,176 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
     exec();
 }
 
-void managebankacc(vector<user> users)//made by:
+void managebankacc(vector<user> users) //made by omar and khaled
 {
-    form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
+    form manbank{ API::make_center(1000, 200), appearance(true, true, true, false, true, false, false) };
     manbank.caption("Manage Bank Accounts");
-    label manbank_lbl{ manbank,"manage bank accounts" };
-    button bankacc1{ manbank, "Add"};
-    button bankacc2{ manbank, "Add"};
-    button bankacc3{ manbank, "Add"};
+    button bankacc1{ manbank, "Edit"};
+    bankacc1.move(rectangle(900, 30, 100, 40));
+    button bankacc2{ manbank, "Edit"};
+    bankacc2.move(rectangle(900, 70, 100, 40));
+    button bankacc3{ manbank, "Edit"};
+    bankacc3.move(rectangle(900, 110, 100, 40));
+    textbox bank1_name{ manbank };
+    bank1_name.move(rectangle(50, 30, 200, 40));
+    textbox bank2_name{ manbank };
+    bank2_name.move(rectangle(50, 70, 200, 40));
+    textbox bank3_name{ manbank };
+    bank3_name.move(rectangle(50, 110, 200, 40));
+    textbox bank1_amount{ manbank };
+    bank1_amount.move(rectangle(650, 30, 200, 40));
+    textbox bank2_amount{ manbank };
+    bank2_amount.move(rectangle(650, 70, 200, 40));
+    textbox bank3_amount{ manbank };
+    bank3_amount.move(rectangle(650, 110, 200, 40));
+    textbox bank1_accnum{ manbank };
+    bank1_accnum.move(rectangle(350, 30, 200, 40));
+    textbox bank2_accnum{ manbank };
+    bank2_accnum.move(rectangle(350, 70, 200, 40));
+    textbox bank3_accnum{ manbank };
+    bank3_accnum.move(rectangle(350, 110, 200, 40));
+    bank1_amount.editable(false);
+    bank2_amount.editable(false);
+    bank3_amount.editable(false);
+
+    label bankname{ manbank, "Bank Name:" };
+    bankname.move(rectangle(50, 5, 300, 20));
+    label bankamount{ manbank, "Bank Amount:" };
+    bankamount.move(rectangle(650, 5, 300, 20));
+    label bankaccnum{ manbank, "Bank Account Num:" };
+    bankaccnum.move(rectangle(350, 5, 300, 20));
+
+    button backbtn{ manbank, "Back" };
+    backbtn.move(rectangle(450, 160, 100, 20));
+
+    backbtn.events().click([&] {
+        manbank.close();
+        dashboard(USERS);
+        });
+
+    bank1_name.caption(USERS[current_user_id].accounts[0].name);
+    bank2_name.caption(USERS[current_user_id].accounts[1].name);
+    bank3_name.caption(USERS[current_user_id].accounts[2].name);
+    bank1_amount.caption(to_string(USERS[current_user_id].accounts[0].amount));
+    bank2_amount.caption(to_string(USERS[current_user_id].accounts[1].amount));
+    bank3_amount.caption(to_string(USERS[current_user_id].accounts[2].amount));
+    bank1_accnum.caption(to_string(USERS[current_user_id].accounts[0].accountnum));
+    bank2_accnum.caption(to_string(USERS[current_user_id].accounts[1].accountnum));
+    bank3_accnum.caption(to_string(USERS[current_user_id].accounts[2].accountnum));
+
+    bankacc1.events().click([&] {
+        if (bank1_name.text() == USERS[current_user_id].accounts[0].name)
+        {
+            bank1_name.caption(USERS[current_user_id].accounts[0].name);
+            bank1_accnum.caption(to_string(USERS[current_user_id].accounts[0].accountnum));
+            bankaccnum.caption("Bank Account Num : Error, Must change both fields.");
+            
+        }
+        else if (bank1_accnum.text() == to_string(USERS[current_user_id].accounts[0].accountnum))
+        {
+            bank1_name.caption(USERS[current_user_id].accounts[0].name);
+            bank1_accnum.caption(to_string(USERS[current_user_id].accounts[0].accountnum));
+            bankname.caption("Bank Name : Error, Must change both fields.");
+        } else
+        {
+            srand(std::time(0));
+            bank1_amount.caption(to_string((rand() % 10000) + (rand() % 1000)));
+
+            bankname.caption("Bank Name :");
+            bankaccnum.caption("Bank Account Num :");
+            if (bank1_accnum.text() == "" || bank1_name.text() == "")
+            {
+                USERS[current_user_id].accounts[0].accountnum = 0;
+                USERS[current_user_id].accounts[0].name = "";
+                USERS[current_user_id].accounts[0].amount = 0;
+                bank1_name.caption("");
+                bank1_accnum.caption("");
+                bank1_amount.caption("0");
+
+            }
+            else {
+                USERS[current_user_id].accounts[0].accountnum = stoi(bank1_accnum.text());
+                USERS[current_user_id].accounts[0].name = bank1_name.text();
+                USERS[current_user_id].accounts[0].amount = stoi(bank1_amount.text());
+            }
+        }
+        });
+    bankacc2.events().click([&] {
+        if (bank2_name.text() == USERS[current_user_id].accounts[1].name)
+        {
+            bank2_name.caption(USERS[current_user_id].accounts[1].name);
+            bank2_accnum.caption(to_string(USERS[current_user_id].accounts[1].accountnum));
+            bankname.caption("Bank Name : Error, Must change both fields.");
+
+        }
+        else if (bank2_accnum.text() == to_string(USERS[current_user_id].accounts[1].accountnum))
+        {
+            bank2_name.caption(USERS[current_user_id].accounts[1].name);
+            bank2_accnum.caption(to_string(USERS[current_user_id].accounts[1].accountnum));
+            bankaccnum.caption("Bank Account Num : Error, Must change both fields.");
+        }
+        else
+        {
+            srand(std::time(0));
+            bank2_amount.caption(to_string((rand() % 10000) + (rand() % 1000)));
+
+            bankname.caption("Bank Name :");
+            bankaccnum.caption("Bank Account Num :");
+            if (bank2_accnum.text() == "" || bank2_name.text() == "")
+            {
+                USERS[current_user_id].accounts[1].accountnum = 0;
+                USERS[current_user_id].accounts[1].name = "";
+                USERS[current_user_id].accounts[1].amount = 0;
+                bank2_name.caption("");
+                bank2_accnum.caption("");
+                bank2_amount.caption("0");
+
+            }
+            else {
+                USERS[current_user_id].accounts[1].accountnum = stoi(bank2_accnum.text());
+                USERS[current_user_id].accounts[1].name = bank2_name.text();
+                USERS[current_user_id].accounts[1].amount = stoi(bank2_amount.text());
+            }
+        }
+        });
+    bankacc3.events().click([&] {
+        if (bank3_name.text() == USERS[current_user_id].accounts[2].name)
+        {
+            bank3_name.caption(USERS[current_user_id].accounts[2].name);
+            bank3_accnum.caption(to_string(USERS[current_user_id].accounts[2].accountnum));
+            bankname.caption("Bank Name : Error, Must change both fields.");
+
+        }
+        else if (bank3_accnum.text() == to_string(USERS[current_user_id].accounts[2].accountnum))
+        {
+            bank3_name.caption(USERS[current_user_id].accounts[2].name);
+            bank3_accnum.caption(to_string(USERS[current_user_id].accounts[2].accountnum));
+            bankaccnum.caption("Bank Account Num : Error, Must change both fields.");
+        }
+        else
+        {
+            srand(std::time(0));
+            bank3_amount.caption(to_string((rand() % 10000) + (rand() % 1000)));
+
+            bankname.caption("Bank Name :");
+            bankaccnum.caption("Bank Account Num :");
+            if (bank3_accnum.text() == "" || bank3_name.text() == "")
+            {
+                USERS[current_user_id].accounts[2].accountnum = 0;
+                USERS[current_user_id].accounts[2].name = "";
+                USERS[current_user_id].accounts[2].amount = 0;
+                bank3_name.caption("");
+                bank3_accnum.caption("");
+                bank3_amount.caption("0");
+
+            }
+            else {
+                USERS[current_user_id].accounts[2].accountnum = stoi(bank3_accnum.text());
+                USERS[current_user_id].accounts[2].name = bank3_name.text();
+                USERS[current_user_id].accounts[2].amount = stoi(bank3_amount.text());
+            }
+        }
+        });
     manbank.show();
     exec();
 }
