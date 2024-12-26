@@ -645,9 +645,9 @@ void managebankacc(vector<user> users)//made by:
     form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
     manbank.caption("Manage Bank Accounts");
     label manbank_lbl{ manbank,"manage bank accounts" };
-    button bankacc1{manbank,"account 1"};
-    button bankacc2{ manbank,"account 2" };
-    button bankacc3{ manbank,"account 3" };
+    button bankacc1{ manbank, "Add"};
+    button bankacc2{ manbank, "Add"};
+    button bankacc3{ manbank, "Add"};
     manbank.show();
     exec();
 }
