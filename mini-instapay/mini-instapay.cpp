@@ -574,7 +574,7 @@ void transaction(user sender, user reciever) // made by wafaey
     exec();
 }
 
-void dashboard(vector<user> users)
+void dashboard(vector<user> users) //made by omar and abdelrahman
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
