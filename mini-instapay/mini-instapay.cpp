@@ -569,8 +569,7 @@ void transaction(user sender, user reciever) // made by wafaey
     exec();
 }
 
-void dashboard( form& signup_page, const string& name, const string& email, const string& phone,
-    const string& pass, const int& wallet, const int& id, const vector<string>& bankaccounts)
+void dashboard(/*form& signup_page, const string& name, const string& email, const string& phone, const string& pass, const int& wallet, const int& id, const vector<string>& bankaccounts */)
 {
     form dashboard{ API::make_center(800,400), appearance(true, true, true, false, true, false, false) };
     dashboard.caption("Dashboard");
@@ -637,11 +636,11 @@ void dashboard( form& signup_page, const string& name, const string& email, cons
             }
         });
 
-    profile_btn.events().click([&dashboard, &signup_page, &name, &email, &phone, &pass, &wallet, &id, &bankaccounts]
+    /*profile_btn.events().click([&dashboard, &signup_page, &name, &email, &phone, &pass, &wallet, &id, &bankaccounts]
         {
             dashboard.close();
             edit_profile(signup_page, name, email, phone, pass, wallet, id, bankaccounts);
-        });
+        }); */
 
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
