@@ -482,8 +482,6 @@ void edit_profile(vector<user> users) {
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
-    long double ammount = 0.0;
-    transaction.ammount = ammount;
     int sender_wallet_before, receiver_wallet_before;
     transactions_count++;
     transaction.id = transactions_count;
@@ -491,37 +489,44 @@ void transaction(user sender, user reciever) // made by wafaey
     transaction.ReceiverAccount = reciever;
     sender_wallet_before = transaction.SenderAccount.wallet;
     receiver_wallet_before = transaction.ReceiverAccount.wallet;
-
+    //transaction page GUI
     form transaction_window{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     transaction_window.bgcolor(color(211, 211, 211));
     transaction_window.caption("transactions");
     label Ammount{ transaction_window,"Enter Ammount: " };
     Ammount.move(rectangle(250, 150, 110, 17));
-    textbox money_ammount{ transaction_window,rectangle(250, 170, 300, 30) };
+    Ammount.show();
+    textbox money_ammount{ transaction_window,rectangle(250, 200, 300, 30) };
     money_ammount.editable(true);
     money_ammount.typeface(paint::font("Arial", 12));
     money_ammount.multi_lines(false);
+    money_ammount.show();
+    label state{ transaction_window,"initial text"};
+    state.move(rectangle(250, 150, 200, 17));
+    state.hide();
+    label error2{ transaction_window,"Insuffecient funds"};
+    error2.move(rectangle(250, 170, 200, 17));
+    error2.hide();
     button enter_ammount{ transaction_window, "Confirm" };
-
-
-
-    enter_ammount.move(rectangle(250, 210, 100, 30));
-    enter_ammount.events().click([&ammount, &money_ammount]
+    enter_ammount.move(rectangle(250, 300, 100, 30));
+    enter_ammount.show();
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2]
         {
+            //validate user input
             bool valid = false;
-            while (!valid)
-            {
                 try
                 {
-                    ammount = stod(money_ammount.caption());
+                    transaction.ammount = stod(money_ammount.caption());
+                    valid = true;
                 }
                 catch (const exception& e)
                 {
+                    valid = false;
                     cerr << e.what();
                     form popup(nana::API::make_center(200, 100), appearance(true, true, true, false, true, false, false));
                     popup.caption("ERROR!!!");
-                    label error{ popup, "Invalid input, input must be a number." };
-                    error.move(rectangle(250, 150, 110, 17));
+                    label error1{ popup, "Invalid input, input must be a number." };
+                    error1.move(rectangle(250, 150, 110, 17));
                     button close{ popup, "Close" };
                     close.move(rectangle(250, 210, 100, 30));
                     close.events().click([&popup]
@@ -531,47 +536,56 @@ void transaction(user sender, user reciever) // made by wafaey
                     // Show the popup as modal (blocks other interaction until closed)
                     popup.modality();
                 }
-            }
+                if (valid)
+                {
+                    // if ammount is invalid, transaction fails
+                    if (transaction.ammount > transaction.SenderAccount.wallet)
+                    {
+                        transaction.status = -1;
+                        error2.show();
+                    }
+                    else
+                    {
+                        transaction.SenderAccount.wallet -= transaction.ammount;
+                        transaction.ReceiverAccount.wallet += transaction.ammount;
+                        // check if the balance of both the sender and reciever have changed correctly or no
+                        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
+                        {
+                            transaction.status = 1;
+                        }
+                        // if one of them is still pending change
+                        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
+                        {
+                            transaction.status = 0;
+                        }
+                        // if the transaction failed
+                        else
+                        {
+                            transaction.status = -1;
+                        }
+                    }
+                    Ammount.hide();
+                    money_ammount.hide();
+                    if (transaction.status == 1)
+                    {
+                        state.caption("Money transfer is complete");
+                        state.show();
+                    }
+                    else if (transaction.status == 0)
+                    {
+                        state.caption("Money transfer is pending");
+                        state.show();
+                    }
+                    else
+                    {
+                        state.caption("Money transfer failed");
+                        state.show();
+                    }
+                }
         });
-    // if ammount is invalid, transaction fails
-    if (transaction.ammount > transaction.SenderAccount.wallet)
-    {
-        transaction.status = -1;
-    }
-    else
-    {
-        transaction.SenderAccount.wallet -= transaction.ammount;
-        transaction.ReceiverAccount.wallet += transaction.ammount;
-        // check if the balance of both the sender and reciever have changed correctly or no
-        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
-        {
-            transaction.status = 1;
-        }
-        // if one of them is still pending change
-        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
-        {
-            transaction.status = 0;
-        }
-        // if the transaction failed
-        else
-        {
-            transaction.status = -1;
-        }
-    }
-    Ammount.hide();
-    money_ammount.hide();
-    label state{ transaction_window,rectangle(400,300,110, 17) };
-    switch (transaction.status)
-    {
-    case 1:
-        state.caption("Money transfer is complete.");
-    case 0:
-        state.caption("Transfer pending.");
-    case -1:
-        state.caption("Money transfer failed.");
-    }
+    // button to return to dashboard
     button close{ transaction_window,"Return to dashboard" };
-    close.move(rectangle(250, 210, 100, 30));
+    close.move(rectangle(400, 300, 100, 30));
     close.events().click([&transaction_window]
         {
             transaction_window.close();
