@@ -614,10 +614,13 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
     trns_his.caption("Transaction history");
     trns_his.bgcolor(color(211, 211, 211));
     string trns_history_display = "Transaction History:\n";
-    for (int i = 0; i < transactions_count; i++) 
+    for (int i = 0; i < transactions_count; i++)
     {
-        string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
-        trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + "\n";
+        if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+        {
+            string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
+            trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + "\n";
+        }
     }
     label show_history{ trns_his, trns_history_display };
     show_history.move(rectangle(100, 10, 700, 500));
@@ -733,11 +736,4 @@ void dashboard(vector<user> users)//made by whole team
         });
     dashboard.show();
     exec();
-}
-
-void managebankacc(vector<user> users)
-{
-    form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
-    manbank.caption("Manage Bank Accounts");
-
 }
