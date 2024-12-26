@@ -36,7 +36,7 @@ struct transactions {
 };
 // create admin structure
 struct admin {
-    user admin;
+    int id;
     // if permissions = { all = 1, view = 2, edit = 3 , lesa mesh 3aref el sara7a ely yemsek el heta deh yezabatha}
     int permissions;
 };
@@ -69,6 +69,7 @@ void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
 void transaction(user, user);
 void edit_profile(vector<user>);
+void admin_work(); 
 int main()
 {
     land_page();
@@ -107,6 +108,12 @@ void land_page() //made by wafaey, modified by omar
     // create signup button
     button signup_btn{ landing_page,"SignUp" };
     signup_btn.move(rectangle(250, 330, 100, 30));
+    button admin{ landing_page,"I am an admin" };
+    admin.move(rectangle(300, 370, 200, 40));
+    admin.events().click([&] {
+        landing_page.close();
+        admin_work();
+       });
     // incase of click event it switches to create user page
     signup_btn.events().click([&landing_page] {
         landing_page.hide();
@@ -658,5 +665,31 @@ void dashboard(vector<user> users)//made by whole team
     button trh_btn{ dashboard, "Transaction History" };
     trh_btn.move(rectangle(440, 240, 200, 40));
     dashboard.show();
+    exec();
+}
+void admin_work() {
+    // Main Form
+    form adminForm{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
+    adminForm.caption("Admin Panel");
+
+    label title{ adminForm, "Admin Functions:" }, space1_admin_lbl{ adminForm, "----------------------------------------------------------------------------" },
+    space2_admin_lbl{ adminForm, "----------------------------------------------------------------------------" };
+    paint::font title_font{ "Times New Roman", 20 };
+    space1_admin_lbl.move(rectangle(200, 0, 400, 20));
+    space2_admin_lbl.move(rectangle(200, 50, 400, 40));
+    title.move(rectangle(300, 20, 200, 40));
+    title.typeface(title_font);
+    button btnViewProfiles{ adminForm, "View Profiles" };
+    btnViewProfiles.move(rectangle(300, 150, 200, 40));
+    button btnSuspendAccount{ adminForm, "Suspend Account" };
+    btnSuspendAccount.move(rectangle(300, 200, 200, 40));
+    button btnMonitorTransactions{ adminForm, "Monitor Transactions" };
+    btnMonitorTransactions.move(rectangle(300, 250, 200, 40));
+    button btnGenerateReports{ adminForm, "Generate Reports" };
+    btnGenerateReports.move(rectangle(300, 300, 200, 40));
+    btnViewProfiles.events().click([&]  {
+        adminForm.close();
+         });
+    adminForm.show();
     exec();
 }
