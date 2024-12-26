@@ -45,9 +45,9 @@ struct admin {
 
 // Data Arrays for Storage
 vector<user> USERS = {
-    {"Admin", "Admin", "Admin@123", {}, 0, 0, 0, 0},
-    {"TheGoat123", "TheGoat123@hotmail.com", "123goat", {"CIB", 5, 123456789}, 1, 123456789, 10, 1},
-    {"3am Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000, 1}
+    {"Admin", "Admin@gmail.123", "password", {}, 0, 0, 0, 0},
+    {"Aiman ", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1, 123456789, 10, 1},
+    {" Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, 201148454, 100000000, 1}
 
 };
 
