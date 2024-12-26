@@ -640,11 +640,16 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
     exec();
 }
 
-void managebankacc(vector<user> users)
+void managebankacc(vector<user> users)//made by:
 {
     form manbank{ API::make_center(800, 400), appearance(true, true, true, false, true, false, false) };
     manbank.caption("Manage Bank Accounts");
-
+    label manbank_lbl{ manbank,"manage bank accounts" };
+    button bankacc1{manbank,"account 1"};
+    button bankacc2{ manbank,"account 2" };
+    button bankacc3{ manbank,"account 3" };
+    manbank.show();
+    exec();
 }
 
 void dashboard(vector<user> users)//made by whole team
@@ -749,7 +754,7 @@ void dashboard(vector<user> users)//made by whole team
     dashboard.show();
     exec();
 }
-void admin_work() {
+void admin_work() { // made by: shehta brothers
     // Main Form
     form adminForm{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     adminForm.caption("Admin Panel");
