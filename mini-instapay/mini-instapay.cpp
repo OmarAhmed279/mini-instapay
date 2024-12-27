@@ -48,8 +48,8 @@ struct admin {
 // Data Arrays for Storage
 vector<user> USERS = {
     {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0},
-    {"Aiman ", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1},
-    {" Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1}
+    {"Aiman", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1},
+    {"Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1}
 
 };
 
@@ -527,10 +527,18 @@ void transaction(user sender, user reciever) // made by wafaey
     label error2{ transaction_window,"Insuffecient funds"};
     error2.move(rectangle(250, 170, 200, 17));
     error2.hide();
+    // button to return to dashboard
+    button close{ transaction_window,"Return to dashboard" };
+    close.move(rectangle(400, 300, 150, 40));
+    close.events().click([&transaction_window]
+        {
+            transaction_window.close();
+            dashboard(USERS);
+        });
     button enter_ammount{ transaction_window, "Confirm" };
-    enter_ammount.move(rectangle(250, 300, 100, 30));
+    enter_ammount.move(rectangle(250, 300, 150, 40));
     enter_ammount.show();
-    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2]
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2,&enter_ammount, &close]
         {
             //validate user input
             bool valid = false;
@@ -558,6 +566,8 @@ void transaction(user sender, user reciever) // made by wafaey
                 }
                 if (valid)
                 {
+                    enter_ammount.hide();
+                    close.move(rectangle(300, 300, 100, 30));
                     // if ammount is invalid, transaction fails
                     if (transaction.ammount > transaction.SenderAccount.wallet)
                     {
@@ -601,18 +611,11 @@ void transaction(user sender, user reciever) // made by wafaey
                         state.caption("Money transfer failed");
                         state.show();
                     }
+                    state.move(rectangle(300, 150, 200, 17));
                 }
                 //add to TRANSACTIONS vector
                 transactions_count++;
-                TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,ammount,transaction.status });
-        });
-    // button to return to dashboard
-    button close{ transaction_window,"Return to dashboard" };
-    close.move(rectangle(400, 300, 100, 30));
-    close.events().click([&transaction_window]
-        {
-            transaction_window.close();
-            dashboard(USERS);
+                TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status });
         });
     transaction_window.show();
     exec();
