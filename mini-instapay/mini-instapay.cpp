@@ -35,7 +35,7 @@ struct transactions {
     dat date_transaction;
     int id = 0;
     //if status = {success = 1, pending = 0, failed = -1}
-    int ammount = 0, status;
+    long double ammount = 0, status;
 };
 
 // create admin structure
@@ -498,7 +498,7 @@ void edit_profile(vector<user> users) {
 void transaction(user sender, user reciever) // made by wafaey
 {
     transactions transaction;
-    int sender_wallet_before, receiver_wallet_before, ammount;
+    int sender_wallet_before, receiver_wallet_before;
     transactions_count++;
     transaction.id = transactions_count;
     transaction.SenderAccount = sender;
@@ -530,14 +530,13 @@ void transaction(user sender, user reciever) // made by wafaey
     button enter_ammount{ transaction_window, "Confirm" };
     enter_ammount.move(rectangle(250, 300, 100, 30));
     enter_ammount.show();
-    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2, &ammount]
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2]
         {
             //validate user input
             bool valid = false;
                 try
                 {
-                    ammount = stod(money_ammount.text());
-                    transaction.ammount = ammount;
+                    transaction.ammount = stod(money_ammount.text());
                     valid = true;
                 }
                 catch (const exception& e)
@@ -560,7 +559,7 @@ void transaction(user sender, user reciever) // made by wafaey
                 if (valid)
                 {
                     // if ammount is invalid, transaction fails
-                    if (ammount > transaction.SenderAccount.wallet)
+                    if (transaction.ammount > transaction.SenderAccount.wallet)
                     {
                         transaction.status = -1;
                         error2.show();
@@ -619,22 +618,166 @@ void transaction(user sender, user reciever) // made by wafaey
     exec();
 }
 
-void trans_history(vector<user> users, vector<transactions> transaction) // wafaey, omar, abdelrahman
+void trans_history(vector<user> users, vector<transactions> transaction) // wafaey, help from omar and abdelrahman
 {
-    form trns_his( API::make_center(800, 600), appearance(true, true, true, false, true, false, false) );
+    form trns_his(API::make_center(800, 600), appearance(true, true, true, false, true, false, false));
     trns_his.caption("Transaction history");
     trns_his.bgcolor(color(211, 211, 211));
-    string trns_history_display = "Transaction History:\n";
-    for (int i = 0; i < transactions_count; i++)
+    bool swapped = false;
+    int n = TRANSACTIONS.size();
+    string trns_history_display = "", status;
+    for (int i = 0; i < n; i++)
     {
         if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
         {
+            if (transaction[i].status == 1)
+            {
+                status = "success";
+            }
+            else if (transaction[i].status == 0)
+            {
+                status = "pending";
+            }
+            else
+            {
+                status = "failed";
+            }
             string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
-            trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + "\n";
+            trns_history_display += "Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + " Status " + status + "\n";
         }
     }
     label show_history{ trns_his, trns_history_display };
-    show_history.move(rectangle(100, 10, 700, 500));
+    show_history.move(rectangle(100, 10, 550, 500));
+    show_history.show();
+    combox dropdown{ trns_his,"filter" };
+    dropdown.push_back("Filter by Date");
+    dropdown.push_back("Filter by Ammount");
+    dropdown.push_back("Filter by Status");
+    dropdown.move(rectangle(700, 10, 100, 17));
+    dropdown.show();
+    dropdown.events().selected([&]()
+        {
+            trns_history_display = "";
+            switch (dropdown.option())
+            {
+            case 0:
+                for (size_t i = 0; i < n - 1; ++i)
+                {
+                    swapped = false;
+                    for (size_t j = 0; j < n - i - 1; ++j) {
+                        if (transaction[j].date_transaction.year > transaction[j + 1].date_transaction.year)
+                        {
+                            if (transaction[j].date_transaction.month > transaction[j + 1].date_transaction.month)
+                            {
+                                if (transaction[j].date_transaction.day > transaction[j + 1].date_transaction.day)
+                                {
+                                    swap(transaction[j], transaction[j + 1]);
+                                    swapped = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!swapped) break;
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+                    {
+                        if (transaction[i].status == 1)
+                        {
+                            status = "success";
+                        }
+                        else if (transaction[i].status == 0)
+                        {
+                            status = "pending";
+                        }
+                        else
+                        {
+                            status = "failed";
+                        }
+                        string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
+                        trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + " Status " + status + "\n";
+                    }
+                }
+                show_history.caption(trns_history_display);
+                show_history.show();
+                break;
+            case 1:
+                //bubble sort according to greater ammount of money transferred
+                for (size_t i = 0; i < n - 1; ++i)
+                {
+                    swapped = false;
+                    for (size_t j = 0; j < n - i - 1; ++j) {
+                        if (transaction[j].ammount < transaction[j + 1].ammount)
+                        {
+                            swap(transaction[j], transaction[j + 1]);
+                            swapped = true;
+                        }
+                    }
+                    if (!swapped) break;
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+                    {
+                        if (transaction[i].status == 1)
+                        {
+                            status = "success";
+                        }
+                        else if (transaction[i].status == 0)
+                        {
+                            status = "pending";
+                        }
+                        else
+                        {
+                            status = "failed";
+                        }
+                        string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
+                        trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + " Status " + status + "\n";
+                    }
+                }
+                show_history.caption(trns_history_display);
+                show_history.show();
+                break;
+            case 2:
+                for (size_t i = 0; i < n - 1; ++i)
+                {
+                    swapped = false;
+                    for (size_t j = 0; j < n - i - 1; ++j) {
+                        if (transaction[j].status < transaction[j + 1].status)
+                        {
+                            swap(transaction[j], transaction[j + 1]);
+                            swapped = true;
+                        }
+                    }
+                    if (!swapped) break;
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+                    {
+                        if (transaction[i].status == 1)
+                        {
+                            status = "success";
+                        }
+                        else if (transaction[i].status == 0)
+                        {
+                            status = "pending";
+                        }
+                        else
+                        {
+                            status = "failed";
+                        }
+                        string DATE = to_string(transaction[i].date_transaction.day) + "/" + to_string(transaction[i].date_transaction.month) + "/" + to_string(transaction[i].date_transaction.year);
+                        trns_history_display += " Sender: " + transaction[i].SenderAccount.name + " Amount: " + to_string(transaction[i].ammount) + " Receiver: " + transaction[i].ReceiverAccount.name + " date: " + DATE + " Status " + status + "\n";
+                    }
+                }
+                show_history.caption(trns_history_display);
+                show_history.show();
+                break;
+            }
+        });
+    show_history.show();
     trns_his.show();
     button goback_btn{ trns_his,"go back" };
     goback_btn.move(rectangle(30, 500, 50, 40));

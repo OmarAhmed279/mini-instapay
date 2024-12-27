@@ -9,6 +9,7 @@
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/textbox.hpp>
 #include <nana/gui/widgets/date_chooser.hpp>
+#include <nana/gui/widgets/combox.hpp>
 #include <cstring>
 #include <ctime>
 #include <vector>
