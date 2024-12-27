@@ -45,7 +45,7 @@ struct admin {
     int permissions;
 };
 
-// Data Arrays for Storage
+// Data Arrays for Storage (fake info)
 vector<user> USERS = {
     {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0, false},
     {"Aiman", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1, false},
@@ -64,8 +64,9 @@ vector<transactions> TRANSACTIONS =
 
 //Global Variables
 
-int user_count = 0, transactions_count = 2;
-int current_user_id = 0;
+int user_count = USERS.size();
+int transactions_count = TRANSACTIONS.size();
+int current_user_id = -1;
 time_t t = std::time(0);   // get time now
 tm* now = std::localtime(&t);
 // Functions Declaration
@@ -81,6 +82,7 @@ void trans_history(vector<user>, vector<transactions>);
 void managebankacc(vector<user>);
 void show_users();
 void suspendaccount();
+
 int main()
 {
     land_page();
@@ -119,12 +121,12 @@ void land_page() //made by wafaey, modified by omar
     // create signup button
     button signup_btn{ landing_page,"SignUp" };
     signup_btn.move(rectangle(250, 330, 100, 30));
-    button admin{ landing_page,"I am an admin" };
+    /*button admin{landing_page,"I am an admin"};
     admin.move(rectangle(300, 370, 200, 40));
     admin.events().click([&] {
         landing_page.close();
         admin_work();
-        });
+        });*/
     // incase of click event it switches to create user page
     signup_btn.events().click([&landing_page] {
         landing_page.hide();
@@ -369,36 +371,46 @@ void OTP_verification(form& signup_page, string name, string email, string phone
 void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
 {
 
-    for (int i = 0; i < USERS.size(); i++)
+    if (USERS[0].email == e && USERS[0].password == p)
     {
-        if (USERS[i].email == e)
+        current_user_id = 0;
+        landpage.close();
+        admin_work();
+    }
+    else
+    {
+
+        for (int i = 0; i < USERS.size(); i++)
         {
-            if (USERS[i].password == p)
+            if (USERS[i].email == e)
             {
-                current_user_id = USERS[i].id;
-                if (USERS[current_user_id].flag)
+                if (USERS[i].password == p)
                 {
-                    msgbox success(landpage, "Error");
-                    success << "Your account has been suspended.";
-                    success.show();
-                    break;
+                    current_user_id = USERS[i].id;
+                    if (USERS[current_user_id].flag)
+                    {
+                        msgbox success(landpage, "Error");
+                        success << "Your account has been suspended.";
+                        success.show();
+                        break;
+                    }
+                    else
+                    {
+                        landpage.close();
+                        dashboard(USERS);
+                        break;
+                    }
                 }
-                else 
+                else
                 {
-                    landpage.close();
-                    dashboard(USERS);
+                    pass_label.caption("Password: Wrong password, please try again.");
                     break;
                 }
             }
             else
             {
-                pass_label.caption("Password: Wrong password, please try again.");
-                break;
+                email_label.caption("Email: Wrong email, please try again.");
             }
-        }
-        else
-        {
-            email_label.caption("Email: Wrong email, please try again.");
         }
     }
 }
@@ -646,7 +658,7 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
     string trns_history_display = "", status;
     for (int i = 0; i < n; i++)
     {
-        if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+        if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id || current_user_id == 0)
         {
             if (transaction[i].status == 1)
             {
@@ -699,7 +711,7 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
                 }
                 for (int i = 0; i < n; i++)
                 {
-                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id || current_user_id == 0)
                     {
                         if (transaction[i].status == 1)
                         {
@@ -736,7 +748,7 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
                 }
                 for (int i = 0; i < n; i++)
                 {
-                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id || current_user_id == 0)
                     {
                         if (transaction[i].status == 1)
                         {
@@ -772,7 +784,7 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
                 }
                 for (int i = 0; i < n; i++)
                 {
-                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id)
+                    if (transaction[i].SenderAccount.id == current_user_id || transaction[i].ReceiverAccount.id == current_user_id || current_user_id == 0)
                     {
                         if (transaction[i].status == 1)
                         {
@@ -800,8 +812,16 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
     button goback_btn{ trns_his,"go back" };
     goback_btn.move(rectangle(30, 500, 50, 40));
     goback_btn.events().click([&] {
-        trns_his.close();
-        dashboard(USERS); });
+
+        if (current_user_id == 0)
+        {
+            trns_his.close();
+            admin_work();
+        }
+        else {
+            trns_his.close();
+            dashboard(USERS);
+        }});
     exec();
 }
 
@@ -1101,8 +1121,12 @@ void admin_work() { // made by: shehta brothers
         });
     button btnMonitorTransactions{ adminForm, "Monitor Transactions" };
     btnMonitorTransactions.move(rectangle(300, 250, 200, 40));
-    button btnGenerateReports{ adminForm, "Generate Reports" };
-    btnGenerateReports.move(rectangle(300, 300, 200, 40));
+    btnMonitorTransactions.events().click([&] {
+        adminForm.close();
+        trans_history(USERS,TRANSACTIONS);
+        });
+    /*button btnGenerateReports{adminForm, "Generate Reports"};
+    btnGenerateReports.move(rectangle(300, 300, 200, 40));*/
     btnViewProfiles.events().click([&] {
         adminForm.close();
         show_users();
