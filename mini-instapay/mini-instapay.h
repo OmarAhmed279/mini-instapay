@@ -10,12 +10,7 @@
 #include <nana/gui/widgets/textbox.hpp>
 #include <nana/gui/widgets/date_chooser.hpp>
 #include <cstring>
-#include <cmath>
 #include <ctime>
-#include <iomanip>
-//#include "sqlite/sqlite3.h"
 #include <vector>
-
-#include <chrono>
 
 // TODO: Reference additional headers your program requires here.
