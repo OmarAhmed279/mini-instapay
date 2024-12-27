@@ -675,8 +675,12 @@ void transaction(user sender, user reciever, int day, int month, int year) // ma
             //add to TRANSACTIONS vector
             transactions_count++;
             TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status });
-            USERS[transaction.SenderAccount.id].wallet = transaction.SenderAccount.wallet;
-            USERS[transaction.ReceiverAccount.id].wallet = transaction.ReceiverAccount.wallet;
+            if (transaction.status = 1)
+            {
+                USERS[transaction.SenderAccount.id].wallet = transaction.SenderAccount.wallet;
+                USERS[transaction.ReceiverAccount.id].wallet = transaction.ReceiverAccount.wallet;
+            }
+            
         });
     transaction_window.show();
     exec();
@@ -865,8 +869,12 @@ void trans_wallet() // by wafaey
                                     //add to TRANSACTIONS vector
                                     transactions_count++;
                                     TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status });
-                                    USERS[transaction.SenderAccount.id].accounts[current_bank].amount = transaction.SenderAccount.accounts[current_bank].amount;
-                                    USERS[transaction.ReceiverAccount.id].wallet = transaction.ReceiverAccount.wallet;
+                                    if (transaction.status = 1)
+                                    {
+                                        USERS[transaction.SenderAccount.id].accounts[current_bank].amount = transaction.SenderAccount.accounts[current_bank].amount;
+                                        USERS[transaction.ReceiverAccount.id].wallet = transaction.ReceiverAccount.wallet;
+                                    }
+                                    
                                 });
                             to_bank.events().click([&]
                                 {
@@ -922,8 +930,12 @@ void trans_wallet() // by wafaey
                                     //add to TRANSACTIONS vector
                                     transactions_count++;
                                     TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status });
-                                    USERS[transaction.ReceiverAccount.id].accounts[current_bank].amount = transaction.SenderAccount.accounts[current_bank].amount;
-                                    USERS[transaction.SenderAccount.id].wallet = transaction.ReceiverAccount.wallet;
+                                    if (transaction.status = 1)
+                                    {
+                                        USERS[transaction.ReceiverAccount.id].accounts[current_bank].amount = transaction.SenderAccount.accounts[current_bank].amount;
+                                        USERS[transaction.SenderAccount.id].wallet = transaction.ReceiverAccount.wallet;
+                                    }
+                                    
                                 });
                         }
                     });
