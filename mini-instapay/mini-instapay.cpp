@@ -14,9 +14,9 @@ struct dat {
 
 // create banckaccount struct
 struct bankaccount {
-    string name;
-    int amount;
-    int accountnum;
+    string name = "";
+    int amount = 0;
+    int accountnum = 0;
 };
 
 // create user structure
@@ -48,7 +48,7 @@ struct admin {
 vector<user> USERS = {
     {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0},
     {"Aiman", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1},
-    {"Ahmed", "3amAhmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1}
+    {"Ahmed", "Ahmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1}
 
 };
 
@@ -340,9 +340,9 @@ void OTP_verification(form& signup_page, string name, string email, string phone
             new_user.name = name;
             new_user.email = email;
             new_user.password = pass;
-            new_user.accounts[0] = { "DefaultBank", 0, 0 };
+            new_user.accounts[0] = { "", 0, 0 };
             new_user.id = USERS.size(); // Assign a new unique ID "made it equal to size because admin has id = 0" - omar
-            new_user.Phonenumber = stoi(phone);
+            new_user.Phonenumber = phone;
             new_user.wallet = 0;
 
             // Add the new user to the USERS vector
@@ -1009,9 +1009,6 @@ void dashboard(vector<user> users)//made by whole team
                 label date_label{ poptrans, "Date of transaction: (Choose current date for instant transaction)" };
                 date_chooser date_choose{ poptrans, rectangle(20, 60, 360, 280) };
 
-                /* auto start = std::chrono::system_clock::now();
-                 std::time_t t = std::chrono::system_clock::to_time_t(start);
-                 cout << start; */
                  // Verify button
                 button send_btn{ poptrans, "Confirm" };
                 send_btn.move(rectangle(150, 360, 100, 30));
@@ -1112,7 +1109,7 @@ void show_users()
     lblHeader.typeface(headerFont);
     int y_spacing = 90;
     vector<label> labels;
-    for (int i = 0; i < USERS.size(); i++)
+    for (int i = 1; i < USERS.size(); i++)
     {
         auto* ID = new label(show, to_string(USERS[i].id)); // Dynamically allocate memory
         ID->move(rectangle(50, y_spacing, 120, 80)); // Use pointer
@@ -1124,8 +1121,22 @@ void show_users()
         Phone_number->move(rectangle(380, y_spacing, 100, 50));
         auto* wallet = new label(show, to_string(USERS[i].wallet));
         wallet->move(rectangle(530, y_spacing, 120, 80));
-        y_spacing += 40;
+        for (int j = 0; j < 3; j++)
+        {
+            string temp = USERS[i].accounts[j].name + "/" + to_string(USERS[i].accounts[j].accountnum) + "/" + to_string(USERS[i].accounts[j].amount) + " EGP";
+            auto* Bank = new label(show, temp);
+            Bank->move(rectangle(620, y_spacing, 150, 80));
+            y_spacing += 20;
+        }
     }
+    
+    button bck{ show, "Back" };
+    bck.move(rectangle(650, 450, 100, 40));
+    bck.events().click([&] {
+        show.close();
+        admin_work();
+        });
+
     show.show();
     exec();
 }
