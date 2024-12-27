@@ -1088,6 +1088,14 @@ void admin_work() { // made by: shehta brothers
         adminForm.close();
         show_users();
         });
+
+    button logout{ adminForm, "Logout" };
+    logout.move(rectangle(650,450,100,40));
+
+    logout.events().click([&] {
+        adminForm.close();
+        land_page();
+        });
     
     adminForm.show();
     exec();
