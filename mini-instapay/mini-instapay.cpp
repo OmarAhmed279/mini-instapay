@@ -1243,6 +1243,8 @@ void suspendaccount()
     button btn1{ sus, "UNSUSPEND" };
     btn1.move(rectangle(350, 450, 100, 40));
 
+    label zalbl(sus, rectangle(355, 200, 100, 50));
+    zalbl.caption("enter ID of user");
     btn.events().click([&] {
 
         bool error = false;
