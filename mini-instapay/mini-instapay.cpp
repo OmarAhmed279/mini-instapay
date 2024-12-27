@@ -517,7 +517,7 @@ void edit_profile(vector<user> users) //handles the display of the profile and e
                 if (user.id == current_user_id) {
                     user.name = new_name;
                     user.email = new_email;
-                    user.Phonenumber = stoi(new_phone);
+                    user.Phonenumber = new_phone;
                     user.password = new_pass;
                     break;
                 }
