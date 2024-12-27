@@ -66,7 +66,7 @@ vector<transactions> TRANSACTIONS =
 
 int user_count = USERS.size();
 int transactions_count = TRANSACTIONS.size();
-int current_user_id = -1;
+int current_user_id = -1,current_bank = -1;
 time_t t = std::time(0);   // get time now
 tm* now = std::localtime(&t);
 // Functions Declaration
@@ -82,6 +82,7 @@ void trans_history(vector<user>, vector<transactions>);
 void managebankacc(vector<user>);
 void show_users();
 void suspendaccount();
+//void trans_wallet();
 
 int main()
 {
@@ -668,6 +669,8 @@ void transaction(user sender, user reciever, int day, int month, int year) // ma
     exec();
 }
 
+
+
 void trans_history(vector<user> users, vector<transactions> transaction) // wafaey, help from omar and abdelrahman
 {
     form trns_his(API::make_center(800, 600), appearance(true, true, true, false, true, false, false));
@@ -847,7 +850,7 @@ void trans_history(vector<user> users, vector<transactions> transaction) // wafa
 
 void managebankacc(vector<user> users) //made by omar and khaled
 {
-    form manbank{ API::make_center(1000, 200), appearance(true, true, true, false, true, false, false) };
+    form manbank{ API::make_center(1000, 300), appearance(true, true, true, false, true, false, false) };
     manbank.caption("Manage Bank Accounts");
     button bankacc1{ manbank, "Edit" };
     bankacc1.move(rectangle(900, 30, 100, 40));
@@ -1015,6 +1018,13 @@ void managebankacc(vector<user> users) //made by omar and khaled
                 USERS[current_user_id].accounts[2].amount = stoi(bank3_amount.text());
             }
         }
+        });
+    button trans{ manbank, "trans money to wallet/bank"};
+    trans.move(rectangle(800,250,200,20));
+    trans.events().click([&] 
+        {
+            manbank.close();
+            //trans_wallet();
         });
     manbank.show();
     exec();
@@ -1249,6 +1259,8 @@ void suspendaccount()
     button btn1{ sus, "UNSUSPEND" };
     btn1.move(rectangle(350, 450, 100, 40));
 
+    label zalbl(sus, rectangle(355, 200, 100, 50));
+    zalbl.caption("enter ID of user");
     btn.events().click([&] {
 
         bool error = false;
