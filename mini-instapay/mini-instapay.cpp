@@ -1,5 +1,4 @@
-﻿
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1 //this is so it doesn't crash
+﻿#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 1 //this is so it doesn't crash
 
 #include "mini-instapay.h" //this has all the header files
 #include <regex>
@@ -53,7 +52,7 @@ vector<user> USERS = {
 
 };
 
-vector<transactions> TRANSACTIONS = 
+vector<transactions> TRANSACTIONS =
 {
 
     {USERS[2], USERS[1], {13,12,2024}, 0, 100000000, 0},
@@ -76,9 +75,10 @@ void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
 void transaction(user, user);
 void edit_profile(vector<user>);
-void admin_work(); 
+void admin_work();
 void trans_history(vector<user>, vector<transactions>);
 void managebankacc(vector<user>);
+void show_users();
 int main()
 {
     land_page();
@@ -122,7 +122,7 @@ void land_page() //made by wafaey, modified by omar
     admin.events().click([&] {
         landing_page.close();
         admin_work();
-       });
+        });
     // incase of click event it switches to create user page
     signup_btn.events().click([&landing_page] {
         landing_page.hide();
@@ -214,7 +214,7 @@ void create_user() // made by youssef shehta and seif shehta, modified by Abderr
     goback_btn.events().click([&] {
         signup_page.close();
         land_page(); });
-    
+
     input_name_signup.events().focus([&](const nana::arg_focus& arg) {
         if (!arg.getting) { // Losing focus
             string name = input_name_signup.text();
@@ -396,10 +396,10 @@ void edit_profile(vector<user> users) {
     label name_lbl{ edit, "Name:" }, email_lbl{ edit, "Email:" }, phone_lbl{ edit, "Phone Number:" },
         pass_lbl{ edit, "Password:" }, wallet_lbl{ edit, "Wallet Balance:" }, id_lbl{ edit, "User ID:" }, bank_lbl{ edit, "Bank Accounts:" };
     button goback_btn{ edit,"go back" };
-    goback_btn.move(rectangle(30,500, 50, 40));
+    goback_btn.move(rectangle(30, 500, 50, 40));
     goback_btn.events().click([&] {
         edit.close();
-        dashboard(USERS) ; });
+        dashboard(USERS); });
 
     name_lbl.move(rectangle(50, 30, 120, 20));
     email_lbl.move(rectangle(50, 80, 120, 20));
@@ -521,10 +521,10 @@ void transaction(user sender, user reciever) // made by wafaey
     money_ammount.typeface(paint::font("Arial", 12));
     money_ammount.multi_lines(false);
     money_ammount.show();
-    label state{ transaction_window,"initial text"};
+    label state{ transaction_window,"initial text" };
     state.move(rectangle(250, 150, 200, 17));
     state.hide();
-    label error2{ transaction_window,"Insuffecient funds"};
+    label error2{ transaction_window,"Insuffecient funds" };
     error2.move(rectangle(250, 170, 200, 17));
     error2.hide();
     // button to return to dashboard
@@ -538,84 +538,84 @@ void transaction(user sender, user reciever) // made by wafaey
     button enter_ammount{ transaction_window, "Confirm" };
     enter_ammount.move(rectangle(250, 300, 150, 40));
     enter_ammount.show();
-    enter_ammount.events().click([&transaction, &money_ammount, &Ammount,&transaction_window,&sender_wallet_before,&receiver_wallet_before,&state, &error2,&enter_ammount, &close]
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount, &transaction_window, &sender_wallet_before, &receiver_wallet_before, &state, &error2, &enter_ammount, &close]
         {
             //validate user input
             bool valid = false;
-                try
+            try
+            {
+                transaction.ammount = stod(money_ammount.text());
+                valid = true;
+            }
+            catch (const exception& e)
+            {
+                valid = false;
+                cerr << e.what();
+                form popup(nana::API::make_center(400, 200), appearance(true, true, true, false, true, false, false));
+                popup.caption("ERROR!!!");
+                label error1{ popup, "Invalid input, input must be a number." };
+                error1.move(rectangle(180, 100, 110, 17));
+                button close{ popup, "Close" };
+                close.move(rectangle(250, 210, 100, 30));
+                close.events().click([&popup]
+                    {
+                        popup.close();
+                    });
+                // Show the popup as modal (blocks other interaction until closed)
+                popup.modality();
+            }
+            if (valid)
+            {
+                enter_ammount.hide();
+                close.move(rectangle(300, 300, 100, 30));
+                // if ammount is invalid, transaction fails
+                if (transaction.ammount > transaction.SenderAccount.wallet)
                 {
-                    transaction.ammount = stod(money_ammount.text());
-                    valid = true;
+                    transaction.status = -1;
+                    error2.show();
                 }
-                catch (const exception& e)
+                else
                 {
-                    valid = false;
-                    cerr << e.what();
-                    form popup(nana::API::make_center(400, 200), appearance(true, true, true, false, true, false, false));
-                    popup.caption("ERROR!!!");
-                    label error1{ popup, "Invalid input, input must be a number." };
-                    error1.move(rectangle(180, 100, 110, 17));
-                    button close{ popup, "Close" };
-                    close.move(rectangle(250, 210, 100, 30));
-                    close.events().click([&popup]
-                        {
-                            popup.close();
-                        });
-                    // Show the popup as modal (blocks other interaction until closed)
-                    popup.modality();
-                }
-                if (valid)
-                {
-                    enter_ammount.hide();
-                    close.move(rectangle(300, 300, 100, 30));
-                    // if ammount is invalid, transaction fails
-                    if (transaction.ammount > transaction.SenderAccount.wallet)
+                    transaction.SenderAccount.wallet -= transaction.ammount;
+                    transaction.ReceiverAccount.wallet += transaction.ammount;
+                    // check if the balance of both the sender and reciever have changed correctly or no
+                    if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
+                    {
+                        transaction.status = 1;
+                    }
+                    // if one of them is still pending change
+                    else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
+                    {
+                        transaction.status = 0;
+                    }
+                    // if the transaction failed
+                    else
                     {
                         transaction.status = -1;
-                        error2.show();
                     }
-                    else
-                    {
-                        transaction.SenderAccount.wallet -= transaction.ammount;
-                        transaction.ReceiverAccount.wallet += transaction.ammount;
-                        // check if the balance of both the sender and reciever have changed correctly or no
-                        if (((sender_wallet_before - transaction.SenderAccount.wallet) == transaction.ammount) && ((transaction.ReceiverAccount.wallet - receiver_wallet_before) == transaction.ammount))
-                        {
-                            transaction.status = 1;
-                        }
-                        // if one of them is still pending change
-                        else if (transaction.SenderAccount.wallet == sender_wallet_before || transaction.ReceiverAccount.wallet == receiver_wallet_before)
-                        {
-                            transaction.status = 0;
-                        }
-                        // if the transaction failed
-                        else
-                        {
-                            transaction.status = -1;
-                        }
-                    }
-                    Ammount.hide();
-                    money_ammount.hide();
-                    if (transaction.status == 1)
-                    {
-                        state.caption("Money transfer is complete");
-                        state.show();
-                    }
-                    else if (transaction.status == 0)
-                    {
-                        state.caption("Money transfer is pending");
-                        state.show();
-                    }
-                    else
-                    {
-                        state.caption("Money transfer failed");
-                        state.show();
-                    }
-                    state.move(rectangle(300, 150, 200, 17));
                 }
-                //add to TRANSACTIONS vector
-                transactions_count++;
-                TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status });
+                Ammount.hide();
+                money_ammount.hide();
+                if (transaction.status == 1)
+                {
+                    state.caption("Money transfer is complete");
+                    state.show();
+                }
+                else if (transaction.status == 0)
+                {
+                    state.caption("Money transfer is pending");
+                    state.show();
+                }
+                else
+                {
+                    state.caption("Money transfer failed");
+                    state.show();
+                }
+                state.move(rectangle(300, 150, 200, 17));
+            }
+            //add to TRANSACTIONS vector
+            transactions_count++;
+            TRANSACTIONS.insert(TRANSACTIONS.begin(), { transaction.SenderAccount,transaction.ReceiverAccount,transaction.date_transaction,transaction.id,transaction.ammount,transaction.status });
         });
     transaction_window.show();
     exec();
@@ -794,11 +794,11 @@ void managebankacc(vector<user> users) //made by omar and khaled
 {
     form manbank{ API::make_center(1000, 200), appearance(true, true, true, false, true, false, false) };
     manbank.caption("Manage Bank Accounts");
-    button bankacc1{ manbank, "Edit"};
+    button bankacc1{ manbank, "Edit" };
     bankacc1.move(rectangle(900, 30, 100, 40));
-    button bankacc2{ manbank, "Edit"};
+    button bankacc2{ manbank, "Edit" };
     bankacc2.move(rectangle(900, 70, 100, 40));
-    button bankacc3{ manbank, "Edit"};
+    button bankacc3{ manbank, "Edit" };
     bankacc3.move(rectangle(900, 110, 100, 40));
     textbox bank1_name{ manbank };
     bank1_name.move(rectangle(50, 30, 200, 40));
@@ -853,14 +853,15 @@ void managebankacc(vector<user> users) //made by omar and khaled
             bank1_name.caption(USERS[current_user_id].accounts[0].name);
             bank1_accnum.caption(to_string(USERS[current_user_id].accounts[0].accountnum));
             bankaccnum.caption("Bank Account Num : Error, Must change both fields.");
-            
+
         }
         else if (bank1_accnum.text() == to_string(USERS[current_user_id].accounts[0].accountnum))
         {
             bank1_name.caption(USERS[current_user_id].accounts[0].name);
             bank1_accnum.caption(to_string(USERS[current_user_id].accounts[0].accountnum));
             bankname.caption("Bank Name : Error, Must change both fields.");
-        } else
+        }
+        else
         {
             srand(std::time(0));
             bank1_amount.caption(to_string((rand() % 10000) + (rand() % 1000)));
@@ -1061,7 +1062,7 @@ void dashboard(vector<user> users)//made by whole team
     trh_btn.events().click([&dashboard]
         {
             dashboard.close();
-            trans_history(USERS,TRANSACTIONS);
+            trans_history(USERS, TRANSACTIONS);
         });
     dashboard.show();
     exec();
@@ -1072,7 +1073,7 @@ void admin_work() { // made by: shehta brothers
     adminForm.caption("Admin Panel");
 
     label title{ adminForm, "Admin Functions:" }, space1_admin_lbl{ adminForm, "----------------------------------------------------------------------------" },
-    space2_admin_lbl{ adminForm, "----------------------------------------------------------------------------" };
+        space2_admin_lbl{ adminForm, "----------------------------------------------------------------------------" };
     paint::font title_font{ "Times New Roman", 20 };
     space1_admin_lbl.move(rectangle(200, 0, 400, 20));
     space2_admin_lbl.move(rectangle(200, 50, 400, 40));
@@ -1086,10 +1087,45 @@ void admin_work() { // made by: shehta brothers
     btnMonitorTransactions.move(rectangle(300, 250, 200, 40));
     button btnGenerateReports{ adminForm, "Generate Reports" };
     btnGenerateReports.move(rectangle(300, 300, 200, 40));
-    btnViewProfiles.events().click([&]  {
+    btnViewProfiles.events().click([&] {
         adminForm.close();
-         });
+        show_users();
+        });
+    
     adminForm.show();
     exec();
 }
 
+void show_users()
+{
+    form show{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
+    show.caption("Show User accounts");
+    label profilesTitle{ show, "User Profiles:" };
+    profilesTitle.move(rectangle(350, 10, 200, 30));
+    paint::font titleFont{ "Times New Roman", 16, true };
+    profilesTitle.typeface(titleFont);
+
+    // Header
+    label lblHeader{ show, "ID        Name          Email                      Phone Number        Wallet         Bank Accounts" };
+    lblHeader.move(rectangle(50, 50, 800, 30));
+    paint::font headerFont{ "Times New Roman", 14, true };
+    lblHeader.typeface(headerFont);
+    int y_spacing = 90;
+    vector<label> labels;
+    for (int i = 0; i < USERS.size(); i++)
+    {
+        auto* ID = new label(show, to_string(USERS[i].id)); // Dynamically allocate memory
+        ID->move(rectangle(50, y_spacing, 120, 80)); // Use pointer
+        auto* Name = new label(show, USERS[i].name);
+        Name->move(rectangle(100, y_spacing, 120, 80));
+        auto* Email = new label(show, USERS[i].email);
+        Email->move(rectangle(200, y_spacing, 150, 80));
+        auto* Phone_number = new label(show,(USERS[i].Phonenumber));
+        Phone_number->move(rectangle(380, y_spacing, 100, 50));
+        auto* wallet = new label(show, to_string(USERS[i].wallet));
+        wallet->move(rectangle(530, y_spacing, 120, 80));
+        y_spacing += 40;
+    }
+    show.show();
+    exec();
+}
