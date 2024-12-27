@@ -1043,7 +1043,7 @@ void dashboard(vector<user> users)//made by whole team
             if (!tempbool)
             {
                 // Create Transaction form
-                form poptrans{ API::make_center(400, 400), appearance(true, true, true, false, true, false, false) };
+                form poptrans{ API::make_center(400, 450), appearance(true, true, true, false, true, false, false) };
                 poptrans.caption("Transaction");
 
                 // Label to display the OTP (simulating sending it to the user)
@@ -1056,11 +1056,12 @@ void dashboard(vector<user> users)//made by whole team
                 user_input.tip_string("Enter user whom you wish to send money to");
 
                 label date_label{ poptrans, "Date of transaction: (Choose today's date for instant transaction)" };
-                date_chooser date_choose{ poptrans, rectangle(20, 60, 360, 280) };
+                date_chooser date_choose{ poptrans, rectangle(20, 100, 360, 280) };
+                date_label.move(rectangle(20, 80, 500, 20));
 
                  // Verify button
                 button send_btn{ poptrans, "Confirm" };
-                send_btn.move(rectangle(150, 360, 100, 30));
+                send_btn.move(rectangle(150, 400, 100, 30));
                 poptrans.show();
                 tempbool = true;
                 poptrans.events().destroy([&tempbool]
