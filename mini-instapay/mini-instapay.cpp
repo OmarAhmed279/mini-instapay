@@ -83,6 +83,7 @@ void managebankacc(vector<user>);
 void show_users();
 void suspendaccount();
 void trans_wallet();
+void Generate_Report();
 
 int main()
 {
@@ -714,11 +715,11 @@ void trans_wallet() // by wafaey
     error2.move(rectangle(250, 170, 200, 17));
     error2.hide();
     button enter_ammount{ transaction_window, "Confirm" };
-    enter_ammount.move(rectangle(250, 360, 150, 40));
+    enter_ammount.move(rectangle(250, 300, 150, 40));
     enter_ammount.hide();
     // button to return to dashboard
     button close{ transaction_window,"Return to dashboard" };
-    close.move(rectangle(400, 300, 150, 40));
+    close.move(rectangle(380, 300, 150, 40));
     close.events().click([&]
         {
             transaction_window.close();
@@ -728,7 +729,7 @@ void trans_wallet() // by wafaey
     to_wallet.move(rectangle(150, 300, 150, 40));
     to_wallet.hide();
     button to_bank{ transaction_window,"to bank account" };
-    to_bank.move(rectangle(250, 300, 150, 40));
+    to_bank.move(rectangle(300, 300, 150, 40));
     to_bank.hide();
     button confirm_ban_num{ transaction_window,"confirm" };
     confirm_ban_num.move(rectangle(250, 300, 150, 40));
@@ -1430,7 +1431,6 @@ void admin_work() { // made by: shehta brothers
     btnGenerateReports.events().click([&] {
         adminForm.close();
         Generate_Report();
-        show_users();
         });
     btnViewProfiles.events().click([&] {
         adminForm.close();
@@ -1613,7 +1613,12 @@ void Generate_Report()
 {
     form Report{ API::make_center(1100,800), appearance(true, true, true, false, true, false, false) };
     Report.caption("Generate Reports");
-
+    button back{ Report, "back" };
+    back.move(rectangle(550, 450, 100, 40));
+    back.events().click([&] {
+        Report.close();
+        admin_work();
+        });
     Report.show();
 
     label space1_Report_lbl{ Report, "----------------------------------------------------------------------------" },
