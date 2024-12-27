@@ -26,7 +26,7 @@ struct user {
     int id;
     string Phonenumber;
     int wallet = 0, numofaccounts = 0;
-    bool flag;
+    bool flag = false;
 };
 
 // create transcations structure
@@ -48,7 +48,7 @@ struct admin {
 // Data Arrays for Storage (fake info)
 vector<user> USERS = {
     {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0, false},
-    {"Aiman", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1, false},
+    {"Aiman", "Aiman123@hotmail.com", "pass", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1, false},
     {"Ahmed", "Ahmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1, false}
 
 };
@@ -379,6 +379,7 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
     }
     else
     {
+        bool noluck = true;
 
         for (int i = 0; i < USERS.size(); i++)
         {
@@ -392,25 +393,30 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
                         msgbox success(landpage, "Error");
                         success << "Your account has been suspended.";
                         success.show();
+                        noluck = false;
                         break;
                     }
                     else
                     {
                         landpage.close();
                         dashboard(USERS);
+                        noluck = false;
                         break;
                     }
                 }
                 else
                 {
+                    email_label.caption("Email:");
                     pass_label.caption("Password: Wrong password, please try again.");
+                    noluck = false;
                     break;
                 }
             }
-            else
-            {
-                email_label.caption("Email: Wrong email, please try again.");
-            }
+        }
+        if (noluck)
+        {
+            email_label.caption("Email: USER doesn't exist.");
+            pass_label.caption("Password:");
         }
     }
 }
@@ -633,7 +639,7 @@ void transaction(user sender, user reciever, int day, int month, int year) // ma
                 }
                 Ammount.hide();
                 money_ammount.hide();
-                if (nottoday)
+                if (nottoday && transaction.status != -1)
                 {
                     transaction.status = 0;
                 }
@@ -1234,8 +1240,8 @@ void suspendaccount()
 
     sus.show();
 
-    textbox txt{ sus };
-    txt.move(rectangle(350,250,100,40));
+    textbox txt{ sus, "Insert ID of user"};
+    txt.move(rectangle(350,250,100,30));
 
     button btn{sus, "SUSPEND"};
     btn.move(rectangle(350,350, 100, 40));
