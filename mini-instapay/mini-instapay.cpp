@@ -729,10 +729,10 @@ void trans_wallet() // by wafaey
     to_wallet.move(rectangle(150, 300, 150, 40));
     to_wallet.hide();
     button to_bank{ transaction_window,"to bank account" };
-    to_bank.move(rectangle(300, 300, 150, 40));
+    to_bank.move(rectangle(330, 300, 150, 40));
     to_bank.hide();
     button confirm_ban_num{ transaction_window,"confirm" };
-    confirm_ban_num.move(rectangle(250, 300, 150, 40));
+    confirm_ban_num.move(rectangle(250, 300, 130, 40));
     confirm_ban_num.events().click([&]
         {
             bool valid_bank_num = false;
