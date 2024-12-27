@@ -75,7 +75,7 @@ void create_user();
 void user_login(string, string, form&, label&, label&);
 void OTP_verification(form&, string, string, string, string);
 void dashboard(vector<user>);
-void transaction(user, user);
+void transaction(user, user, int, int, int);
 void edit_profile(vector<user>);
 void admin_work();
 void trans_history(vector<user>, vector<transactions>);
@@ -522,8 +522,9 @@ void edit_profile(vector<user> users) {
     exec();
 }
 
-void transaction(user sender, user reciever) // made by wafaey
+void transaction(user sender, user reciever, int day, int month, int year) // made by wafaey
 {
+    bool nottoday = false;
     transactions transaction;
     int sender_wallet_before, receiver_wallet_before;
     transactions_count++;
@@ -531,9 +532,18 @@ void transaction(user sender, user reciever) // made by wafaey
     transaction.SenderAccount = sender;
     transaction.ReceiverAccount = reciever;
     // get the current date 
-    transaction.date_transaction.year = now->tm_year + 1900;
-    transaction.date_transaction.month = now->tm_mon + 1;
-    transaction.date_transaction.day = now->tm_mday;
+    if (now->tm_year + 1900 == year && now->tm_mon + 1 == month && now->tm_mday == day)
+    {
+        transaction.date_transaction.year = now->tm_year + 1900;
+        transaction.date_transaction.month = now->tm_mon + 1;
+        transaction.date_transaction.day = now->tm_mday;
+    }
+    else {
+        transaction.date_transaction.year = year;
+        transaction.date_transaction.month = month;
+        transaction.date_transaction.day = day;
+        nottoday = true;
+    }
     sender_wallet_before = transaction.SenderAccount.wallet;
     receiver_wallet_before = transaction.ReceiverAccount.wallet;
     //transaction page GUI
@@ -565,7 +575,7 @@ void transaction(user sender, user reciever) // made by wafaey
     button enter_ammount{ transaction_window, "Confirm" };
     enter_ammount.move(rectangle(250, 300, 150, 40));
     enter_ammount.show();
-    enter_ammount.events().click([&transaction, &money_ammount, &Ammount, &transaction_window, &sender_wallet_before, &receiver_wallet_before, &state, &error2, &enter_ammount, &close]
+    enter_ammount.events().click([&transaction, &money_ammount, &Ammount, &transaction_window, &sender_wallet_before, &receiver_wallet_before, &state, &error2, &enter_ammount, &close, &nottoday]
         {
             //validate user input
             bool valid = false;
@@ -623,6 +633,10 @@ void transaction(user sender, user reciever) // made by wafaey
                 }
                 Ammount.hide();
                 money_ammount.hide();
+                if (nottoday)
+                {
+                    transaction.status = 0;
+                }
                 if (transaction.status == 1)
                 {
                     state.caption("Money transfer is complete");
@@ -1041,7 +1055,7 @@ void dashboard(vector<user> users)//made by whole team
                 user_input.multi_lines(false);
                 user_input.tip_string("Enter user whom you wish to send money to");
 
-                label date_label{ poptrans, "Date of transaction: (Choose current date for instant transaction)" };
+                label date_label{ poptrans, "Date of transaction: (Choose today's date for instant transaction)" };
                 date_chooser date_choose{ poptrans, rectangle(20, 60, 360, 280) };
 
                  // Verify button
@@ -1054,8 +1068,11 @@ void dashboard(vector<user> users)//made by whole team
                         tempbool = false;
                     });
 
-                send_btn.events().click([&user_input, &trans_label, &dashboard, &poptrans]
+                send_btn.events().click([&user_input, &trans_label, &dashboard, &poptrans, &date_choose]
                     {
+                        int d = date_choose.read().read().day;
+                        int m = date_choose.read().read().month;
+                        int y = date_choose.read().read().year;
                         bool temp = false;
                         string rec = user_input.text();
                         for (int i = 0; i < USERS.size(); i++)
@@ -1065,12 +1082,29 @@ void dashboard(vector<user> users)//made by whole team
                                 if (USERS[current_user_id].id == i)
                                 {
                                     trans_label.caption("Reciever: ERROR, can't send money to yourself.");
+                                    temp = true;
                                 }
-                                else {
+                                else if (now->tm_year + 1900 > y)
+                                {
+                                    trans_label.caption("Reciever: ERROR, can't send money in the past.");
+                                    temp = true;
+                                }
+                                else if (now->tm_mon + 1 > m)
+                                {
+                                    trans_label.caption("Reciever: ERROR, can't send money in the past.");
+                                    temp = true;
+                                }
+                                else if (now->tm_mday > d)
+                                {
+                                    trans_label.caption("Reciever: ERROR, can't send money in the past.");
+                                    temp = true;
+                                }
+                                else
+                                {
                                     temp = true;
                                     dashboard.close();
                                     poptrans.close();
-                                    transaction(USERS[current_user_id], USERS[i]);
+                                    transaction(USERS[current_user_id], USERS[i], d, m, y);
 
                                 }
                             }
