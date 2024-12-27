@@ -26,6 +26,7 @@ struct user {
     int id;
     string Phonenumber;
     int wallet = 0, numofaccounts = 0;
+    bool flag;
 };
 
 // create transcations structure
@@ -46,9 +47,9 @@ struct admin {
 
 // Data Arrays for Storage
 vector<user> USERS = {
-    {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0},
-    {"Aiman", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1},
-    {"Ahmed", "Ahmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1}
+    {"Admin", "Admin@gmail.123", "password", {}, 0, "01000000000", 0, 0, false},
+    {"Aiman", "Aiman123@hotmail.com", "240304613", {"CIB", 5, 123456789}, 1,"01021473444", 10, 1, false},
+    {"Ahmed", "Ahmed89@yahoo.com", "Ahmed89", {"HSBC", 100000, 123 }, 2, "01021473422", 100000000, 1, false}
 
 };
 
@@ -79,6 +80,7 @@ void admin_work();
 void trans_history(vector<user>, vector<transactions>);
 void managebankacc(vector<user>);
 void show_users();
+void suspendaccount();
 int main()
 {
     land_page();
@@ -366,6 +368,7 @@ void OTP_verification(form& signup_page, string name, string email, string phone
 
 void user_login(string e, string p, form& landpage, label& email_label, label& pass_label) //made by omar
 {
+
     for (int i = 0; i < USERS.size(); i++)
     {
         if (USERS[i].email == e)
@@ -373,12 +376,24 @@ void user_login(string e, string p, form& landpage, label& email_label, label& p
             if (USERS[i].password == p)
             {
                 current_user_id = USERS[i].id;
-                landpage.close();
-                dashboard(USERS);
+                if (USERS[current_user_id].flag)
+                {
+                    msgbox success(landpage, "Error");
+                    success << "Your account has been suspended.";
+                    success.show();
+                    break;
+                }
+                else 
+                {
+                    landpage.close();
+                    dashboard(USERS);
+                    break;
+                }
             }
             else
             {
                 pass_label.caption("Password: Wrong password, please try again.");
+                break;
             }
         }
         else
@@ -1080,6 +1095,10 @@ void admin_work() { // made by: shehta brothers
     btnViewProfiles.move(rectangle(300, 150, 200, 40));
     button btnSuspendAccount{ adminForm, "Suspend Account" };
     btnSuspendAccount.move(rectangle(300, 200, 200, 40));
+    btnSuspendAccount.events().click([&] {
+        adminForm.close();
+        suspendaccount();
+        });
     button btnMonitorTransactions{ adminForm, "Monitor Transactions" };
     btnMonitorTransactions.move(rectangle(300, 250, 200, 40));
     button btnGenerateReports{ adminForm, "Generate Reports" };
@@ -1101,7 +1120,7 @@ void admin_work() { // made by: shehta brothers
     exec();
 }
 
-void show_users()
+void show_users() //made by yousef shehta, edited by omar
 {
     form show{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
     show.caption("Show User accounts");
@@ -1147,4 +1166,115 @@ void show_users()
 
     show.show();
     exec();
+}
+
+void suspendaccount()
+{
+    form sus{ API::make_center(800,600), appearance(true, true, true, false, true, false, false) };
+    sus.caption("Suspend User");
+
+    sus.show();
+
+    textbox txt{ sus };
+    txt.move(rectangle(350,250,100,40));
+
+    button btn{sus, "SUSPEND"};
+    btn.move(rectangle(350,350, 100, 40));
+
+    button btn1{ sus, "UNSUSPEND" };
+    btn1.move(rectangle(350, 450, 100, 40));
+
+    btn.events().click([&] {
+
+        bool error = false;
+        int x = -1000;
+        try
+        {
+            x = stoi(txt.text());
+            error = false;
+        }
+        catch (const exception& e)
+        {
+            error = true;
+            cerr << e.what();
+            form popup(nana::API::make_center(400, 200), appearance(true, true, true, false, true, false, false));
+            popup.caption("ERROR!!!");
+            label error{ popup, "Invalid ID, input must be an integer." };
+            error.move(rectangle(180, 100, 110, 17));
+            button close{ popup, "Close" };
+            close.move(rectangle(250, 210, 100, 30));
+            close.events().click([&popup]
+                {
+                    popup.close();
+                });
+            // Show the popup as modal (blocks other interaction until closed)
+            popup.modality();
+        }
+        
+        if (x <= (USERS.size() - 1) && x > 0 && !error)
+        {
+            USERS[x].flag = true;
+            msgbox msg(sus, "SUSPENDED");
+            msg << "USER " << USERS[x].name << " HAS BEEN SUSPENDED.";
+            msg.show();
+        }
+        else {
+            msgbox msg(sus, "ERROR");
+            msg << "USER NOT FOUND.";
+            msg.show();
+        }
+        
+        });
+    btn1.events().click([&] {
+
+        bool error = false;
+        int x = -1000;
+        try
+        {
+            x = stoi(txt.text());
+            error = false;
+        }
+        catch (const exception& e)
+        {
+            error = true;
+            cerr << e.what();
+            form popup(nana::API::make_center(400, 200), appearance(true, true, true, false, true, false, false));
+            popup.caption("ERROR!!!");
+            label error{ popup, "Invalid ID, input must be an integer." };
+            error.move(rectangle(180, 100, 110, 17));
+            button close{ popup, "Close" };
+            close.move(rectangle(250, 210, 100, 30));
+            close.events().click([&popup]
+                {
+                    popup.close();
+                });
+            // Show the popup as modal (blocks other interaction until closed)
+            popup.modality();
+        }
+
+        if (x <= (USERS.size() - 1) && x > 0 && !error)
+        {
+            USERS[x].flag = false;
+            msgbox msg(sus, "UNSUSPENDED");
+            msg << "USER " << USERS[x].name << " HAS BEEN UNSUSPENDED.";
+            msg.show();
+        }
+        else {
+            msgbox msg(sus, "ERROR");
+            msg << "USER NOT FOUND.";
+            msg.show();
+        }
+
+        });
+
+    button back{ sus, "back" };
+    back.move(rectangle(650, 450, 100, 40));
+
+    back.events().click([&] {
+        sus.close();
+        admin_work();
+        });
+
+    exec();
+
 }
