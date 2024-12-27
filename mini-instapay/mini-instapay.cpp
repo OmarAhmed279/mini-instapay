@@ -82,6 +82,7 @@ void trans_history(vector<user>, vector<transactions>);
 void managebankacc(vector<user>);
 void show_users();
 void suspendaccount();
+void Generate_Report();
 //void trans_wallet();
 
 int main()
@@ -1176,8 +1177,13 @@ void admin_work() { // made by: shehta brothers
         adminForm.close();
         trans_history(USERS,TRANSACTIONS);
         });
-    /*button btnGenerateReports{adminForm, "Generate Reports"};
-    btnGenerateReports.move(rectangle(300, 300, 200, 40));*/
+    button btnGenerateReports{adminForm, "Generate Reports"};
+    btnGenerateReports.move(rectangle(300, 300, 200, 40));
+    btnGenerateReports.events().click([&] {
+        adminForm.close();
+        Generate_Report();
+        show_users();
+        });
     btnViewProfiles.events().click([&] {
         adminForm.close();
         show_users();
@@ -1353,5 +1359,76 @@ void suspendaccount()
         });
 
     exec();
+}
 
+void Generate_Report()
+{
+    form Report{ API::make_center(1100,800), appearance(true, true, true, false, true, false, false) };
+    Report.caption("Generate Reports");
+
+    Report.show();
+
+    label space1_Report_lbl{ Report, "----------------------------------------------------------------------------" },
+        space2_Report_lbl{ Report, "----------------------------------------------------------------------------" }, report{ Report, "Generate Reports" };
+    paint::font title_font{ "Times New Roman", 20 };
+    space1_Report_lbl.move(rectangle(200, 0, 400, 20));
+    space2_Report_lbl.move(rectangle(200, 50, 400, 40));
+    report.move(rectangle(500, 15, 200, 40));
+    report.typeface(title_font);
+
+    label lblHeader{ Report, "ID       Name           Email                           Phone Number       Wallet             Bank Accounts                                                               Transactions" };
+    lblHeader.move(rectangle(10, 70, 800, 30));
+
+    int y_spacing = 100;
+    for (int i = 1; i < USERS.size(); i++)
+    {
+        auto* ID = new label(Report, to_string(USERS[i].id));
+        ID->move(rectangle(10, y_spacing, 120, 80));
+        auto* Name = new label(Report, USERS[i].name);
+        Name->move(rectangle(35, y_spacing, 120, 80));
+        auto* Email = new label(Report, USERS[i].email);
+        Email->move(rectangle(80, y_spacing, 150, 80));
+        auto* Phone_number = new label(Report, (USERS[i].Phonenumber));
+        Phone_number->move(rectangle(230, y_spacing, 100, 50));
+        auto* wallet = new label(Report, to_string(USERS[i].wallet));
+        wallet->move(rectangle(320, y_spacing, 120, 80));
+
+        // Display bank accounts
+        for (int j = 0; j < 3; j++)
+        {
+
+            string temp = USERS[i].accounts[j].name + "/" + to_string(USERS[i].accounts[j].accountnum) + "/" + to_string(USERS[i].accounts[j].amount) + " EGP";
+            auto* Bank = new label(Report, temp);
+            Bank->move(rectangle(375, y_spacing, 150, 80));
+            y_spacing += 15;
+        }
+
+        // Display transactions
+        for (const auto& transaction : TRANSACTIONS)
+        {
+            if (transaction.SenderAccount.id == USERS[i].id || transaction.ReceiverAccount.id == USERS[i].id)
+            {
+                string status;
+                if (transaction.status == 1)
+                {
+                    status = "success";
+                }
+                else if (transaction.status == 0)
+                {
+                    status = "pending";
+                }
+                else
+                {
+                    status = "failed";
+                }
+                string DATE = to_string(transaction.date_transaction.day) + "/" + to_string(transaction.date_transaction.month) + "/" + to_string(transaction.date_transaction.year);
+                string transaction_info = "Sender: " + transaction.SenderAccount.name + " Amount: " + to_string(transaction.ammount) + " Receiver: " + transaction.ReceiverAccount.name + " Date: " + DATE + " Status: " + status;
+                auto* Transaction_Label = new label(Report, transaction_info);
+                Transaction_Label->move(rectangle(500, y_spacing, 800, 30));
+                y_spacing += 20;
+            }
+        }
+        y_spacing += 20; // Additional spacing between users
+    }
+    exec();
 }
