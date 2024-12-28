@@ -1,5 +1,4 @@
 How to run the code:
-1- Go to mini-instapay/
-2- right click on mini-instapay folder
-3- choose open with visual studio
-4- run mini-instapay.cpp
+1- right click on mini-instapay folder
+2- choose open with visual studio
+3- run mini-instapay.cpp
