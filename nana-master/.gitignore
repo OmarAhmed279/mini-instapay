@@ -11,7 +11,7 @@ build/compile_commands.json
 build/install_manifest.txt
 *.obj
 *.exe
-*.pdb
+
 *.user
 *.aps
 *.pch
@@ -25,10 +25,9 @@ build/install_manifest.txt
 *.cache
 *.ilk
 *.log
-[Bb]in
-[Bb]in/
+
 [Dd]ebug*/
-*.lib
+
 *.a
 *.sbr
 obj/
